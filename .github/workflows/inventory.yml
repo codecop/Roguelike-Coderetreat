@@ -32,3 +32,11 @@ jobs:
     - name: Build and test
       working-directory: inventory
       run: mvn -B test
+
+    - name: Build the latest Docker image
+      working-directory: inventory
+      run: docker build . --file Dockerfile --tag codecop/rogue-inventory:latest
+    - name: Login to DockerHub Registry
+      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+    - name: Push the latest Docker image to Docker Hub
+      run: docker push codecop/rogue-inventory:latest
