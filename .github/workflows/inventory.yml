@@ -31,7 +31,7 @@ jobs:
 
     - name: Build and test
       working-directory: inventory
-      run: mvn -B test
+      run: mvn -B package
 
     - name: Build the latest Docker image
       working-directory: inventory
