@@ -1,7 +1,12 @@
+from multiprocessing.managers import DictProxy
+import requests
+
 from tkinter import *
 from PIL import Image, ImageTk
+
 from src.building_blocks.door import Door
 from src.building_blocks.wall import Wall
+from src.building_blocks.empty import Empty
 
 from src.building_blocks.player import Player
 
@@ -16,76 +21,98 @@ class UI:
     tile_size = 50
 
     def __init__(self):
-        self.win = Tk()
-        self.win.geometry(
-            f"{25*UI.tile_size +  + UI.tile_size}x{25*UI.tile_size +  + UI.tile_size}"
-        )
+        self.window = Tk()
+        self._initWindowGeometry(self.window)
 
         self.canvas = Canvas(
-            self.win,
+            self.window,
             width=25 * UI.tile_size + UI.tile_size + UI.tile_size,
             height=25 * UI.tile_size + UI.tile_size + UI.tile_size,
             bg="white",
         )
+
+        self.canvas.create_text(
+            200,
+            200,
+            text="Waiting for a room to be provided...",
+        )
+
+        self.player_img_src = self._createTkImage("player.png")
+        self.wall_img_src = self._createTkImage("wall.png")
+        self.door_img_src = self._createTkImage("door.png")
         self.canvas.pack(pady=20)
 
-        self.player_image_source = ImageTk.PhotoImage(
-            Image.open("player.png").resize((50, 50))
-        )
+        self._bindKeys()
 
-        self.player_wall_source = ImageTk.PhotoImage(
-            Image.open("wall.png").resize((50, 50))
-        )
+    def set_room(self, room):
+        self.room = room
 
-        self.player_door_source = ImageTk.PhotoImage(
-            Image.open("door.png").resize((50, 50))
-        )
+    def draw(self):
+        if self.room is None:
+            return
 
-        self.bind()
+        for obj in self.canvas.find_all():
+            self.canvas.delete(obj)
 
-    def mainloop(self):
-        self.win.mainloop()
-
-    def draw(self, room):
-        print("drawing", room)
-        for col_pos, room_row in enumerate(room):
+        for col_pos, room_row in enumerate(self.room):
             for row_pos, block in enumerate(room_row):
                 pos = tile_pos(col_pos, row_pos)
                 if isinstance(block, Player):
                     self.player_img = self.canvas.create_image(
-                        pos[0], pos[1], anchor=NW, image=self.player_image_source
+                        pos[0], pos[1], anchor=NW, image=self.player_img_src
                     )
                 if isinstance(block, Wall):
                     self.canvas.create_image(
-                        pos[0], pos[1], anchor=NW, image=self.player_wall_source
+                        pos[0], pos[1], anchor=NW, image=self.wall_img_src
                     )
                 if isinstance(block, Door):
                     self.canvas.create_image(
-                        pos[0], pos[1], anchor=NW, image=self.player_door_source
+                        pos[0], pos[1], anchor=NW, image=self.door_img_src
                     )
 
-    def left(self, e):
-        x = -UI.tile_size
-        y = 0
-        self.canvas.move(self.player_img, x, y)
+    def mainloop(self):
+        self.window.mainloop()
 
-    def right(self, e):
-        x = UI.tile_size
-        y = 0
-        self.canvas.move(self.player_img, x, y)
+    def _initWindowGeometry(self, window: Tk):
+        window.geometry(
+            f"{25*UI.tile_size +  + UI.tile_size}x{25*UI.tile_size +  + UI.tile_size}"
+        )
 
-    def up(self, e):
-        x = 0
-        y = -UI.tile_size
-        self.canvas.move(self.player_img, x, y)
+    def _createTkImage(self, path):
+        return ImageTk.PhotoImage(Image.open(path).resize((50, 50)))
 
-    def down(self, e):
-        x = 0
-        y = UI.tile_size
-        self.canvas.move(self.player_img, x, y)
+    def _left(self, e):
+        self._move(-1, 0)
 
-    def bind(self):
-        self.win.bind("<Left>", self.left)
-        self.win.bind("<Right>", self.right)
-        self.win.bind("<Up>", self.up)
-        self.win.bind("<Down>", self.down)
+    def _right(self, e):
+        self._move(1, 0)
+
+    def _up(self, e):
+        self._move(0, -1)
+
+    def _down(self, e):
+        self._move(0, 1)
+
+    def _move(self, dCol, dRow):
+        print(self.room)
+
+        player_col, player_row = None, None
+        for row in range(len(self.room)):
+            for col in range(len(self.room[row])):
+                if isinstance(self.room[row][col], Player):
+                    player_col, player_row = col, row
+
+        if isinstance(self.room[player_row + dRow][player_col + dCol], Empty):
+            self.room[player_row + dRow][player_col + dCol] = self.room[player_row][
+                player_col
+            ]
+            self.room[player_row][player_col] = Empty()
+            self.draw()
+
+            requests.post("http://127.0.0.1/move", data={"move": (dCol, dRow)})
+
+    def _bindKeys(self):
+        self.window.bind("<Left>", self._left)
+        self.window.bind("<Right>", self._right)
+        self.window.bind("<Up>", self._up)
+        self.window.bind("<Down>", self._down)
