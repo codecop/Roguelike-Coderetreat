@@ -1,5 +1,3 @@
-import enum
-from re import U
 from tkinter import *
 from PIL import Image, ImageTk
 from src.building_blocks.door import Door
@@ -17,19 +15,16 @@ def tile_pos(col, row):
 class UI:
     tile_size = 50
 
-    def __init__(self, room):
-        height = len(room)
-        width = len(room[0])
-
+    def __init__(self):
         self.win = Tk()
         self.win.geometry(
-            f"{width*UI.tile_size +  + UI.tile_size}x{height*UI.tile_size +  + UI.tile_size}"
+            f"{25*UI.tile_size +  + UI.tile_size}x{25*UI.tile_size +  + UI.tile_size}"
         )
 
         self.canvas = Canvas(
             self.win,
-            width=width * UI.tile_size + UI.tile_size + UI.tile_size,
-            height=height * UI.tile_size + UI.tile_size + UI.tile_size,
+            width=25 * UI.tile_size + UI.tile_size + UI.tile_size,
+            height=25 * UI.tile_size + UI.tile_size + UI.tile_size,
             bg="white",
         )
         self.canvas.pack(pady=20)
@@ -46,6 +41,13 @@ class UI:
             Image.open("door.png").resize((50, 50))
         )
 
+        self.bind()
+
+    def mainloop(self):
+        self.win.mainloop()
+
+    def draw(self, room):
+        print("drawing", room)
         for col_pos, room_row in enumerate(room):
             for row_pos, block in enumerate(room_row):
                 pos = tile_pos(col_pos, row_pos)
@@ -61,10 +63,6 @@ class UI:
                     self.canvas.create_image(
                         pos[0], pos[1], anchor=NW, image=self.player_door_source
                     )
-
-    def run(self):
-        self.bind()
-        self.win.mainloop()
 
     def left(self, e):
         x = -UI.tile_size
