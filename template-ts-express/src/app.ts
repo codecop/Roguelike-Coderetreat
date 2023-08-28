@@ -4,10 +4,10 @@ import Hello from "./Hello";
 const hello = new Hello();
 
 async function createApp() {
-    const app = express()
+    const app = express();
     app.use(express.json());
 
-    app.get("/hello", async (req, res) => {
+    app.get("/hello", async (_req, res) => {
 
         res.json({ "name": hello.getName() });
 
@@ -21,10 +21,10 @@ async function createApp() {
         } else {
             res.status(400).json();
         }
-        
+
     });
 
     return app;
 }
 
-export { createApp }
+export { createApp };

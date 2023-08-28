@@ -1,10 +1,11 @@
+import { Express } from "express";
 import { createApp } from "../src/app"
 import request from 'supertest'
 import { expect } from 'chai';
 
 describe('HelloApp', () => {
 
-    let app;
+    let app: Express;
 
     beforeEach(async () => {
         app = await createApp();
