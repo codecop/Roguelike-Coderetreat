@@ -1,7 +1,6 @@
-import { Express } from "express";
-import { createApp } from "../src/app"
-import request from 'supertest'
-import { expect } from 'chai';
+import { Express } from 'express';
+import { createApp } from '../src/app';
+import request from 'supertest';
 
 describe('HelloApp', () => {
 
@@ -16,8 +15,8 @@ describe('HelloApp', () => {
             get('/hello').
             expect(200);
 
-        expect(response.header['content-type']).equal('application/json; charset=utf-8');
-        expect(response.body.name).equal('World!');
+        expect(response.header['content-type']).toBe('application/json; charset=utf-8');
+        expect(response.body.name).toBe('World!');
     });
 
     it('updates', async () => {
@@ -27,7 +26,7 @@ describe('HelloApp', () => {
             expect(201);
 
         const { body } = await request(app).get('/hello');
-        expect(body.name).equal('Peter');
+        expect(body.name).toBe('Peter');
     });
 
 });
