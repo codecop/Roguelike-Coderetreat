@@ -1,0 +1,38 @@
+name: Test stats
+
+on:
+  push:
+    paths:
+      - 'stats/**'
+      - '.github/workflows/stats.yml'
+  pull_request:
+    paths:
+      - 'stats/**'
+      - '.github/workflows/stats.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 15.x
+    - name: Set up dependencies
+      working-directory: stats
+      run: npm install
+
+    - name: Test
+      working-directory: stats
+      run: npm test
+
+    - name: Build the latest Docker image
+      working-directory: stats
+      run: docker build . --file Dockerfile --tag codecop/rogue-stats:latest
+    - name: Login to DockerHub Registry
+      run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+    - name: Push the latest Docker image to Docker Hub
+      run: docker push codecop/rogue-stats:latest
