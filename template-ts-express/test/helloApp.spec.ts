@@ -1,0 +1,32 @@
+import { createApp } from "../src/app"
+import request from 'supertest'
+import { expect } from 'chai';
+
+describe('HelloApp', () => {
+
+    let app;
+
+    beforeEach(async () => {
+        app = await createApp();
+    });
+
+    it('first Hello', async () => {
+        const response = await request(app).
+            get('/hello').
+            expect(200);
+
+        expect(response.header['content-type']).equal('application/json; charset=utf-8');
+        expect(response.body.name).equal('World!');
+    });
+
+    it('updates', async () => {
+        await request(app).
+            post('/hello').
+            send({ "name": "Peter" }).
+            expect(201);
+
+        const { body } = await request(app).get('/hello');
+        expect(body.name).equal('Peter');
+    });
+
+});

@@ -1,0 +1,30 @@
+name: Test template-ts-express
+
+on:
+  push:
+    paths:
+      - 'template-ts-express/**'
+      - '.github/workflows/template-ts-express.yml'
+  pull_request:
+    paths:
+      - 'template-ts-express/**'
+      - '.github/workflows/template-ts-express.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 15.x
+    - name: Set up dependencies
+      working-directory: template-ts-express
+      run: npm install
+
+    - name: Test
+      working-directory: template-ts-express
+      run: npm test
