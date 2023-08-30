@@ -3,6 +3,7 @@ const MAX_HP = 10;
 export default class Stats {
 
     private hp: number = MAX_HP;
+    private dynamic = {};
 
     getHp(): number {
         return this.hp;
@@ -29,4 +30,33 @@ export default class Stats {
     alive(): boolean {
         return this.hp > 0;
     }
+
+    hasDynamic(id: string): boolean {
+        return this.dynamic[id] != undefined;
+    }
+
+    createDynamic(id: string): void {
+        if (this.dynamic[id] == undefined) {
+            this.dynamic[id] = 0;
+        }
+    }
+
+    getDynamic(id: string): number {
+        return this.dynamic[id];
+    }
+
+    incDynamic(id: string): void {
+        this.createDynamic(id);
+        this.dynamic[id] += 1;
+    }
+
+    decDynamic(id: string): void {
+        this.createDynamic(id);
+        this.dynamic[id] -= 1;
+    }
+
+    resetDynamic(id: string): void {
+        this.dynamic[id] = undefined;
+    }
+
 }
