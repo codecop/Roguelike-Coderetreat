@@ -17,7 +17,9 @@ describe('Stats App', () => {
             expect(200);
 
         expect(response.header['content-type']).equal('application/json; charset=utf-8');
-        expect(response.body.hp).equal(100);
+        const body = response.body;
+        expect(body.hp).equal(10);
+        expect(body.alive).equal(true);
     });
 
     it('updates', async () => {
@@ -27,7 +29,7 @@ describe('Stats App', () => {
             expect(201);
 
         const { body: body1 } = await request(app).get('/stats/hp');
-        expect(body1.hp).equal(99);
+        expect(body1.hp).equal(9);
 
         await request(app).
             post('/stats/hp').
@@ -35,7 +37,7 @@ describe('Stats App', () => {
             expect(201);
 
         const { body: body2 } = await request(app).get('/stats/hp');
-        expect(body2.hp).equal(100);
+        expect(body2.hp).equal(10);
     });
 
 });

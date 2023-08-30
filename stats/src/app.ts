@@ -21,7 +21,7 @@ async function createApp() {
 
     app.get("/stats/hp", async (_req, res) => {
 
-        res.json({ "hp": stats.getHp() });
+        res.json({ hp: stats.getHp(), alive: stats.alive() });
 
     });
 
