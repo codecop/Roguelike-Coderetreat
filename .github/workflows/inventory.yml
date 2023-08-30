@@ -39,3 +39,11 @@ jobs:
         docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/rogue-inventory:latest
         echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/rogue-inventory:latest
+
+    - name: Docker Hub Description
+      uses: peter-evans/dockerhub-description@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        repository: ${{ secrets.DOCKERHUB_USERNAME }}/rogue-inventory
+        readme-filepath: ./inventory/README.md
