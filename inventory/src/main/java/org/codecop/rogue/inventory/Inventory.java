@@ -29,4 +29,8 @@ public class Inventory {
         return new ArrayList<>(items.values());
     }
 
+    public void reset() {
+        items.clear();
+    }
+
 }

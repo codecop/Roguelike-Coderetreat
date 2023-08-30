@@ -34,6 +34,12 @@ public class Main {
                 collect(Collectors.joining(",")) + "]";
         });
 
+        delete("/inventory", (req, res) -> {
+            inventory.reset();
+            res.status(HttpServletResponse.SC_ACCEPTED);
+            return "";
+        });
+
         // return item
         get("/inventory/:item", (req, res) -> {
             String key = req.params("item");

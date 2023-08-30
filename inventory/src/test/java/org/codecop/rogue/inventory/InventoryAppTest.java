@@ -35,9 +35,12 @@ public class InventoryAppTest {
         testAddToInventory();
         
         testGetBow();
-        assertNowGetSword();
+        assertNotGetSword();
         
-        testRemove();
+        testRemoveBow();
+
+        removeAll();
+        testEmptyInventory();
     }
 
     private void testEmptyInventory() {
@@ -67,15 +70,16 @@ public class InventoryAppTest {
     }
     
     private void testAddToInventory() {
-        createBow();
+        createBow("(");
+        createBow("["); // another bow
         JsonPath json = getInventory();
         assertJsonBowInInventory(json);
     }
     
-    private void createBow() {
+    private void createBow(String item) {
         given().
             contentType(ContentType.JSON).
-            body("{ \"item\":\"(\", \"description\":\"a bow\" }"). //
+            body("{ \"item\":\""+ item +"\", \"description\":\"a bow\" }"). //
         when(). //
             post("/inventory"). //
         then(). //
@@ -84,7 +88,7 @@ public class InventoryAppTest {
     
     private void assertJsonBowInInventory(JsonPath json) {
         List<Object> items = json.getList("");
-        assertEquals(1, items.size());
+        assertEquals(2, items.size());
         
         String item = json.getString("[0].item");
         assertEquals("(", item);
@@ -114,25 +118,33 @@ public class InventoryAppTest {
     private ValidatableResponse getItem(String item) {
         return given().
             when(). //
-                get("/inventory/"+item). //
+                get("/inventory/" + item). //
             then(). // 
                 assertThat().contentType("application/json");
     }
 
-    private void assertNowGetSword() {
+    private void assertNotGetSword() {
         getItem("x").
             assertThat().statusCode(404);
     }
 
-    private void testRemove() {
+    private void testRemoveBow() {
         given().
         when(). //
-            delete("/inventory/"+"("). //
+            delete("/inventory/" + "("). //
         then(). //
             assertThat().statusCode(202);
         
         getItem("(").
             assertThat().statusCode(404);
     }
-    
+
+    private void removeAll() {
+        given().
+        when(). //
+            delete("/inventory"). //
+        then(). //
+            assertThat().statusCode(202);
+    }
+
 }
