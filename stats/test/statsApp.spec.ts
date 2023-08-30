@@ -1,6 +1,7 @@
 import { Express } from 'express';
 import { createApp } from '../src/app';
 import request from 'supertest';
+import { expect } from 'chai';
 
 describe('Stats App', () => {
 
@@ -15,8 +16,8 @@ describe('Stats App', () => {
             get('/stats/hp').
             expect(200);
 
-        expect(response.header['content-type']).toBe('application/json; charset=utf-8');
-        expect(response.body.hp).toBe(100);
+        expect(response.header['content-type']).equal('application/json; charset=utf-8');
+        expect(response.body.hp).equal(100);
     });
 
     it('updates', async () => {
@@ -26,7 +27,7 @@ describe('Stats App', () => {
             expect(201);
 
         const { body: body1 } = await request(app).get('/stats/hp');
-        expect(body1.hp).toBe(99);
+        expect(body1.hp).equal(99);
 
         await request(app).
             post('/stats/hp').
@@ -34,7 +35,7 @@ describe('Stats App', () => {
             expect(201);
 
         const { body: body2 } = await request(app).get('/stats/hp');
-        expect(body2.hp).toBe(100);
+        expect(body2.hp).equal(100);
     });
 
 });
