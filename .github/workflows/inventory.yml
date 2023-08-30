@@ -40,7 +40,7 @@ jobs:
         echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/rogue-inventory:latest
 
-    - name: Docker Hub Description
+    - name: Push Docker Hub Description
       uses: peter-evans/dockerhub-description@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
