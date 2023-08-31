@@ -2,7 +2,7 @@ package org.codecop.rogue.room1;
 
 public class Room {
 
-    private int playerPos = 1 * 7 + 4;
+    private int playerPos = 1 * (7 + 1) + 3;
 
     public String display() {
         char[] x = ("" + //
@@ -19,7 +19,20 @@ public class Room {
     }
 
     public void playerMoves(char direction) {
-        playerPos++;
+        switch (direction) {
+        case 'd':
+            playerPos += 1;
+            break;
+        case 'a':
+            playerPos -= 1;
+            break;
+        case 'w':
+            playerPos -= (7 + 1);
+            break;
+        case 's':
+            playerPos += (7 + 1);
+            break;
+        }
     }
 
 }

@@ -23,7 +23,7 @@ class RoomTest {
     }
 
     @Test
-    void playerMoves() {
+    void playerMovesRight() {
         Room room = new Room();
         room.playerMoves('d');
 
@@ -33,6 +33,23 @@ class RoomTest {
                 "#######\n" + //
                 "#   @ #\n" + //
                 "#     #\n" + //
+                "#     |\n" + //
+                "#     #\n" + //
+                "#     #\n" + //
+                "#######\n", display);
+    }
+
+    @Test
+    void playerMovesDown() {
+        Room room = new Room();
+        room.playerMoves('s');
+        
+        String display = room.display();
+        
+        assertEquals("" + //
+                "#######\n" + //
+                "#     #\n" + //
+                "#  @  #\n" + //
                 "#     |\n" + //
                 "#     #\n" + //
                 "#     #\n" + //
