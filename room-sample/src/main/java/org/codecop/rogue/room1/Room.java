@@ -23,7 +23,7 @@ public class Room {
 
     private int playerX = 3;
     private int playerY = 1;
-    private boolean doorIsOpen = false;
+    private boolean doorIsOpen = true;
 
     public String display() {
         char[] layout = initialLayout.clone();
