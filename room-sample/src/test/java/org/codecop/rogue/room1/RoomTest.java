@@ -25,7 +25,7 @@ class RoomTest {
     @Test
     void playerMovesRight() {
         Room room = new Room();
-        
+
         room.playerMoves('d');
 
         String display = room.display();
@@ -44,7 +44,7 @@ class RoomTest {
         Room room = new Room();
 
         room.playerMoves('s');
-        
+
         String display = room.display();
         assertEquals("" + //
                 "#######\n" + //
@@ -76,6 +76,7 @@ class RoomTest {
     @Test
     void playerExitsOpenRoom() {
         Room room = new Room();
+        room.setDoorOpen(true);
 
         room.playerMoves('s');
         room.playerMoves('s');
@@ -93,5 +94,27 @@ class RoomTest {
                 "#     #\n" + //
                 "#######\n", display);
     }
-    
+
+    @Test
+    void playerCanNotExitClosedDoor() {
+        Room room = new Room();
+        room.setDoorOpen(false);
+
+        room.playerMoves('s');
+        room.playerMoves('s');
+        room.playerMoves('d');
+        room.playerMoves('d');
+        room.playerMoves('d');
+
+        String display = room.display();
+        assertEquals("" + //
+                "#######\n" + //
+                "#     #\n" + //
+                "#     #\n" + //
+                "#    @|\n" + //
+                "#     #\n" + //
+                "#     #\n" + //
+                "#######\n", display);
+    }
+
 }

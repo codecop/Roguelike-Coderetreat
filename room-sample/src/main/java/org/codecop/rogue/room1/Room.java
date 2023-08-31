@@ -15,6 +15,7 @@ public class Room {
 
     private int playerX = 3;
     private int playerY = 1;
+    private boolean doorIsOpen = false;
 
     public String display() {
         char[] layout = initialLayout.clone();
@@ -36,7 +37,7 @@ public class Room {
             playerMoveUp();
             break;
         case 'd':
-            playerMoveRight();
+            tryMove(playerX + 1, playerY);
             break;
         case 's':
             playerMoveDown();
@@ -53,17 +54,13 @@ public class Room {
         }
     }
 
-    private void playerMoveRight() {
-        tryMove(playerX + 1, playerY);
-    }
-
     private void tryMove(int x, int y) {
         if (layoutIsEmptyAt(x, y)) {
             playerX = x;
             playerY = y;
             return;
         }
-        if (layoutIsDoorAt(x, y)) {
+        if (doorIsOpen && layoutIsDoorAt(x, y)) {
             playerX = x;
             playerY = y;
         }
@@ -91,5 +88,9 @@ public class Room {
 
     private int asIndex(int x, int y) {
         return y * (columns + 1) + x;
+    }
+
+    public void setDoorOpen(boolean isOpen) {
+        doorIsOpen = isOpen;
     }
 }
