@@ -73,6 +73,10 @@ public class ExtendedRoom implements AnyRoom {
             if (hasChest && Math.abs(playerX - chestX) <= 1 && Math.abs(playerY - chestY) <= 1) {
                 hasChest = false;
                 hasKey = true;
+            } else if (hasKey && Math.abs(playerX - chestX) <= 1 && Math.abs(playerY - chestY) <= 1) {
+                hasChest = false;
+                hasKey = false;
+                doorIsOpen = true;
             }
             break;
         }

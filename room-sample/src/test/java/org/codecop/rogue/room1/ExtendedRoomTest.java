@@ -70,4 +70,25 @@ class ExtendedRoomTest {
                 "#######\n", display);
     }
 
+    @Test
+    void pickupKey() {
+        AnyRoom room = new ExtendedRoom();
+
+        room.playerMoves('s');
+        room.playerMoves('s');
+        room.playerMoves('s');
+        room.playerMoves(' ');
+        room.playerMoves(' ');
+
+        String display = room.display();
+        assertEquals("" + //
+                "#######\n" + //
+                "#     #\n" + //
+                "#     #\n" + //
+                "#     |\n" + //
+                "#  @  #\n" + //
+                "#     #\n" + //
+                "#######\n", display);
+    }
+    
 }
