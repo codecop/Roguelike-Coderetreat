@@ -1,13 +1,13 @@
 package org.codecop.rogue.room1;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
 class RoomTest {
 
     @Test
-    void roomHasWalls() {
+    void hasWalls() {
         Room room = new Room();
 
         String display = room.display();
@@ -15,6 +15,23 @@ class RoomTest {
         assertEquals("" + //
                 "#######\n" + //
                 "#  @  #\n" + //
+                "#     #\n" + //
+                "#     |\n" + //
+                "#     #\n" + //
+                "#     #\n" + //
+                "#######\n", display);
+    }
+
+    @Test
+    void playerMoves() {
+        Room room = new Room();
+        room.playerMoves('d');
+
+        String display = room.display();
+
+        assertEquals("" + //
+                "#######\n" + //
+                "#   @ #\n" + //
                 "#     #\n" + //
                 "#     |\n" + //
                 "#     #\n" + //
