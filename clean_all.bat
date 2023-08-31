@@ -8,6 +8,9 @@ cd ..
 cd inventory
 rmdir /S /Q target
 cd ..
+cd room-sample
+rmdir /S /Q target
+cd ..
 
 @rem PHP
 cd template-php-lumen
