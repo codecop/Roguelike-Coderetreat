@@ -25,10 +25,10 @@ class RoomTest {
     @Test
     void playerMovesRight() {
         Room room = new Room();
+        
         room.playerMoves('d');
 
         String display = room.display();
-
         assertEquals("" + //
                 "#######\n" + //
                 "#   @ #\n" + //
@@ -42,14 +42,31 @@ class RoomTest {
     @Test
     void playerMovesDown() {
         Room room = new Room();
+
         room.playerMoves('s');
         
         String display = room.display();
-        
         assertEquals("" + //
                 "#######\n" + //
                 "#     #\n" + //
                 "#  @  #\n" + //
+                "#     |\n" + //
+                "#     #\n" + //
+                "#     #\n" + //
+                "#######\n", display);
+    }
+
+    @Test
+    void playerDoesNotMoveUpOnWall() {
+        Room room = new Room();
+
+        room.playerMoves('w');
+
+        String display = room.display();
+        assertEquals("" + //
+                "#######\n" + //
+                "#  @  #\n" + //
+                "#     #\n" + //
                 "#     |\n" + //
                 "#     #\n" + //
                 "#     #\n" + //
