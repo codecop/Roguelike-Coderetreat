@@ -1,6 +1,7 @@
 composer.bat
 composer.phar
 vendor/
+storage/logs/
 
 Homestead.json
 Homestead.yaml
