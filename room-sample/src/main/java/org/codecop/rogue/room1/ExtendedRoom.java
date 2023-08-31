@@ -70,8 +70,10 @@ public class ExtendedRoom implements AnyRoom {
             tryMove(playerX - 1, playerY);
             break;
         case ' ':
-            hasChest = false;
-            hasKey = true;
+            if (hasChest && Math.abs(playerX - chestX) <= 1 && Math.abs(playerY - chestY) <= 1) {
+                hasChest = false;
+                hasKey = true;
+            }
             break;
         }
     }

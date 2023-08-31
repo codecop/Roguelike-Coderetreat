@@ -53,4 +53,21 @@ class ExtendedRoomTest {
         assertEquals("A locked room. You found the key.", description);
     }
 
+    @Test
+    void playerCanNotSearchChestWhenAway() {
+        AnyRoom room = new ExtendedRoom();
+
+        room.playerMoves(' ');
+
+        String display = room.display();
+        assertEquals("" + //
+                "#######\n" + //
+                "#  @  #\n" + //
+                "#     #\n" + //
+                "#     |\n" + //
+                "#     #\n" + //
+                "#  c  #\n" + //
+                "#######\n", display);
+    }
+
 }
