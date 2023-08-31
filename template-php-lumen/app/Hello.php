@@ -1,6 +1,6 @@
 <?php
 
-namespace Rogue;
+namespace App;
 
 class Hello {
 
@@ -14,15 +14,8 @@ class Hello {
         return $this->name;
     }
 
-    public function setName($name): void {
+    public function setName(String $name): void {
         $this->name = $name;
-    }
-
-    public function nameAsJson(): String {
-        $data = array(
-            "name" => $this->getName()
-        );
-        return json_encode($data);
     }
 
 }

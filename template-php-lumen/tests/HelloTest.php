@@ -3,7 +3,7 @@
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
-use Rogue\Hello;
+use App\Hello;
 
 class HelloTest extends TestCase {
 
