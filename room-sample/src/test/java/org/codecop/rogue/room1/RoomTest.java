@@ -95,6 +95,8 @@ class RoomTest {
                 "#######\n", display);
     }
 
+    // ^^^ minimal functionality, 5 tests and 40' for me = 2 sessions for people.
+    
     @Test
     void playerCanNotExitClosedDoor() {
         Room room = new Room();
