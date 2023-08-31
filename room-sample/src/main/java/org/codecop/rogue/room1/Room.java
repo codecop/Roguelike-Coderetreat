@@ -89,6 +89,6 @@ public class Room implements AnyRoom {
 
     @Override
     public String decription() {
-        return "A You are in a little square room. There is nothing here.";
+        return "You are in a little square room. There is nothing here.";
     }
 }

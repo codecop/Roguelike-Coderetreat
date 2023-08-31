@@ -24,7 +24,7 @@ class RoomRestTest {
         String body = client.toBlocking().retrieve( //
                 HttpRequest.GET("/1/").accept(MediaType.APPLICATION_JSON_TYPE));
         assertEquals(
-                "{\"description\":\"A You are in a little square room. There is nothing here.\","
+                "{\"description\":\"You are in a little square room. There is nothing here.\","
                         + "\"layout\":\"#######\\n#  @  #\\n#     #\\n#     |\\n#     #\\n#     #\\n#######\\n\"}",
                 body);
     }
@@ -38,7 +38,7 @@ class RoomRestTest {
         String body = client.toBlocking().retrieve( //
                 HttpRequest.GET("/1/").accept(MediaType.APPLICATION_JSON_TYPE));
         assertEquals(
-                "{\"description\":\"A You are in a little square room. There is nothing here.\","
+                "{\"description\":\"You are in a little square room. There is nothing here.\","
                         + "\"layout\":\"#######\\n#   @ #\\n#     #\\n#     |\\n#     #\\n#     #\\n#######\\n\"}",
                 body);
     }
