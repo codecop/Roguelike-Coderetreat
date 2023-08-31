@@ -1,5 +1,7 @@
 package org.codecop.rogue.room1;
 
+import java.util.List;
+
 public interface AnyRoom {
 
     String display();
@@ -7,5 +9,7 @@ public interface AnyRoom {
     void playerMoves(char direction);
 
     String decription();
+
+    List<Item> getLegend();
 
 }

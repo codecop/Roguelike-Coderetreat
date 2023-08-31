@@ -1,5 +1,10 @@
 package org.codecop.rogue.template;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.codecop.rogue.room1.Item;
+
 import io.micronaut.serde.annotation.Serdeable;
 
 @Serdeable
@@ -7,7 +12,7 @@ public class RoomResource {
 
     private String description;
     private String layout;
-    // no legend
+    private List<Item> legend;
 
     public RoomResource() {
     }
@@ -15,6 +20,7 @@ public class RoomResource {
     public RoomResource(String description, String layout) {
         this.description = description;
         this.layout = layout;
+        this.legend = new ArrayList<>();
     }
 
     public String getDescription() {
@@ -31,6 +37,14 @@ public class RoomResource {
 
     public void setLayout(String layout) {
         this.layout = layout;
+    }
+
+    public List<Item> getLegend() {
+        return legend;
+    }
+
+    public void setLegend(List<Item> legend) {
+        this.legend = legend;
     }
 
 }

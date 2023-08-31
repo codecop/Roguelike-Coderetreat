@@ -1,5 +1,7 @@
 package org.codecop.rogue.room1;
 
+import java.util.List;
+
 import jakarta.inject.Singleton;
 
 @Singleton
@@ -90,5 +92,10 @@ public class Room implements AnyRoom {
     @Override
     public String decription() {
         return "You are in a little square room. There is nothing here.";
+    }
+
+    @Override
+    public List<Item> getLegend() {
+        return null;
     }
 }
