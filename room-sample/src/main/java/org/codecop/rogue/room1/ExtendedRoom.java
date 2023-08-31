@@ -9,9 +9,13 @@ import jakarta.inject.Singleton;
 public class ExtendedRoom implements AnyRoom {
 
     private static final char SYMBOL_PLAYER = '@';
+
     private static final char SYMBOL_DOOR_VERTICAL = '|';
     private static final char SYMBOL_DOOR_HORICONTAL = '-';
     private static final char SYMBOL_NOTHING = ' ';
+
+    private static final char SYMBOL_CHEST = 'c';
+    private static final char SYMBOL_KEY = 'k';
 
     private final char[] initialLayout = ("" + //
             "#######\n" + //
@@ -21,32 +25,36 @@ public class ExtendedRoom implements AnyRoom {
             "#     #\n" + //
             "#     #\n" + //
             "#######\n").toCharArray();
-    private final int columns = new String(initialLayout).replaceAll("\n.*", "").length();
-    // private final int rows = new String(initialLayout).replaceAll("[^\n]", "").length();
+
+    private final int numberColumns = new String(initialLayout).replaceAll("\n.*", "").length();
 
     private int playerX = 3;
     private int playerY = 1;
-    private boolean doorIsOpen = false;
 
-    private boolean hasChest = true;
     private int chestX = 3;
     private int chestY = 5;
+    private boolean hasChest = true;
     private boolean hasKey = false;
+    private boolean doorIsOpen = false;
+
+    @Override
+    public String description() {
+        if (hasChest) {
+            return "A locked room. There is a <c>hest at the South wall.";
+        }
+        return "A locked room. You found the <k>ey.";
+    }
 
     @Override
     public String display() {
         char[] layout = initialLayout.clone();
-        setPlayerTo(layout);
-        if (hasChest) {
-            layout[asIndex(chestX, chestY)] = 'c';
-        }
-        if (hasKey) {
-            layout[asIndex(chestX, chestY)] = 'k';
-        }
+        drawPlayer(layout);
+        drawChest(layout);
+        drawKey(layout);
         return new String(layout);
     }
 
-    private void setPlayerTo(char[] layout) {
+    private void drawPlayer(char[] layout) {
         layout[playerAsIndex()] = SYMBOL_PLAYER;
     }
 
@@ -54,26 +62,39 @@ public class ExtendedRoom implements AnyRoom {
         return asIndex(playerX, playerY);
     }
 
+    private void drawChest(char[] layout) {
+        if (hasChest) {
+            layout[asIndex(chestX, chestY)] = SYMBOL_CHEST;
+        }
+    }
+
+    private void drawKey(char[] layout) {
+        if (hasKey) {
+            layout[asIndex(chestX, chestY)] = SYMBOL_KEY;
+        }
+    }
+
     @Override
     public void playerMoves(char direction) {
         switch (direction) {
         case 'w':
-            tryMove(playerX, playerY - 1);
+            moveTo(playerX, playerY - 1);
             break;
         case 'd':
-            tryMove(playerX + 1, playerY);
+            moveTo(playerX + 1, playerY);
             break;
         case 's':
-            tryMove(playerX, playerY + 1);
+            moveTo(playerX, playerY + 1);
             break;
         case 'a':
-            tryMove(playerX - 1, playerY);
+            moveTo(playerX - 1, playerY);
             break;
         case ' ':
-            if (hasChest && Math.abs(playerX - chestX) <= 1 && Math.abs(playerY - chestY) <= 1) {
+            boolean nearPlayer = isNearPlayer(chestX, chestY);
+            if (hasChest && nearPlayer) {
                 hasChest = false;
                 hasKey = true;
-            } else if (hasKey && Math.abs(playerX - chestX) <= 1 && Math.abs(playerY - chestY) <= 1) {
+            } else if (hasKey && nearPlayer) {
                 hasChest = false;
                 hasKey = false;
                 doorIsOpen = true;
@@ -82,7 +103,7 @@ public class ExtendedRoom implements AnyRoom {
         }
     }
 
-    private void tryMove(int x, int y) {
+    private void moveTo(int x, int y) {
         if (layoutIsEmptyAt(x, y)) {
             playerX = x;
             playerY = y;
@@ -103,8 +124,12 @@ public class ExtendedRoom implements AnyRoom {
                 || initialLayout[asIndex(x, y)] == SYMBOL_DOOR_HORICONTAL;
     }
 
+    private boolean isNearPlayer(int x, int y) {
+        return Math.abs(playerX - x) <= 1 && Math.abs(playerY - y) <= 1;
+    }
+
     private int asIndex(int x, int y) {
-        return y * (columns + 1) + x;
+        return y * (numberColumns + 1) + x;
     }
 
     public void setDoorOpen(boolean isOpen) {
@@ -112,18 +137,10 @@ public class ExtendedRoom implements AnyRoom {
     }
 
     @Override
-    public String description() {
-        if (hasChest) {
-            return "A locked room. There is a <c>hest at the South wall.";
-        }
-        return "A locked room. You found the <k>ey.";
-    }
-
-    @Override
     public List<Item> getLegend() {
         if (hasChest) {
-            return Arrays.asList(new Item('c', "a sturdy chest"));
+            return Arrays.asList(new Item(SYMBOL_CHEST, "a sturdy chest"));
         }
-        return Arrays.asList(new Item('k', "a small iron key"));
+        return Arrays.asList(new Item(SYMBOL_KEY, "a small iron key"));
     }
 }

@@ -15,5 +15,6 @@ public interface AnyRoom {
     // TODO checker: needs legend for all extra items, bzw nicht notwendig wenn in description sind.
 
     void playerMoves(char direction);
+    // TODO checker: check for space around @ and send one move to get updated display
 
 }

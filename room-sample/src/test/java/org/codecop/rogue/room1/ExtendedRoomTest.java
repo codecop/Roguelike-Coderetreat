@@ -91,4 +91,6 @@ class ExtendedRoomTest {
                 "#######\n", display);
     }
     
+    // NOTE: ^^^ chest/item functionality, 4+ tests and 45' for me = 2 sessions for people. that is max.
+    
 }
