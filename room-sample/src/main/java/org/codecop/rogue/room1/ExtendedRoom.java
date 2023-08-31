@@ -114,9 +114,9 @@ public class ExtendedRoom implements AnyRoom {
     @Override
     public String description() {
         if (hasChest) {
-            return "A locked room. Can you escape?";
+            return "A locked room. There is a <c>hest at the South wall.";
         }
-        return "A locked room. You found the key.";
+        return "A locked room. You found the <k>ey.";
     }
 
     @Override

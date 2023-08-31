@@ -27,7 +27,7 @@ class ExtendedRoomTest {
                 "#######\n", display);
 
         String description = room.description();
-        assertEquals("A locked room. Can you escape?", description);
+        assertEquals("A locked room. There is a <c>hest at the South wall.", description);
     }
 
     @Test
@@ -50,7 +50,7 @@ class ExtendedRoomTest {
                 "#######\n", display);
 
         String description = room.description();
-        assertEquals("A locked room. You found the key.", description);
+        assertEquals("A locked room. You found the <k>ey.", description);
     }
 
     @Test
