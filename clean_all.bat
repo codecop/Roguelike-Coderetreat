@@ -2,6 +2,9 @@
 cd template-java-spark
 rmdir /S /Q target
 cd ..
+cd template-java-micronaut
+rmdir /S /Q target
+cd ..
 cd inventory
 rmdir /S /Q target
 cd ..

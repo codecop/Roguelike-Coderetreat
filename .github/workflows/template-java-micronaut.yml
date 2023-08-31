@@ -1,0 +1,34 @@
+name: Test template-java-micronaut
+
+on:
+  push:
+    paths:
+      - 'template-java-micronaut/**'
+      - '.github/workflows/template-java-micronaut.yml'
+  pull_request:
+    paths:
+      - 'template-java-micronaut/**'
+      - '.github/workflows/template-java-micronaut.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v3
+
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'adopt'
+        java-version: 8.0
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('template-java-micronaut/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    - name: Build and test
+      working-directory: template-java-micronaut
+      run: mvn -B test
