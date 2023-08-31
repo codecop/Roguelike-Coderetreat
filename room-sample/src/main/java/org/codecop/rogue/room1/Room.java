@@ -2,6 +2,11 @@ package org.codecop.rogue.room1;
 
 public class Room {
 
+    private static final char SYMBOL_PLAYER = '@';
+    private static final char SYMBOL_DOOR_VERTICAL = '|';
+    private static final char SYMBOL_DOOR_HORICONTAL = '-';
+    private static final char SYMBOL_NOTHING = ' ';
+
     private final char[] initialLayout = ("" + //
             "#######\n" + //
             "#     #\n" + //
@@ -24,7 +29,7 @@ public class Room {
     }
 
     private void setPlayerTo(char[] layout) {
-        layout[playerAsIndex()] = '@';
+        layout[playerAsIndex()] = SYMBOL_PLAYER;
     }
 
     private int playerAsIndex() {
@@ -34,23 +39,17 @@ public class Room {
     public void playerMoves(char direction) {
         switch (direction) {
         case 'w':
-            playerMoveUp();
+            tryMove(playerX, playerY - 1);
             break;
         case 'd':
             tryMove(playerX + 1, playerY);
             break;
         case 's':
-            playerMoveDown();
+            tryMove(playerX, playerY + 1);
             break;
         case 'a':
-            playerMoveLeft();
+            tryMove(playerX - 1, playerY);
             break;
-        }
-    }
-
-    private void playerMoveUp() {
-        if (layoutIsEmptyAt(playerX, playerY - 1)) {
-            playerY -= 1;
         }
     }
 
@@ -66,24 +65,13 @@ public class Room {
         }
     }
 
-    private void playerMoveDown() {
-        if (layoutIsEmptyAt(playerX, playerY + 1)) {
-            playerY += 1;
-        }
-    }
-
-    private void playerMoveLeft() {
-        if (layoutIsEmptyAt(playerX - 1, playerY)) {
-            playerX -= 1;
-        }
-    }
-
     private boolean layoutIsEmptyAt(int x, int y) {
-        return initialLayout[asIndex(x, y)] == ' ';
+        return initialLayout[asIndex(x, y)] == SYMBOL_NOTHING;
     }
 
     private boolean layoutIsDoorAt(int x, int y) {
-        return initialLayout[asIndex(x, y)] == '|' || initialLayout[asIndex(x, y)] == '-';
+        return initialLayout[asIndex(x, y)] == SYMBOL_DOOR_VERTICAL
+                || initialLayout[asIndex(x, y)] == SYMBOL_DOOR_HORICONTAL;
     }
 
     private int asIndex(int x, int y) {
