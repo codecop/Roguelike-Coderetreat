@@ -13,7 +13,7 @@ public class StartupInfo implements ApplicationEventListener<StartupEvent> {
 
     @Override
     public void onApplicationEvent(StartupEvent startupEvent) {
-        System.out.println("Hello started on " + port + ",\n" + //
-                "Open http://localhost:" + port + "/hello");
+        System.out.println("Sample Room started on " + port + ",\n" + //
+                "Open http://localhost:" + port + "/1/?action=[wasd]");
     }
 }

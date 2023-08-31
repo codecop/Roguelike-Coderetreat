@@ -1,5 +1,8 @@
 package org.codecop.rogue.room1;
 
+import jakarta.inject.Singleton;
+
+@Singleton
 public class Room {
 
     private static final char SYMBOL_PLAYER = '@';
