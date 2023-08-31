@@ -8,7 +8,7 @@ public interface AnyRoom {
 
     void playerMoves(char direction);
 
-    String decription();
+    String description();
 
     List<Item> getLegend();
 

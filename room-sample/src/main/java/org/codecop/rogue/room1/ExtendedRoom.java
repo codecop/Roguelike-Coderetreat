@@ -1,11 +1,12 @@
 package org.codecop.rogue.room1;
 
+import java.util.Arrays;
 import java.util.List;
 
 import jakarta.inject.Singleton;
 
 @Singleton
-public class Room implements AnyRoom {
+public class ExtendedRoom implements AnyRoom {
 
     private static final char SYMBOL_PLAYER = '@';
     private static final char SYMBOL_DOOR_VERTICAL = '|';
@@ -25,12 +26,23 @@ public class Room implements AnyRoom {
 
     private int playerX = 3;
     private int playerY = 1;
-    private boolean doorIsOpen = true;
+    private boolean doorIsOpen = false;
+
+    private boolean hasChest = true;
+    private int chestX = 3;
+    private int chestY = 5;
+    private boolean hasKey = false;
 
     @Override
     public String display() {
         char[] layout = initialLayout.clone();
         setPlayerTo(layout);
+        if (hasChest) {
+            layout[asIndex(chestX, chestY)] = 'c';
+        }
+        if (hasKey) {
+            layout[asIndex(chestX, chestY)] = 'k';
+        }
         return new String(layout);
     }
 
@@ -56,6 +68,10 @@ public class Room implements AnyRoom {
             break;
         case 'a':
             tryMove(playerX - 1, playerY);
+            break;
+        case ' ':
+            hasChest = false;
+            hasKey = true;
             break;
         }
     }
@@ -91,11 +107,17 @@ public class Room implements AnyRoom {
 
     @Override
     public String description() {
-        return "You are in a little square room. There is nothing here.";
+        if (hasChest) {
+            return "A locked room. Can you escape?";
+        }
+        return "A locked room. You found the key.";
     }
 
     @Override
     public List<Item> getLegend() {
-        return null;
+        if (hasChest) {
+            return Arrays.asList(new Item('c', "a sturdy chest"));
+        }
+        return Arrays.asList(new Item('k', "a small iron key"));
     }
 }
