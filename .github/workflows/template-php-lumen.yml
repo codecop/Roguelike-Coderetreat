@@ -1,0 +1,31 @@
+name: Test template-php-lumen
+
+on:
+  push:
+    paths:
+      - 'template-php-lumen/**'
+      - '.github/workflows/template-php-lumen.yml'
+  pull_request:
+    paths:
+      - 'template-php-lumen/**'
+      - '.github/workflows/template-php-lumen.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v3
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 7.3
+
+    - name: Set up dependencies
+      working-directory: template-php-lumen
+      run: composer install
+
+    - name: Test
+      working-directory: template-php-lumen
+      run: ./vendor/bin/phpunit
