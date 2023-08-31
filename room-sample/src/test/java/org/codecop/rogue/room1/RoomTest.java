@@ -73,4 +73,25 @@ class RoomTest {
                 "#######\n", display);
     }
 
+    @Test
+    void playerExitsOpenRoom() {
+        Room room = new Room();
+
+        room.playerMoves('s');
+        room.playerMoves('s');
+        room.playerMoves('d');
+        room.playerMoves('d');
+        room.playerMoves('d');
+
+        String display = room.display();
+        assertEquals("" + //
+                "#######\n" + //
+                "#     #\n" + //
+                "#     #\n" + //
+                "#     @\n" + //
+                "#     #\n" + //
+                "#     #\n" + //
+                "#######\n", display);
+    }
+    
 }

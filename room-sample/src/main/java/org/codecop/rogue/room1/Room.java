@@ -54,8 +54,18 @@ public class Room {
     }
 
     private void playerMoveRight() {
-        if (layoutIsEmptyAt(playerX + 1, playerY)) {
-            playerX += 1;
+        tryMove(playerX + 1, playerY);
+    }
+
+    private void tryMove(int x, int y) {
+        if (layoutIsEmptyAt(x, y)) {
+            playerX = x;
+            playerY = y;
+            return;
+        }
+        if (layoutIsDoorAt(x, y)) {
+            playerX = x;
+            playerY = y;
         }
     }
 
@@ -73,6 +83,10 @@ public class Room {
 
     private boolean layoutIsEmptyAt(int x, int y) {
         return initialLayout[asIndex(x, y)] == ' ';
+    }
+
+    private boolean layoutIsDoorAt(int x, int y) {
+        return initialLayout[asIndex(x, y)] == '|' || initialLayout[asIndex(x, y)] == '-';
     }
 
     private int asIndex(int x, int y) {
