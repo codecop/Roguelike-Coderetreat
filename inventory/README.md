@@ -14,6 +14,12 @@ To start the application:
 
     mvn exec:java
 
+## Docker Image
+
+The application is published on [docker hub](https://hub.docker.com/r/codecop/rogue-inventory). Run it:
+
+    docker run -p8001:8001 "codecop/rogue-inventory"
+
 ## Usage
 
 List the whole inventory:

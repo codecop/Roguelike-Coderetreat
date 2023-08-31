@@ -18,6 +18,12 @@ To start the application:
 
     npm start
 
+## Docker Image
+
+The application is published on [docker hub](https://hub.docker.com/r/codecop/rogue-stats). Run it:
+
+    docker run -p8002:8002 "codecop/rogue-stats"
+
 ## Usage
 
 Basic element of stats is HP in range 0 to 10:
