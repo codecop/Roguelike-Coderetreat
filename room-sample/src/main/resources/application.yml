@@ -1,8 +1,8 @@
 micronaut:
   application:
-    name: template
+    name: room-sample
   server:
-    port: 8080
+    port: 8003
   router:
     static-resources: 
         default:

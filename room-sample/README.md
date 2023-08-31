@@ -1,4 +1,4 @@
-# Rogue-Template
+# Rogue-Room-sample 8003
 
 This is a Java 8 [Maven](https://maven.apache.org/) project.
 

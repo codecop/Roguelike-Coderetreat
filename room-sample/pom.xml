@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>org.codecop.rogue</groupId>
-    <artifactId>rogue-template-micronaut</artifactId>
+    <artifactId>rogue-room-sample</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
