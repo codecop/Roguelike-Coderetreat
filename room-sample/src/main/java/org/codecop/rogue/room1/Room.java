@@ -5,9 +5,9 @@ public class Room {
     public String display() {
         return "" + //
                 "#######\n" + //
+                "#  @  #\n" + //
                 "#     #\n" + //
-                "#     #\n" + //
-                "#     #\n" + //
+                "#     |\n" + //
                 "#     #\n" + //
                 "#     #\n" + //
                 "#######\n";
