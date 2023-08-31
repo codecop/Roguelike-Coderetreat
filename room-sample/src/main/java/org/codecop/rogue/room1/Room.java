@@ -3,7 +3,7 @@ package org.codecop.rogue.room1;
 import jakarta.inject.Singleton;
 
 @Singleton
-public class Room {
+public class Room implements AnyRoom {
 
     private static final char SYMBOL_PLAYER = '@';
     private static final char SYMBOL_DOOR_VERTICAL = '|';
@@ -25,6 +25,7 @@ public class Room {
     private int playerY = 1;
     private boolean doorIsOpen = true;
 
+    @Override
     public String display() {
         char[] layout = initialLayout.clone();
         setPlayerTo(layout);
@@ -39,6 +40,7 @@ public class Room {
         return asIndex(playerX, playerY);
     }
 
+    @Override
     public void playerMoves(char direction) {
         switch (direction) {
         case 'w':
@@ -83,5 +85,10 @@ public class Room {
 
     public void setDoorOpen(boolean isOpen) {
         doorIsOpen = isOpen;
+    }
+
+    @Override
+    public String decription() {
+        return "A You are in a little square room. There is nothing here.";
     }
 }

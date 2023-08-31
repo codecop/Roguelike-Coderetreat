@@ -8,7 +8,7 @@ class RoomTest {
 
     @Test
     void hasWalls() {
-        Room room = new Room();
+        AnyRoom room = new Room();
 
         String display = room.display();
 
@@ -24,7 +24,7 @@ class RoomTest {
 
     @Test
     void playerMovesRight() {
-        Room room = new Room();
+        AnyRoom room = new Room();
 
         room.playerMoves('d');
 
@@ -41,7 +41,7 @@ class RoomTest {
 
     @Test
     void playerMovesDown() {
-        Room room = new Room();
+        AnyRoom room = new Room();
 
         room.playerMoves('s');
 
@@ -58,7 +58,7 @@ class RoomTest {
 
     @Test
     void playerDoesNotMoveUpOnWall() {
-        Room room = new Room();
+        AnyRoom room = new Room();
 
         room.playerMoves('w');
 
@@ -95,7 +95,7 @@ class RoomTest {
                 "#######\n", display);
     }
 
-    // ^^^ minimal functionality, 5 tests and 40' for me = 2 sessions for people.
+    // NOTE: ^^^ minimal functionality, 5 tests and 40' for me = 2 sessions for people.
     
     @Test
     void playerCanNotExitClosedDoor() {

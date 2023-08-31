@@ -43,4 +43,6 @@ class RoomRestTest {
                 body);
     }
 
+    // NOTE: ^^^ integration using template, 2 tests and 15' for me = 1 sessions for people.
+
 }
