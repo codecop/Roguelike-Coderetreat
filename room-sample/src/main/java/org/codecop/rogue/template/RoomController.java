@@ -2,13 +2,13 @@ package org.codecop.rogue.template;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.codecop.rogue.room1.AnyRoom;
 import org.codecop.rogue.room1.ExtendedRoom;
 import org.codecop.rogue.room1.Room;
 
 import io.micronaut.http.HttpResponse;
-import io.micronaut.http.HttpStatus;
 import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
@@ -31,20 +31,25 @@ public class RoomController {
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<RoomResource> getRoom(@PathVariable Integer number) {
         AnyRoom room = rooms.get(number);
-        
+
         RoomResource response = new RoomResource(room.description(), room.display());
         response.setLegend(room.getLegend());
-        
+
         return HttpResponse.ok().body(response);
     }
 
     @Post("/{number}/")
-    public HttpStatus update(@PathVariable Integer number, @QueryValue("action") char direction) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public HttpResponse<MessageResource> update(@PathVariable Integer number, @QueryValue("action") char direction) {
         AnyRoom room = rooms.get(number);
+
+        Optional<String> message = room.playerMoves(direction);
+
+        if (message.isPresent()) {
+            return HttpResponse.accepted().body(new MessageResource(message.get()));
+        }
         
-        room.playerMoves(direction);
-        
-        return HttpStatus.ACCEPTED;
+        return HttpResponse.accepted();
     }
 
 }

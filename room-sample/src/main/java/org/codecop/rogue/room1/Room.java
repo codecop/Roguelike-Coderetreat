@@ -1,6 +1,7 @@
 package org.codecop.rogue.room1;
 
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.inject.Singleton;
 
@@ -43,7 +44,7 @@ public class Room implements AnyRoom {
     }
 
     @Override
-    public void playerMoves(char direction) {
+    public Optional<String> playerMoves(char direction) {
         switch (direction) {
         case 'w':
             tryMove(playerX, playerY - 1);
@@ -58,6 +59,7 @@ public class Room implements AnyRoom {
             tryMove(playerX - 1, playerY);
             break;
         }
+        return Optional.empty();
     }
 
     private void tryMove(int x, int y) {

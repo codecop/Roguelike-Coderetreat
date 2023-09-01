@@ -2,6 +2,8 @@ package org.codecop.rogue.room1;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 
 class ExtendedRoomTest {
@@ -14,7 +16,8 @@ class ExtendedRoomTest {
         room.playerMoves('s');
         room.playerMoves('d');
         room.playerMoves('d');
-        room.playerMoves('d');
+        Optional<String> message = room.playerMoves('d');
+        assertEquals("The door is locked.", message.get());
 
         String display = room.display();
         assertEquals("" + //
@@ -37,7 +40,8 @@ class ExtendedRoomTest {
         room.playerMoves('s');
         room.playerMoves('s');
         room.playerMoves('s');
-        room.playerMoves(' ');
+        Optional<String> message = room.playerMoves(' ');
+        assertEquals("There is a key in the chest.", message.get());
 
         String display = room.display();
         assertEquals("" + //

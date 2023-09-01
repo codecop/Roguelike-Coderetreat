@@ -50,8 +50,10 @@ Perform actions:
 
     post localhost:8003/1/?action=[wasd ]
 
-to move around ('wasd') and search (' ').
+to move around ('wasd') and search (' ') and returns optional message how the operation went:
 
-There is also a room /2/ with a chest and a key.
+    { 
+      "message": "The door is locked."
+    }
 
-
+There is also a room /2/ with a chest and a key which has a locked door and returns messages.

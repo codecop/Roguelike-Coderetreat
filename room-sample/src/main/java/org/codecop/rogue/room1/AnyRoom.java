@@ -1,6 +1,7 @@
 package org.codecop.rogue.room1;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AnyRoom {
 
@@ -14,7 +15,7 @@ public interface AnyRoom {
     List<Item> getLegend();
     // TODO checker: needs legend for all extra items, bzw nicht notwendig wenn in description sind.
 
-    void playerMoves(char direction);
+    Optional<String> playerMoves(char direction);
     // TODO checker: check for space around @ and send one move to get updated display
 
 }

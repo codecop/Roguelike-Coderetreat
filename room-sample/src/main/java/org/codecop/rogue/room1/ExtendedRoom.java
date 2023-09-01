@@ -2,6 +2,7 @@ package org.codecop.rogue.room1;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import jakarta.inject.Singleton;
 
@@ -75,25 +76,22 @@ public class ExtendedRoom implements AnyRoom {
     }
 
     @Override
-    public void playerMoves(char direction) {
+    public Optional<String> playerMoves(char direction) {
         switch (direction) {
         case 'w':
-            moveTo(playerX, playerY - 1);
-            break;
+            return moveTo(playerX, playerY - 1);
         case 'd':
-            moveTo(playerX + 1, playerY);
-            break;
+            return moveTo(playerX + 1, playerY);
         case 's':
-            moveTo(playerX, playerY + 1);
-            break;
+            return moveTo(playerX, playerY + 1);
         case 'a':
-            moveTo(playerX - 1, playerY);
-            break;
+            return moveTo(playerX - 1, playerY);
         case ' ':
             boolean nearPlayer = isNearPlayer(chestX, chestY);
             if (hasChest && nearPlayer) {
                 hasChest = false;
                 hasKey = true;
+                return Optional.of("There is a key in the chest.");
             } else if (hasKey && nearPlayer) {
                 hasChest = false;
                 hasKey = false;
@@ -101,18 +99,25 @@ public class ExtendedRoom implements AnyRoom {
             }
             break;
         }
+        return Optional.empty();
     }
 
-    private void moveTo(int x, int y) {
+    private Optional<String> moveTo(int x, int y) {
         if (layoutIsEmptyAt(x, y)) {
             playerX = x;
             playerY = y;
-            return;
+            return Optional.empty();
         }
-        if (doorIsOpen && layoutIsDoorAt(x, y)) {
-            playerX = x;
-            playerY = y;
+        if (layoutIsDoorAt(x, y)) {
+            if (doorIsOpen) {
+                playerX = x;
+                playerY = y;
+                return Optional.empty();
+            }
+            
+            return Optional.of("The door is locked.");
         }
+        return Optional.of("Ouch, you bump into the wall.");
     }
 
     private boolean layoutIsEmptyAt(int x, int y) {
