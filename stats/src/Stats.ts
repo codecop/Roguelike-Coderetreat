@@ -31,18 +31,21 @@ export default class Stats {
         return this.hp > 0;
     }
 
-    hasDynamic(id: string): boolean {
+    private hasDynamic(id: string): boolean {
         return this.dynamic[id] != undefined;
     }
 
-    createDynamic(id: string): void {
-        if (this.dynamic[id] == undefined) {
+    private createDynamic(id: string): void {
+        if (!this.hasDynamic(id)) {
             this.dynamic[id] = 0;
         }
     }
 
     getDynamic(id: string): number {
-        return this.dynamic[id];
+        if (this.hasDynamic(id)) {
+            return this.dynamic[id];
+        }
+        return 0;
     }
 
     incDynamic(id: string): void {

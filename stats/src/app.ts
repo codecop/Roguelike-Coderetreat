@@ -26,14 +26,12 @@ async function createApp() {
 
             res.json({ hp: stats.getHp(), alive: stats.alive() });
 
-        } else if (stats.hasDynamic(id)) {
+        } else {
 
             const result: any = {};
             result[id] = stats.getDynamic(id);
             res.json(result);
 
-        } else {
-            res.status(404).json();
         }
 
     });
@@ -81,7 +79,8 @@ async function createApp() {
         const id = req.params.id;
 
         if (id === 'hp') {
-            res.status(400).json();
+            stats.resetHp();
+            res.status(202).json();
 
         } else {
             stats.resetDynamic(id);

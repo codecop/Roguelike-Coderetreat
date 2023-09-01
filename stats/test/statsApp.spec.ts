@@ -12,7 +12,7 @@ describe('Stats App', () => {
         app = await createApp();
     });
 
-    it('show HP', async () => {
+    it('get HP', async () => {
         const response = await request(app).
             get('/stats/hp').
             expect(200);
@@ -23,44 +23,42 @@ describe('Stats App', () => {
         expect(body.alive).equal(true);
     });
 
-    it('updates HP', async () => {
+    it('update HP', async () => {
         await request(app).
             post('/stats/hp').
             query('action=hit').
             expect(201);
 
-        const { body: body1 } = await request(app).get('/stats/hp');
-        expect(body1.hp).equal(9);
+        const { body: bodyDecreased } = await request(app).get('/stats/hp');
+        expect(bodyDecreased.hp).equal(9);
 
         await request(app).
             post('/stats/hp').
             query('action=heal').
             expect(201);
 
-        const { body: body2 } = await request(app).get('/stats/hp');
-        expect(body2.hp).equal(10);
+        const { body: bodyIncreased } = await request(app).get('/stats/hp');
+        expect(bodyIncreased.hp).equal(10);
     });
 
     it('dynamic attribute level', async () => {
-        await request(app).
-            get('/stats/level').
-            expect(404);
+        const { body } = await request(app).get('/stats/level');
+        expect(body.level).equal(0);
 
         await request(app).
             post('/stats/level').
             query('action=inc').
             expect(201);
 
-        const { body } = await request(app).get('/stats/level');
-        expect(body.level).equal(1);
+        const { body: bodyIncreased } = await request(app).get('/stats/level');
+        expect(bodyIncreased.level).equal(1);
 
         await request(app).
             del('/stats/level').
             expect(202);
 
-        await request(app).
-            get('/stats/level').
-            expect(404);
+        const { body: bodyReset } = await request(app).get('/stats/level');
+        expect(bodyReset.level).equal(0);
     });
 
 });

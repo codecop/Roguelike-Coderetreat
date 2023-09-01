@@ -42,12 +42,12 @@ To update the HP:
 
 to reset, decrease of increase the HP during a game.
 
-There are dynamic stats, e.g. a level counter
+There are dynamic stats, e.g. gold, XP, level counter, AC, etc.
 
     post to localhost:8002/stats/level?action=inc
     post to localhost:8002/stats/level?action=dec
 
-and after the first write, it is available to query
+and it is available to query
 
     get localhost:8002/stats/level
 
@@ -55,8 +55,6 @@ with JSON body
 
     { "level": 1 }
 
-otherwise it is 404.
-
-To remove the dynamic counter again:
+To remove (reset to zero) the dynamic counter again:
 
     delete localhost:8002/stats/level
