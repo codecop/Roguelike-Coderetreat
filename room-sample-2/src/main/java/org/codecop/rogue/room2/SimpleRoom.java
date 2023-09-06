@@ -19,7 +19,6 @@ public class SimpleRoom implements AnyRoom {
             "#     #\n" + //
             "#######\n").toCharArray();
     private final int columns = new String(initialLayout).replaceAll("\n.*", "").length();
-    // private final int rows = new String(initialLayout).replaceAll("[^\n]", "").length();
 
     private int playerX = 3;
     private int playerY = 1;
@@ -52,6 +51,16 @@ public class SimpleRoom implements AnyRoom {
     }
 
     @Override
+    public boolean canExitDoor() {
+        return doorIsOpen;
+    }
+
+    @Override
+    public Optional<String> interactWith(Item item) {
+        return Optional.empty();
+    }
+
+    @Override
     public String description() {
         return "You are in a little square room. There is nothing here.";
     }
@@ -61,13 +70,4 @@ public class SimpleRoom implements AnyRoom {
         return null;
     }
 
-    @Override
-    public boolean canExitDoor() {
-        return doorIsOpen;
-    }
-
-    @Override
-    public Optional<String> interactWith(Item item) {
-        return Optional.empty();
-    }
 }
