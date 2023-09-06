@@ -1,2 +1,15 @@
+*.pyc
+.cache
+__pycache__
+
+# Idea
+.idea
+*.iml
+
+# Eclipse
+.project
+.pydevproject
+.settings
+
 # created by virtualenv automatically
 venv
