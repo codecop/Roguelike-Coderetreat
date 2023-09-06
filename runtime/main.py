@@ -1,35 +1,48 @@
 import threading
-import click
-from flask import Flask, request, jsonify
+import requests
+import asyncio
 
 from src.game.game import Game
 
-app = Flask(__name__)
 
-
-@app.route("/input", methods=["POST"])
-def input_handler():
+def get_room(*args):
     global game
     try:
-        json_data = request.get_json()
+        json_data = requests.get("http://localhost:8082/room/").json()
         game.update(json_data["room"])
-        return jsonify({"result": json_data}), 200
+        print("Updated room...")
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        print(str(e))
 
 
-@click.command()
-@click.option("--host", default="127.0.0.1", help="Host address to bind to.")
-@click.option("--port", default=5000, help="Port to listen on.")
-def run_server(host, port):
-    global app
-    app.run(host=host, port=port)
+async def periodic():
+    while True:
+        print("Getting room.")
+        get_room()
+        await asyncio.sleep(1)
+
+
+def stop():
+    task.cancel()
+
+
+loop = asyncio.get_event_loop()
+loop.call_later(5, stop)
+task = loop.create_task(periodic())
+
+
+def run():
+    global loop
+    try:
+        loop.run_until_complete(task)
+    except asyncio.CancelledError:
+        pass
 
 
 if __name__ == "__main__":
-    web_server_thread = threading.Thread(target=run_server)
-    web_server_thread.daemon = True
-    web_server_thread.start()
+    asyncio_thread = threading.Thread(target=run)
+    asyncio_thread.daemon = True
+    asyncio_thread.start()
 
     game = Game()
     game.mainloop()
