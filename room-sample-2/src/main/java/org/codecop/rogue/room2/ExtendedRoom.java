@@ -89,12 +89,12 @@ public class ExtendedRoom implements AnyRoom {
 
     @Override
     public Optional<String> interactWith(Item item) {
-        if (item.getItem() == SYMBOL_CHEST) {
+        if (item.getItem().charAt(0) == SYMBOL_CHEST) {
             hasChest = false;
             hasKey = true;
             return Optional.of("There is a key in the chest.");
         }
-        if (item.getItem() == SYMBOL_KEY) {
+        if (item.getItem().charAt(0) == SYMBOL_KEY) {
             hasChest = false;
             hasKey = false;
             doorIsOpen = true;

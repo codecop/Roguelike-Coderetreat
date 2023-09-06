@@ -5,22 +5,22 @@ import io.micronaut.serde.annotation.Serdeable;
 @Serdeable
 public class Item {
 
-    private char item;
+    private String item;
     private String description;
 
     public Item() {
     }
 
     public Item(char item, String description) {
-        this.item = item;
+        this.item = "" + item;
         this.description = description;
     }
 
-    public char getItem() {
+    public String getItem() {
         return item;
     }
 
-    public void setItem(char item) {
+    public void setItem(String item) {
         this.item = item;
     }
 
