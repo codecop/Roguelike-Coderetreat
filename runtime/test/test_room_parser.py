@@ -1,8 +1,8 @@
 import unittest
-from src.building_blocks.door import Door
-from src.building_blocks.player import Player
+from src.room_parser.building_blocks.door import Door
+from src.room_parser.building_blocks.player import Player
 
-from src.building_blocks.wall import Wall
+from src.room_parser.building_blocks.wall import Wall
 from src.room_parser.room_parser import RoomParser
 
 

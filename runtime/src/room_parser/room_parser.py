@@ -1,4 +1,4 @@
-from src.building_blocks.create_building_block_from_string import (
+from src.room_parser.building_blocks.create_building_block_from_string import (
     create_building_block_from_string,
 )
 

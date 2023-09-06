@@ -1,11 +1,11 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 
-from src.building_blocks.door import Door
-from src.building_blocks.wall import Wall
-from src.building_blocks.empty import Empty
+from src.room_parser.building_blocks.door import Door
+from src.room_parser.building_blocks.wall import Wall
+from src.room_parser.building_blocks.empty import Empty
 
-from src.building_blocks.player import Player
+from src.room_parser.building_blocks.player import Player
 
 
 def tile_pos(col, row):
@@ -140,7 +140,7 @@ class UI:
             self.room[player_row][player_col] = Empty()
             self.draw()
 
-            self._game.move(col, row)
+            self._game.move(player_col + dCol, player_row + dRow)
 
     def _bindKeys(self):
         self.window.bind("<Left>", self._left)
