@@ -122,7 +122,7 @@
                 <configuration>
                     <compilerArgs>
                         <arg>-Amicronaut.processing.group=org.codecop.rogue</arg>
-                        <arg>-Amicronaut.processing.module=rogue-template-micronaut</arg>
+                        <arg>-Amicronaut.processing.module=rogue-room-sample</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>

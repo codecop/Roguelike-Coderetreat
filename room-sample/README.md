@@ -14,6 +14,15 @@ To start the application:
 
     mvn mn:run
 
+## Room Setup
+
+This is a setup which needs more logic on the room's side. There are two end-points:
+
+* get the room
+* send an action
+
+The room has to keep track of player coordinates, if a player can walk into a direction and so on.
+
 ## Progress and Times
 
 Minimal functionality, 5 tests and 40' for me = 2 sessions for people.
