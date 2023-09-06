@@ -5,6 +5,8 @@ from src.ui.ui import UI
 
 
 class Game:
+    stats = {}
+
     def __init__(self):
         self.ui = UI(self)
 
@@ -16,5 +18,15 @@ class Game:
     def mainloop(self):
         self.ui.mainloop()
 
+    def get_stats(self):
+        try:
+            response = requests.get("http://localhost:8002/stats/hp")
+            self.stats = response.json()
+            print("Updated stats...", self.stats, response.json())
+            self.ui.draw_stats()
+        except Exception as e:
+            print(str(e), response)
+
     def move(self, col, row):
-        requests.post("http://127.0.0.1/move", data={"col": col, "row": row})
+        requests.post("http://localhost:8003/1/move", data={"col": col, "row": row})
+        requests.post("http://localhost:8002/stats?hit")

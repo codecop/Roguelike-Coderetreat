@@ -1,4 +1,4 @@
-from tkinter import *
+import tkinter as tk
 from PIL import Image, ImageTk
 
 from src.building_blocks.door import Door
@@ -20,13 +20,13 @@ class UI:
     def __init__(self, game):
         self._game = game
 
-        self.window = Tk()
+        self.window = tk.Tk()
         self._initWindowGeometry(self.window)
 
-        self.canvas = Canvas(
+        self.canvas = tk.Canvas(
             self.window,
-            width=25 * UI.tile_size + UI.tile_size + UI.tile_size,
-            height=25 * UI.tile_size + UI.tile_size + UI.tile_size,
+            width=15 * UI.tile_size + UI.tile_size + UI.tile_size,
+            height=15 * UI.tile_size + UI.tile_size + UI.tile_size,
             bg="white",
         )
 
@@ -41,10 +41,44 @@ class UI:
         self.door_img_src = self._createTkImage("door.png")
         self.canvas.pack(pady=20)
 
+        ## Showing stats
+
+        # Function to update the frame height based on text content
+        def update_frame_height():
+            frame_height = self.text.winfo_reqheight() + (2 * 10)
+            self.frame.config(height=frame_height)
+
+        # Create a frame with a dynamic height
+        self.frame = tk.Frame(self.window, width=300, height=300)
+        self.frame.pack_propagate(False)  # Disable automatic resizing of the frame
+        self.frame.pack()
+
+        # Create a label with centered text inside the frame
+        self.text = tk.Label(
+            self.frame,
+            text=str(self._game.stats),
+            padx=10,
+            pady=10,
+            highlightbackground="black",
+            highlightthickness=2,
+        )
+        self.text.pack(
+            fill=tk.BOTH, expand=True
+        )  # Center the text and fill the available space
+
+        # Bind the label text update to changes in the label's text
+        self.text.bind("<Configure>", lambda event: update_frame_height())
+
+        # Initialize the frame height based on the initial text
+        update_frame_height()
+
         self._bindKeys()
 
     def set_room(self, room):
         self.room = room
+
+    def draw_stats(self):
+        self.text.config(text=str(self._game.stats))
 
     def draw(self):
         if self.room is None:
@@ -58,21 +92,21 @@ class UI:
                 pos = tile_pos(col_pos, row_pos)
                 if isinstance(block, Player):
                     self.player_img = self.canvas.create_image(
-                        pos[0], pos[1], anchor=NW, image=self.player_img_src
+                        pos[0], pos[1], anchor=tk.NW, image=self.player_img_src
                     )
                 if isinstance(block, Wall):
                     self.canvas.create_image(
-                        pos[0], pos[1], anchor=NW, image=self.wall_img_src
+                        pos[0], pos[1], anchor=tk.NW, image=self.wall_img_src
                     )
                 if isinstance(block, Door):
                     self.canvas.create_image(
-                        pos[0], pos[1], anchor=NW, image=self.door_img_src
+                        pos[0], pos[1], anchor=tk.NW, image=self.door_img_src
                     )
 
     def mainloop(self):
         self.window.mainloop()
 
-    def _initWindowGeometry(self, window: Tk):
+    def _initWindowGeometry(self, window: tk.Tk):
         window.geometry(
             f"{25*UI.tile_size +  + UI.tile_size}x{25*UI.tile_size +  + UI.tile_size}"
         )
@@ -93,8 +127,6 @@ class UI:
         self._move(0, 1)
 
     def _move(self, dCol, dRow):
-        print(self.room)
-
         player_col, player_row = None, None
         for row in range(len(self.room)):
             for col in range(len(self.room[row])):

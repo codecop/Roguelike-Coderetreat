@@ -16,9 +16,11 @@ def get_room(*args):
 
 
 async def periodic():
+    global game
     while True:
         print("Getting room.")
         get_room()
+        game.get_stats()
         await asyncio.sleep(1)
 
 
@@ -40,9 +42,10 @@ def run():
 
 
 if __name__ == "__main__":
+    game = Game()
+
     asyncio_thread = threading.Thread(target=run)
     asyncio_thread.daemon = True
     asyncio_thread.start()
 
-    game = Game()
     game.mainloop()
