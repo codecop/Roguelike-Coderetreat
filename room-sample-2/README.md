@@ -42,17 +42,16 @@ returns JSON body with
       "layout": "#######\n#  @  #\n#     #\n#     |\n#     #\n#     #\n#######\n"
     }
 
-Check if the door is open or locked:
+(Description is optional.) Check if the door is open or locked:
 
     get http://localhost:8004/1/open
 
-returns `true` or `false`. To walk around use:
+returns `true` or `false`. (If this is 404 then the door is open.) To walk around use:
 
     post localhost:8004/1/walk?row=3&column=5
 
-sends the new coordinate to the room which has to update its internal representation, so the `@` is in the right place.
-
-To interact with items:
+sends the new coordinate to the room which has to update its internal 
+representation, so the `@` is in the right place. To interact with items:
 
     post localhost:8004/1/interact?item=c
 
@@ -62,4 +61,5 @@ This returns optional message how the operation went:
       "message": "You found a key."
     }
 
+(The whole interaction and its message is optional. 404 is OK.) 
 There is also a room /2/ with a chest and a key which has a locked door to test.
