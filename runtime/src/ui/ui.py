@@ -1,6 +1,3 @@
-from multiprocessing.managers import DictProxy
-import requests
-
 from tkinter import *
 from PIL import Image, ImageTk
 
@@ -20,7 +17,9 @@ def tile_pos(col, row):
 class UI:
     tile_size = 50
 
-    def __init__(self):
+    def __init__(self, game):
+        self._game = game
+
         self.window = Tk()
         self._initWindowGeometry(self.window)
 
@@ -109,7 +108,7 @@ class UI:
             self.room[player_row][player_col] = Empty()
             self.draw()
 
-            requests.post("http://127.0.0.1/move", data={"move": (dCol, dRow)})
+            self._game.move(col, row)
 
     def _bindKeys(self):
         self.window.bind("<Left>", self._left)
