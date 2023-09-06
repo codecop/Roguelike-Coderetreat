@@ -1,0 +1,19 @@
+micronaut:
+  application:
+    name: room-sample-2
+  server:
+    port: 8004
+  router:
+    static-resources: 
+        default:
+            enabled: false
+
+  http:
+    services:
+      foo:
+        url: 'http://127.0.0.1:8080'
+
+netty:
+  default:
+    allocator:
+      max-order: 3
