@@ -36,9 +36,9 @@ class UI:
             text="Waiting for a room to be provided...",
         )
 
-        self.player_img_src = self._createTkImage("player.png")
-        self.wall_img_src = self._createTkImage("wall.png")
-        self.door_img_src = self._createTkImage("door.png")
+        self.player_img_src = self._createTkImage("gfx/player.png")
+        self.wall_img_src = self._createTkImage("gfx/wall.png")
+        self.door_img_src = self._createTkImage("gfx/door.png")
         self.canvas.pack(pady=20)
 
         ## Showing stats
