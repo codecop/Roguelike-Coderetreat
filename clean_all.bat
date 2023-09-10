@@ -34,3 +34,8 @@ rmdir /S /Q dist
 rmdir /S /Q node_modules
 del package-lock.json
 cd ..
+
+@rem Python
+cd runtime
+del /s *.pyc
+cd ..
