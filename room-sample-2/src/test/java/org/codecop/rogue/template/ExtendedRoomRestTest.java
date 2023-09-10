@@ -20,7 +20,7 @@ class ExtendedRoomRestTest {
     @Test
     public void findKey() {
         String body = client.toBlocking().retrieve( // 
-                HttpRequest.POST("/2/interact?item=c", ""));
+                HttpRequest.POST("/key/interact?item=c", ""));
         assertEquals("{\"message\":\"There is a key in the chest.\"}", body);
     }
 

@@ -28,5 +28,5 @@ class Game:
             print(str(e), response)
 
     def move(self, col, row):
-        requests.post("http://localhost:8003/1/move", data={"col": col, "row": row})
-        requests.post("http://localhost:8002/stats?hit")
+        requests.post("http://localhost:8004/empty/walk", data={"col": col, "row": row})
+        requests.post("http://localhost:8002/stats/hp?action=hit")

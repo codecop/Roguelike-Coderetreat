@@ -33,7 +33,7 @@ tbd
 
 Get the room:
 
-    get localhost:8004/1/
+    get localhost:8004/empty/
 
 returns JSON body with
 
@@ -44,16 +44,16 @@ returns JSON body with
 
 (Description is optional.) Check if the door is open or locked:
 
-    get http://localhost:8004/1/open
+    get http://localhost:8004/empty/open
 
 returns `true` or `false`. (If this is 404 then the door is open.) To walk around use:
 
-    post localhost:8004/1/walk?row=3&column=5
+    post localhost:8004/empty/walk?row=3&column=5
 
 sends the new coordinate to the room which has to update its internal 
 representation, so the `@` is in the right place. To interact with items:
 
-    post localhost:8004/1/interact?item=c
+    post localhost:8004/empty/interact?item=c
 
 This returns optional message how the operation went:
 
@@ -61,5 +61,5 @@ This returns optional message how the operation went:
       "message": "You found a key."
     }
 
-(The whole interaction and its message is optional. 404 is OK.) 
-There is also a room /2/ with a chest and a key which has a locked door to test.
+(The whole interaction and its message is optional. 404 is OK.)
+There is also a room `/key/` with a chest and a key which has a locked door to test.

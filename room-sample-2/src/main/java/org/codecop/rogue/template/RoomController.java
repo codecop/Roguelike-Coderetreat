@@ -22,17 +22,21 @@ import io.micronaut.http.annotation.QueryValue;
 @Controller
 public class RoomController {
 
-    private final Map<Integer, AnyRoom> rooms = new HashMap<>();
+    private final Map<String, AnyRoom> rooms = new HashMap<>();
 
     public RoomController(SimpleRoom room1, ExtendedRoom room2) {
-        rooms.put(1, room1);
-        rooms.put(2, room2);
+        // legacy lookup
+        rooms.put("1", room1);
+        rooms.put("2", room2);
+
+        rooms.put("empty", room1);
+        rooms.put("key", room2);
     }
 
-    @Get("/{number}/")
+    @Get("/{id}/")
     @Produces(MediaType.APPLICATION_JSON)
-    public HttpResponse<RoomResource> getLayout(@PathVariable Integer number) {
-        AnyRoom room = rooms.get(number);
+    public HttpResponse<RoomResource> getLayout(@PathVariable String id) {
+        AnyRoom room = rooms.get(id);
 
         RoomResource response = new RoomResource(room.description(), room.layout());
         response.setLegend(room.getLegend());
@@ -40,21 +44,21 @@ public class RoomController {
         return HttpResponse.ok().body(response);
     }
 
-    @Get("/{number}/open")
+    @Get("/{id}/open")
     @Produces(MediaType.APPLICATION_JSON)
-    public HttpResponse<Boolean> isDoorOpen(@PathVariable Integer number) {
-        AnyRoom room = rooms.get(number);
+    public HttpResponse<Boolean> isDoorOpen(@PathVariable String id) {
+        AnyRoom room = rooms.get(id);
 
         boolean canExitDoor = room.canExitDoor();
 
         return HttpResponse.ok().body(canExitDoor);
     }
 
-    @Post("/{number}/walk")
+    @Post("/{id}/walk")
     @Produces(MediaType.APPLICATION_JSON)
-    public HttpResponse<MessageResource> walk(@PathVariable Integer number, @QueryValue("row") int row,
+    public HttpResponse<MessageResource> walk(@PathVariable String id, @QueryValue("row") int row,
             @QueryValue("column") int column) {
-        AnyRoom room = rooms.get(number);
+        AnyRoom room = rooms.get(id);
 
         Optional<String> message = room.movesTo(new Position(row, column));
 
@@ -65,10 +69,10 @@ public class RoomController {
         return HttpResponse.accepted();
     }
 
-    @Post("/{number}/interact")
+    @Post("/{id}/interact")
     @Produces(MediaType.APPLICATION_JSON)
-    public HttpResponse<MessageResource> interact(@PathVariable Integer number, @QueryValue("item") char item) {
-        AnyRoom room = rooms.get(number);
+    public HttpResponse<MessageResource> interact(@PathVariable String id, @QueryValue("item") char item) {
+        AnyRoom room = rooms.get(id);
 
         Optional<String> message = room.interactWith(new Item(item, null));
 
