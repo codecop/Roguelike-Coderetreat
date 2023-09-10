@@ -68,3 +68,6 @@ This returns optional message how the operation went:
 There is a room `/key/` with a chest to interact and a key which has a locked door to test.
 
 The room `/minimal/` is the smallest implementation, only layout and walk(ing). Other end-points are 404.
+
+Room `/large/` has a 50x50 grid, the door is in the middle on the right.
+   

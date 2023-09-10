@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.codecop.rogue.room2.AnyRoom;
 import org.codecop.rogue.room2.ExtendedRoom;
 import org.codecop.rogue.room2.Item;
+import org.codecop.rogue.room2.LargeRoom;
 import org.codecop.rogue.room2.Position;
 import org.codecop.rogue.room2.SimpleRoom;
 
@@ -24,13 +25,14 @@ public class RoomController {
 
     private final Map<String, AnyRoom> rooms = new HashMap<>();
 
-    public RoomController(SimpleRoom room1, ExtendedRoom room2) {
+    public RoomController(SimpleRoom room1, ExtendedRoom room2, LargeRoom room3) {
         // legacy lookup
         rooms.put("1", room1);
         rooms.put("2", room2);
 
         rooms.put("empty", room1);
         rooms.put("key", room2);
+        rooms.put("large", room3);
     }
 
     @Get("/{id}/")

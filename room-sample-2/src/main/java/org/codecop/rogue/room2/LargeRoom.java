@@ -5,23 +5,20 @@ import java.util.Optional;
 import jakarta.inject.Singleton;
 
 @Singleton
-public class SimpleRoom implements AnyRoom {
+public class LargeRoom implements AnyRoom {
 
-    private static final char SYMBOL_PLAYER = '@';
+    private static final int SIZE = 50;
 
     private final char[] initialLayout = ("" + //
-            "#######\n" + //
-            "#     #\n" + //
-            "#     #\n" + //
-            "#     |\n" + //
-            "#     #\n" + //
-            "#     #\n" + //
-            "#######\n").toCharArray();
+            times("#", SIZE) + "\n" + //
+            times("#" + times(" ", SIZE - 2) + "#\n", (SIZE - 3) / 2) + //
+            "#" + times(" ", SIZE - 2) + "|\n" + //
+            times("#" + times(" ", SIZE - 2) + "#\n", (SIZE - 3) / 2) + //
+            times("#", SIZE) + "\n").toCharArray();
     private final int columns = new String(initialLayout).replaceAll("\n.*", "").length();
 
-    private int playerX = 3;
+    private int playerX = 1;
     private int playerY = 1;
-    private boolean doorIsOpen = true;
 
     @Override
     public String layout() {
@@ -30,8 +27,16 @@ public class SimpleRoom implements AnyRoom {
         return new String(layout);
     }
 
+    private String times(String s, int number) {
+        StringBuilder buf = new StringBuilder();
+        for (int i = 0; i < number; i++) {
+            buf.append(s);
+        }
+        return buf.toString();
+    }
+
     private void setPlayerTo(char[] layout) {
-        layout[playerAsIndex()] = SYMBOL_PLAYER;
+        layout[playerAsIndex()] = '@';
     }
 
     private int playerAsIndex() {
@@ -47,16 +52,6 @@ public class SimpleRoom implements AnyRoom {
         playerX = newPosition.getColumn();
         playerY = newPosition.getRow();
         return Optional.empty();
-    }
-
-    @Override
-    public boolean canExitDoor() {
-        return doorIsOpen;
-    }
-
-    @Override
-    public String description() {
-        return "You are in a little square room. There is nothing here.";
     }
 
 }

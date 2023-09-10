@@ -5,16 +5,24 @@ import java.util.Optional;
 
 public interface AnyRoom {
 
-    String description();
+    default String description() {
+        return null;
+    }
 
     String layout();
 
-    List<Item> getLegend();
+    default List<Item> getLegend() {
+        return null;
+    }
 
     Optional<String> movesTo(Position newPosition);
 
-    boolean canExitDoor();
+    default boolean canExitDoor() {
+        return true;
+    }
 
-    Optional<String> interactWith(Item item);
+    default Optional<String> interactWith(@SuppressWarnings("unused") Item item) {
+        return Optional.empty();
+    }
 
 }
