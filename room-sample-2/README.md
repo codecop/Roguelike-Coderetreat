@@ -42,7 +42,7 @@ returns JSON body with
       "layout": "#######\n#  @  #\n#     #\n#     |\n#     #\n#     #\n#######\n"
     }
 
-(Description is optional.) Check if the door is open or locked:
+(Description is optional.) Check if the door is open or locked with:
 
     get http://localhost:8004/empty/open
 
@@ -62,4 +62,9 @@ This returns optional message how the operation went:
     }
 
 (The whole interaction and its message is optional. 404 is OK.)
-There is also a room `/key/` with a chest and a key which has a locked door to test.
+
+### Other Sample Rooms
+
+There is a room `/key/` with a chest to interact and a key which has a locked door to test.
+
+The room `/minimal/` is the smallest implementation, only layout and walk(ing). Other end-points are 404.

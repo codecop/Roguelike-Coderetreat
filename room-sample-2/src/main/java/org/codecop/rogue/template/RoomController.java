@@ -37,6 +37,9 @@ public class RoomController {
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<RoomResource> getLayout(@PathVariable String id) {
         AnyRoom room = rooms.get(id);
+        if (room == null) {
+            return HttpResponse.notFound();
+        }
 
         RoomResource response = new RoomResource(room.description(), room.layout());
         response.setLegend(room.getLegend());
@@ -48,6 +51,10 @@ public class RoomController {
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<Boolean> isDoorOpen(@PathVariable String id) {
         AnyRoom room = rooms.get(id);
+        if (room == null) {
+            System.out.println("404");
+            return HttpResponse.notFound();
+        }
 
         boolean canExitDoor = room.canExitDoor();
 
@@ -59,6 +66,9 @@ public class RoomController {
     public HttpResponse<MessageResource> walk(@PathVariable String id, @QueryValue("row") int row,
             @QueryValue("column") int column) {
         AnyRoom room = rooms.get(id);
+        if (room == null) {
+            return HttpResponse.notFound();
+        }
 
         Optional<String> message = room.movesTo(new Position(row, column));
 
@@ -73,6 +83,9 @@ public class RoomController {
     @Produces(MediaType.APPLICATION_JSON)
     public HttpResponse<MessageResource> interact(@PathVariable String id, @QueryValue("item") char item) {
         AnyRoom room = rooms.get(id);
+        if (room == null) {
+            return HttpResponse.notFound();
+        }
 
         Optional<String> message = room.interactWith(new Item(item, null));
 
