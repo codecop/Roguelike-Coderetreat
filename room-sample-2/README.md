@@ -65,9 +65,10 @@ This returns optional message how the operation went:
 
 ### Other Sample Rooms
 
-There is a room `/key/` with a chest to interact and a key which has a locked door to test.
+There is a room `/key/` with a chest to interact and a key which has a locked door to test. This is a nice room which can be demo-ed.
 
 The room `/minimal/` is the smallest implementation, only layout and walk(ing). Other end-points are 404.
 
 Room `/large/` has a 50x50 grid, the door is in the middle on the right.
-   
+
+Room `/monster/` has a zombie which is chasing and killing the player (using `/stats/` service). It moves towards the player and hits it every 3 ticks. This is a nice room which can be demo-ed.
