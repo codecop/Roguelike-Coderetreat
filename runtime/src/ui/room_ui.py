@@ -98,11 +98,7 @@ class RoomUi:
         self._move(0, 1)
 
     def _move(self, dCol: int, dRow: int):
-        player_col, player_row = None, None
-        for row in range(len(self.room)):
-            for col in range(len(self.room[row])):
-                if isinstance(self.room[row][col], Player):
-                    player_col, player_row = col, row
+        player_col, player_row = self._get_player_position()
 
         new_player_col, new_player_row = player_col + dCol, player_row + dRow
         if isinstance(self.room[new_player_row][new_player_col], Empty):
@@ -114,9 +110,45 @@ class RoomUi:
 
             self._move_player(new_player_col, new_player_row)
 
+    def _act(self, *args):
+        player_col, player_row = self._get_player_position()
+
+        n = (0, -1)
+        ne = (1, -1)
+        e = (1, 0)
+        se = (1, 1)
+        s = (0, 1)
+        sw = (-1, 1)
+        w = (-1, 0)
+        nw = (-1, -1)
+
+        item_to_act_on = None
+        for direction in [n, ne, e, se, s, sw, w, nw]:
+            d_col, d_row = direction
+            block = self._get_block_or_empty(player_col + d_col, player_row + d_row)
+            if isinstance(block, Item):
+                item_to_act_on = block
+
+        print(item_to_act_on)
+        self._do_action(item_to_act_on)
+
+    def _get_block_or_empty(self, col, row):
+        try:
+            return self.room[row][col]
+        except IndexError:
+            return Empty()
+
+    def _get_player_position(self):
+        player_col, player_row = None, None
+        for row in range(len(self.room)):
+            for col in range(len(self.room[row])):
+                if isinstance(self.room[row][col], Player):
+                    player_col, player_row = col, row
+        return player_col, player_row
+
     def _bindKeys(self):
         self.window.bind("<Left>", self._left)
         self.window.bind("<Right>", self._right)
         self.window.bind("<Up>", self._up)
         self.window.bind("<Down>", self._down)
-        self.window.bind("<space>", self._do_action)
+        self.window.bind("<space>", self._act)
