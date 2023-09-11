@@ -16,7 +16,9 @@ class UI:
         self.window = tk.Tk()
         self._initWindowGeometry(self.window)
 
-        self._room_ui = room_ui.RoomUi(self.window, self._move_player, self._do_action)
+        self._room_ui = room_ui.RoomUi(
+            self.window, self._move_player, self._do_action, self._exit_room
+        )
         self._stats_ui = stats_ui.StatsUI(self.window)
         self._room_decription_ui = room_description_ui.RoomDescriptionUI(self.window)
 
@@ -31,6 +33,12 @@ class UI:
     def update_stats(self, stats):
         self._stats_ui.update_stats(stats)
 
+    def open_door(self):
+        self._room_ui.open_door()
+
+    def close_door(self):
+        self._room_ui.close_door()
+
     def mainloop(self):
         self.window.mainloop()
 
@@ -44,3 +52,6 @@ class UI:
 
     def _do_action(self, *args):
         self._game.do_action(*args)
+
+    def _exit_room(self, *args):
+        self._game.exit_room()

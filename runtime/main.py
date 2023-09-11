@@ -3,14 +3,12 @@ import asyncio
 from src import game_service
 
 from src.game.game import Game
-from test.test_game_service import GameService
 
 
 async def tick():
-    global game_service
+    global game
     while True:
-        game_service.get_room()
-        game_service.get_stats()
+        game.tick()
         await asyncio.sleep(0.5)
 
 
@@ -27,7 +25,6 @@ if __name__ == "__main__":
     loop.create_task(tick())
 
     game = Game()
-    game_service = GameService(game)
 
     asyncio_thread = threading.Thread(target=run)
     asyncio_thread.daemon = True

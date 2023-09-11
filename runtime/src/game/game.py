@@ -1,46 +1,58 @@
-import requests
-from src.endpoint_provider.endpoint_provider import EndpointProvider
+from src.endpoints.endpoints import Endpoints
 from src.room_parser.building_blocks.item import Item
 
 from src.room_parser.room_parser import RoomParser
 from src.ui.ui import UI
+from src.game_service.game_service import GameService
 
 
 class Game:
-    stats = {}
-
     def __init__(self):
         self.ui = UI(self)
-        self.current_room_index = 0
-        self.endpoint_provider = EndpointProvider()
+        self.endpoints = Endpoints()
+        self.game_service = GameService(self.endpoints)
 
-    def update_room(self, room_json):
-        room = RoomParser().parse(room_json["layout"])
-        self.ui.update_room(room)
-        self.ui.draw()
+    def tick(self):
+        self._get_room()
+        self._get_stats()
+        self._check_if_door_is_open()
 
-    def update_stats(self, stats):
-        self.stats = stats
-        self.ui.update_stats(stats)
+    def _get_room(self):
+        room_json = self.game_service.get_room()
+        if room_json:
+            room = RoomParser().parse(room_json["layout"])
+            self.ui.update_room(room)
+            self.ui.draw()
+
+    def _get_stats(self):
+        stats_json = self.game_service.get_stats()
+        self.ui.update_stats(stats_json)
         self.ui.draw()
 
     def move_player_to(self, col, row):
-        response = requests.post(f"{self.room_url}/walk?column={col}&row={row}")
-        if "application/json" in response.headers.get("Content-Type", ""):
-            print("Move response: ", str(response.json()))
+        response_json = self.game_service.move(col, row)
+        if response_json is not None:
+            print("Move response: ", str(response_json))
         else:
             print("Response does not contain JSON data")
 
     def do_action(self, item: Item | None):
-        print("Action on", item.identifier if item is not None else None)
+        response_json = self.game_service.act(item)
+        if response_json is not None:
+            print("Interact response: ", str(response_json))
+        else:
+            print("Response does not contain JSON data")
 
-    @property
-    def room_url(self):
-        return self.endpoint_provider.rooms_endpoints[self.current_room_index]
+    def _check_if_door_is_open(self):
+        is_door_open = self.game_service.open()
+        if is_door_open:
+            self.ui.open_door()
+        else:
+            self.ui.close_door()
 
-    def next_room(self):
-        rooms_count = len(self.endpoint_provider.rooms_endpoints)
-        self.current_room_index = (self.current_room_index + 1) % rooms_count
+    def exit_room(self):
+        print("Exiting room")
+        exit()
 
     def mainloop(self):
         self.ui.mainloop()
