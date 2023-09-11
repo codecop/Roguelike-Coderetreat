@@ -16,18 +16,21 @@ class Game:
         self._get_room()
         self._get_stats()
         self._check_if_door_is_open()
+        self.ui.draw()
 
     def _get_room(self):
         room_json = self.game_service.get_room()
         if room_json:
             room = RoomParser().parse(room_json["layout"])
             self.ui.update_room(room)
-            self.ui.draw()
+            self.ui.update_room_decription(room_json["description"])
 
     def _get_stats(self):
         stats_json = self.game_service.get_stats()
-        self.ui.update_stats(stats_json)
-        self.ui.draw()
+        if stats_json is not None and stats_json.get("alive"):
+            self.ui.update_stats(stats_json)
+        else:
+            self.ui.die()
 
     def move_player_to(self, col, row):
         response_json = self.game_service.move(col, row)

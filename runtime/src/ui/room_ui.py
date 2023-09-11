@@ -38,19 +38,21 @@ class RoomUi:
         )
 
         self.player_img_src = self._createTkImage("gfx/player.png")
+        self.dead_img_src = self._createTkImage("gfx/dead.png")
         self.wall_img_src = self._createTkImage("gfx/wall.png")
         self.door_img_src = self._createTkImage("gfx/door-open.png")
         self.door_closed_img_src = self._createTkImage("gfx/door.png")
 
         self.canvas.grid(row=0, column=0)
 
+        self._room = None
         self._is_door_open = False
-        self.room = None
+        self._is_dead = False
 
         self._bindKeys()
 
     def update_room(self, room):
-        self.room = room
+        self._room = room
 
     def open_door(self):
         self._is_door_open = True
@@ -58,19 +60,27 @@ class RoomUi:
     def close_door(self):
         self._is_door_open = False
 
+    def die(self):
+        self._is_dead = True
+
     def draw(self):
-        if self.room is None:
+        if self._room is None:
             return
 
         for obj in self.canvas.find_all():
             self.canvas.delete(obj)
 
-        for col_pos, room_row in enumerate(self.room):
+        for col_pos, room_row in enumerate(self._room):
             for row_pos, block in enumerate(room_row):
                 pos = tile_pos(col_pos, row_pos)
                 if isinstance(block, Player):
                     self.player_img = self.canvas.create_image(
-                        pos[0], pos[1], anchor=tk.NW, image=self.player_img_src
+                        pos[0],
+                        pos[1],
+                        anchor=tk.NW,
+                        image=self.player_img_src
+                        if not self._is_dead
+                        else self.dead_img_src,
                     )
                 if isinstance(block, Wall):
                     self.canvas.create_image(
@@ -109,6 +119,9 @@ class RoomUi:
         self._move(0, 1)
 
     def _move(self, dCol: int, dRow: int):
+        if self._is_dead:
+            return
+
         player_col, player_row = self._get_player_position()
         new_player_col, new_player_row = player_col + dCol, player_row + dRow
         if self._tile_is_empty(new_player_col, new_player_row):
@@ -120,19 +133,19 @@ class RoomUi:
             self._exit_room()
 
     def _tile_is_empty(self, new_player_col, new_player_row):
-        return isinstance(self.room[new_player_row][new_player_col], Empty)
+        return isinstance(self._room[new_player_row][new_player_col], Empty)
 
     def _tile_is_open_door(self, new_player_col, new_player_row):
         return (
-            isinstance(self.room[new_player_row][new_player_col], Door)
+            isinstance(self._room[new_player_row][new_player_col], Door)
             and self._is_door_open
         )
 
     def _draw_and_move_player(
         self, player_col, player_row, new_player_col, new_player_row
     ):
-        self.room[new_player_row][new_player_col] = self.room[player_row][player_col]
-        self.room[player_row][player_col] = Empty()
+        self._room[new_player_row][new_player_col] = self._room[player_row][player_col]
+        self._room[player_row][player_col] = Empty()
         self.draw()
         self._move_player(new_player_col, new_player_row)
 
@@ -160,15 +173,15 @@ class RoomUi:
 
     def _get_block_or_empty(self, col, row):
         try:
-            return self.room[row][col]
+            return self._room[row][col]
         except IndexError:
             return Empty()
 
     def _get_player_position(self):
         player_col, player_row = None, None
-        for row in range(len(self.room)):
-            for col in range(len(self.room[row])):
-                if isinstance(self.room[row][col], Player):
+        for row in range(len(self._room)):
+            for col in range(len(self._room[row])):
+                if isinstance(self._room[row][col], Player):
                     player_col, player_row = col, row
         return player_col, player_row
 

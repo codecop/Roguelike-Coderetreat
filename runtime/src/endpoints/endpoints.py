@@ -1,6 +1,6 @@
 class Endpoints:
     stats_endpoint = "http://localhost:8002/stats"
-    rooms_endpoints = ["http://localhost:8004/key"]
+    rooms_endpoints = ["http://localhost:8004/monster"]
 
     def __init__(self):
         self.current_room_index = 0
