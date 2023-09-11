@@ -11,5 +11,7 @@ __pycache__
 .pydevproject
 .settings
 
+.vscode
+
 # created by virtualenv automatically
 venv
