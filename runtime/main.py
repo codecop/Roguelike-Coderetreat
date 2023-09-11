@@ -1,48 +1,33 @@
 import threading
-import requests
 import asyncio
+from src import game_service
 
 from src.game.game import Game
+from test.test_game_service import GameService
 
 
-def get_room(*args):
-    global game
-    try:
-        json_data = requests.get("http://localhost:8082/room/").json()
-        game.update(json_data["room"])
-        print("Updated room...")
-    except Exception as e:
-        print(str(e))
-
-
-async def periodic():
-    global game
+async def tick():
+    global game_service
     while True:
-        print("Getting room.")
-        get_room()
-        game.get_stats()
-        await asyncio.sleep(1)
-
-
-def stop():
-    task.cancel()
-
-
-loop = asyncio.get_event_loop()
-loop.call_later(5, stop)
-task = loop.create_task(periodic())
+        game_service.get_room()
+        game_service.get_stats()
+        await asyncio.sleep(0.5)
 
 
 def run():
     global loop
     try:
-        loop.run_until_complete(task)
+        loop.run_forever()
     except asyncio.CancelledError:
         pass
 
 
 if __name__ == "__main__":
+    loop = asyncio.get_event_loop()
+    loop.create_task(tick())
+
     game = Game()
+    game_service = GameService(game)
 
     asyncio_thread = threading.Thread(target=run)
     asyncio_thread.daemon = True

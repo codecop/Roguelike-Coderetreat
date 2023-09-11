@@ -10,21 +10,25 @@ class Game:
     def __init__(self):
         self.ui = UI(self)
 
-    def update(self, room_string: str):
-        room = RoomParser().parse(room_string)
-        self.ui.set_room(room)
+    def update_room(self, room_json):
+        room = RoomParser().parse(room_json["layout"])
+
+        print(room_json["description"])
+
+        self.ui.update_room(room)
         self.ui.draw()
+
+    def update_stats(self, stats):
+        self.stats = stats
+        self.ui.update_stats(stats)
+        self.ui.draw()
+
+    def move_player_to(self, col, row):
+        response = requests.post(f"http://localhost:8003/1/walk?column={col}&row={row}")
+        print("Move response: ", str(response.json()))
+
+    def do_action(self, *args):
+        print("Action")
 
     def mainloop(self):
         self.ui.mainloop()
-
-    def get_stats(self):
-        response = requests.get("http://localhost:8002/stats/hp")
-        self.stats = response.json()
-        print("Updated stats...", self.stats, response.json())
-        self.ui.draw_stats()
-
-    def move(self, col, row):
-        print("sending col, row", col, row)
-        response = requests.post(f"http://localhost:8004/1/walk?column={col}&row={row}")
-        print(str(response.json()))
