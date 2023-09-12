@@ -1,3 +1,5 @@
+from random import shuffle
+import random
 from src.endpoints.endpoints import Endpoints
 from src.room_parser.building_blocks.item import Item
 
@@ -37,14 +39,15 @@ class Game:
             self.ui.log(f"You moved. The room stays silent...")
 
     def do_action(self, item: Item | None):
-        self.ui.log(f"")
+        interact_words = ["bash", "probe", "enchant", "inspect", "interact with"]
+        random.shuffle(interact_words)
         response_json = self.game_service.act(item)
         message = self.extract_message(response_json)
         if response_json is not None:
-            self.ui.log(f"You interacted with {item.identifier}... {message}.")
+            self.ui.log(f"You {interact_words[0]} {item.identifier}... {message}.")
         else:
             self.ui.log(
-                f"You interacted with {item.identifier}. The room stays silent..."
+                f"You {interact_words[0]} {item.identifier}. The room stays silent..."
             )
 
     def extract_message(self, response_json):
@@ -82,7 +85,7 @@ class Game:
             if stats_json.get("alive"):
                 self.ui.update_stats(stats_json)
             else:
-                self.ui.log("You've dieded.")
+                self.ui.log("You are dead.")
                 self.ui.die()
 
         self._previous_stats = stats_json
