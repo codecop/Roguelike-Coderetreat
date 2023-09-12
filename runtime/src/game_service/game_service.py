@@ -13,6 +13,9 @@ class GameService:
     def get_stats(self):
         return self._request(f"{self.endpoints.stats_endpoint}/hp")
 
+    def reset_stats(self):
+        return self._request(f"{self.endpoints.stats_endpoint}/hp?action=reset", "POST")
+
     def move(self, column, row):
         return self._request(
             f"{self.endpoints.room_url}/walk?column={column}&row={row}", "POST"

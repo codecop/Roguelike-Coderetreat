@@ -3,10 +3,11 @@ import tkinter as tk
 
 class RoomDescriptionUI:
     tile_size = 50
+    default_text = "Waiting for room description..."
 
     def __init__(self, window: tk.Tk):
         self.window = window
-        self.room_description = "Waiting for room description..."
+        self.room_description = RoomDescriptionUI.default_text
 
         self.frame = tk.Frame(
             self.window,
@@ -20,7 +21,7 @@ class RoomDescriptionUI:
 
         self.text = tk.Label(
             self.frame,
-            text="Waiting for room description...",
+            text=self.room_description,
             padx=10,
             pady=10,
         )
@@ -29,6 +30,9 @@ class RoomDescriptionUI:
         self.text.bind("<Configure>", self._update_frame_height)
 
         self._update_frame_height()
+
+    def reset(self):
+        self.room_description = RoomDescriptionUI.default_text
 
     def draw(self):
         self.text.config(text=str(self.room_description))

@@ -1,15 +1,14 @@
 import threading
 import asyncio
-from src import game_service
 
-from src.game.game import Game
+from src.runtime import create_game
 
 
 async def tick():
     global game
     while True:
         game.tick()
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(0.2)
 
 
 def run():
@@ -24,10 +23,10 @@ if __name__ == "__main__":
     loop = asyncio.get_event_loop()
     loop.create_task(tick())
 
-    game = Game()
+    game = create_game()
 
     asyncio_thread = threading.Thread(target=run)
     asyncio_thread.daemon = True
     asyncio_thread.start()
 
-    game.mainloop()
+    game.start()

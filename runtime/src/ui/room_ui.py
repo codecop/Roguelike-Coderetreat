@@ -1,3 +1,5 @@
+import threading
+import time
 import tkinter as tk
 from PIL import Image, ImageTk
 
@@ -51,6 +53,11 @@ class RoomUi:
 
         self._bindKeys()
 
+    def reset(self):
+        self._room = None
+        self._is_door_open = False
+        self._is_dead = False
+
     def update_room(self, room):
         self._room = room
 
@@ -66,9 +73,8 @@ class RoomUi:
     def draw(self):
         if self._room is None:
             return
-
-        for obj in self.canvas.find_all():
-            self.canvas.delete(obj)
+        self.canvas.delete("all")
+        self.canvas.update_idletasks()
 
         for col_pos, room_row in enumerate(self._room):
             for row_pos, block in enumerate(room_row):
@@ -119,18 +125,22 @@ class RoomUi:
         self._move(0, 1)
 
     def _move(self, dCol: int, dRow: int):
-        if self._is_dead:
+        if self._is_dead or self._room is None:
             return
 
         player_col, player_row = self._get_player_position()
-        new_player_col, new_player_row = player_col + dCol, player_row + dRow
-        if self._tile_is_empty(new_player_col, new_player_row):
+        desired_player_col, desired_player_row = player_col + dCol, player_row + dRow
+
+        if self._tile_is_empty(desired_player_col, desired_player_row):
             self._draw_and_move_player(
-                player_col, player_row, new_player_col, new_player_row
+                player_col, player_row, desired_player_col, desired_player_row
             )
 
-        if self._tile_is_open_door(new_player_col, new_player_row):
+        elif self._tile_is_open_door(desired_player_col, desired_player_row):
             self._exit_room()
+
+        elif self._tile_is_item(desired_player_col, desired_player_row):
+            self._act(self._room[desired_player_row][desired_player_col])
 
     def _tile_is_empty(self, new_player_col, new_player_row):
         return isinstance(self._room[new_player_row][new_player_col], Empty)
@@ -141,6 +151,9 @@ class RoomUi:
             and self._is_door_open
         )
 
+    def _tile_is_item(self, new_player_col, new_player_row):
+        return isinstance(self._room[new_player_row][new_player_col], Item)
+
     def _draw_and_move_player(
         self, player_col, player_row, new_player_col, new_player_row
     ):
@@ -149,27 +162,8 @@ class RoomUi:
         self.draw()
         self._move_player(new_player_col, new_player_row)
 
-    def _act(self, *args):
-        player_col, player_row = self._get_player_position()
-
-        n = (0, -1)
-        ne = (1, -1)
-        e = (1, 0)
-        se = (1, 1)
-        s = (0, 1)
-        sw = (-1, 1)
-        w = (-1, 0)
-        nw = (-1, -1)
-
-        item_to_act_on = None
-        for direction in [n, ne, e, se, s, sw, w, nw]:
-            d_col, d_row = direction
-            block = self._get_block_or_empty(player_col + d_col, player_row + d_row)
-            if isinstance(block, Item):
-                item_to_act_on = block
-
-        print(item_to_act_on)
-        self._do_action(item_to_act_on)
+    def _act(self, item: Item):
+        self._do_action(item)
 
     def _get_block_or_empty(self, col, row):
         try:
@@ -190,4 +184,3 @@ class RoomUi:
         self.window.bind("<Right>", self._right)
         self.window.bind("<Up>", self._up)
         self.window.bind("<Down>", self._down)
-        self.window.bind("<space>", self._act)

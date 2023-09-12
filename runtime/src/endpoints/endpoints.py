@@ -1,8 +1,14 @@
+import random
+
+
 class Endpoints:
     stats_endpoint = "http://localhost:8002/stats"
-    rooms_endpoints = ["http://localhost:8004/monster"]
+    rooms_endpoints = []
 
-    def __init__(self):
+    def __init__(self, room_endpoints):
+        self.rooms_endpoints = room_endpoints
+        random.seed(10)
+        random.shuffle(self.rooms_endpoints)
         self.current_room_index = 0
 
     @property
@@ -11,4 +17,6 @@ class Endpoints:
 
     def next_room(self):
         rooms_count = len(self.rooms_endpoints)
-        self.current_room_index = (self.current_room_index + 1) % rooms_count
+        if self.current_room_index >= rooms_count - 1:
+            exit()
+        self.current_room_index = self.current_room_index + 1
