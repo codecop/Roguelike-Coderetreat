@@ -1,5 +1,3 @@
-import threading
-import time
 import tkinter as tk
 from PIL import Image, ImageTk
 
@@ -11,13 +9,15 @@ from src.room_parser.building_blocks.player import Player
 
 
 def tile_pos(col, row):
-    pos_y = col * RoomUi.tile_size
-    pos_x = row * RoomUi.tile_size
+    pos_y = col * RoomUI.tile_size
+    pos_x = row * RoomUI.tile_size
     return (pos_x, pos_y)
 
 
-class RoomUi:
+class RoomUI:
     tile_size = 50
+    width = 15 * 50
+    height = 15 * 50
 
     def __init__(self, window: tk.Tk, move_player, do_action, exit_room):
         self.window = window
@@ -28,8 +28,8 @@ class RoomUi:
 
         self.canvas = tk.Canvas(
             self.window,
-            width=15 * RoomUi.tile_size + RoomUi.tile_size + RoomUi.tile_size,
-            height=15 * RoomUi.tile_size + RoomUi.tile_size + RoomUi.tile_size,
+            width=RoomUI.width,
+            height=RoomUI.height,
             bg="white",
         )
 
@@ -45,13 +45,16 @@ class RoomUi:
         self.door_img_src = self._createTkImage("gfx/door-open.png")
         self.door_closed_img_src = self._createTkImage("gfx/door.png")
 
-        self.canvas.grid(row=0, column=0)
+        self.canvas.grid(row=0, column=0, sticky="W")
 
         self._room = None
         self._is_door_open = False
         self._is_dead = False
 
         self._bindKeys()
+
+    def grid(self, *args, **kwargs):
+        self.canvas.grid(*args, **kwargs)
 
     def reset(self):
         self._room = None
@@ -103,10 +106,11 @@ class RoomUi:
                     )
                 if isinstance(block, Item):
                     self.canvas.create_text(
-                        pos[0] + RoomUi.tile_size // 2,
-                        pos[1] + RoomUi.tile_size // 2,
+                        pos[0] + RoomUI.tile_size // 2,
+                        pos[1] + RoomUI.tile_size // 2,
                         anchor=tk.CENTER,
                         text=block.identifier,
+                        font=("Purisa", 20),
                     )
 
     def _createTkImage(self, path):

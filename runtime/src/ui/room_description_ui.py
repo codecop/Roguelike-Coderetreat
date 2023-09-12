@@ -17,7 +17,6 @@ class RoomDescriptionUI:
             highlightthickness=2,
         )
         self.frame.pack_propagate(False)  # Disable automatic resizing of the frame
-        self.frame.grid(row=2, column=1)
 
         self.text = tk.Label(
             self.frame,
@@ -30,6 +29,9 @@ class RoomDescriptionUI:
         self.text.bind("<Configure>", self._update_frame_height)
 
         self._update_frame_height()
+
+    def grid(self, *args, **kwargs):
+        self.frame.grid(*args, **kwargs)
 
     def reset(self):
         self.room_description = RoomDescriptionUI.default_text

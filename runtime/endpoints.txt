@@ -1,1 +1,4 @@
-http://localhost:8004/large
+http://localhost:8004/monster
+http://localhost:8004/2
+http://localhost:8004/1
+http://localhost:8004/key

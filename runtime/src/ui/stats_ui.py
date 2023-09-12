@@ -16,7 +16,6 @@ class StatsUI:
             highlightthickness=2,
         )
         self.frame.pack_propagate(False)  # Disable automatic resizing of the frame
-        self.frame.grid(row=0, column=1)
 
         self.text = tk.Label(
             self.frame,
@@ -29,6 +28,9 @@ class StatsUI:
         self.text.bind("<Configure>", self._update_frame_height)
 
         self._update_frame_height()
+
+    def grid(self, *args, **kwargs):
+        self.frame.grid(*args, **kwargs)
 
     def draw(self):
         self.text.config(text=str(self.stats))
