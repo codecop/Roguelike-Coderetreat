@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter.font import ROMAN
 from PIL import Image, ImageTk
 
 from src.room_parser.building_blocks.door import Door
@@ -44,6 +45,9 @@ class RoomUI:
         self.wall_img_src = self._createTkImage("gfx/wall.png")
         self.door_img_src = self._createTkImage("gfx/door-open.png")
         self.door_closed_img_src = self._createTkImage("gfx/door.png")
+        self.win_img_src = self._createTkImage(
+            "gfx/medal.png", RoomUI.width, RoomUI.height
+        )
 
         self.canvas.grid(row=0, column=0, sticky="W")
 
@@ -113,8 +117,12 @@ class RoomUI:
                         font=("Purisa", 20),
                     )
 
-    def _createTkImage(self, path):
-        return ImageTk.PhotoImage(Image.open(path).resize((50, 50)))
+    def display_win_screen(self):
+        self.canvas.delete("all")
+        self.canvas.create_image(0, 0, anchor=tk.NW, image=self.win_img_src)
+
+    def _createTkImage(self, path, width=50, height=50):
+        return ImageTk.PhotoImage(Image.open(path).resize((width, height)))
 
     def _left(self, e):
         self._move(-1, 0)

@@ -18,5 +18,5 @@ class Endpoints:
     def next_room(self):
         rooms_count = len(self.rooms_endpoints)
         if self.current_room_index >= rooms_count - 1:
-            exit()
+            return True
         self.current_room_index = self.current_room_index + 1

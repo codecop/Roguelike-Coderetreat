@@ -1,4 +1,3 @@
-from re import I
 from src.endpoints.endpoints import Endpoints
 from src.room_parser.building_blocks.item import Item
 
@@ -58,7 +57,11 @@ class Game:
 
     def exit_room(self):
         self.ui.log(f"You escaped from the room!")
-        self.endpoints.next_room()
+        won = self.endpoints.next_room()
+        if won:
+            self._is_running = False
+            self.ui.log(f"Congratulations! You've won the Coderetreat :-)")
+            self.ui.display_win_screen()
         self.ui.reset()
 
     def _get_room(self):

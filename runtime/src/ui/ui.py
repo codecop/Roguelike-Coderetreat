@@ -1,7 +1,4 @@
-import threading
-import time
 import tkinter as tk
-from PIL import Image, ImageTk
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -34,11 +31,7 @@ class UI:
         self._stats_ui.grid(row=1, column=1, sticky="new")
         self._log_ui.grid(row=2, column=0, sticky="nsew")
 
-        self.window.grid_rowconfigure(0, weight=1, pad=0)
-        self.window.grid_rowconfigure(1, weight=1, pad=0)
-        self.window.grid_rowconfigure(2, weight=1, pad=0)
-        self.window.grid_columnconfigure(0, weight=1, pad=0)
-        self.window.grid_columnconfigure(1, weight=1, pad=0)
+        self.window.bind("<space>", self._exit_room)
 
     def reset(self):
         self._room_ui.reset()
@@ -71,6 +64,13 @@ class UI:
     def log(self, text: str):
         self._log_ui.add_line(text)
 
+    def display_win_screen(self):
+        self._room_decription_ui.update_room_decription(
+            "This is a room where you can place your big medal."
+        )
+        self._stats_ui.update_stats("You are the shit.")
+        self._room_ui.display_win_screen()
+
     def mainloop(self):
         self._run()
         self.window.mainloop()
@@ -99,6 +99,11 @@ class UI:
         window.geometry(
             f"{25*UI.tile_size +  + UI.tile_size}x{25*UI.tile_size +  + UI.tile_size}"
         )
+        self.window.grid_rowconfigure(0, weight=1, pad=0)
+        self.window.grid_rowconfigure(1, weight=1, pad=0)
+        self.window.grid_rowconfigure(2, weight=1, pad=0)
+        self.window.grid_columnconfigure(0, weight=1, pad=0)
+        self.window.grid_columnconfigure(1, weight=1, pad=0)
 
     def _move_player(self, col, row):
         self._game.move_player_to(col, row)
