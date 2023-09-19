@@ -24,6 +24,16 @@ class Game:
         self.game_service.reset_stats()
         self.ui.mainloop()
 
+    def restart(self):
+        self.ui.log(f"Restart - let's try one more time.")
+        self.ui.log(f"----------------------------------")
+
+        self._is_running = True
+        self._previous_stats = None
+        self.game_service.reset_stats()
+        self.ui.reset()
+        self.endpoints.restart()
+
     def tick(self):
         if self._is_running:
             self._get_room()

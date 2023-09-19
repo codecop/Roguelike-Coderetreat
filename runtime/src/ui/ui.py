@@ -32,6 +32,7 @@ class UI:
         self._log_ui.grid(row=2, column=0, sticky="nsew")
 
         self.window.bind("<space>", self._exit_room)
+        self.window.bind("<Return>", self._restart)
 
     def reset(self):
         self._room_ui.reset()
@@ -66,7 +67,7 @@ class UI:
 
     def display_win_screen(self):
         self._room_decription_ui.win()
-        self._stats_ui.update_stats("Dead or alive, does it matter anymore?")
+        self._stats_ui.update_stats("You live to see the next day...")
         self._room_ui.display_win_screen()
 
     def mainloop(self):
@@ -111,3 +112,6 @@ class UI:
 
     def _exit_room(self, *args):
         self._game.exit_room()
+
+    def _restart(self, *args):
+        self._game.restart()

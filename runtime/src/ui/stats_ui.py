@@ -13,7 +13,7 @@ class StatsUI:
         self.frame = tk.Frame(
             self.window,
             width=300,
-            height=300,
+            height=400,
             highlightbackground="black",
             highlightthickness=2,
         )
@@ -29,10 +29,6 @@ class StatsUI:
             fg="black",
         )
         self.text.pack(fill=tk.BOTH, expand=True)
-
-        self.text.bind("<Configure>", self._update_frame_height)
-
-        self._update_frame_height()
 
     def grid(self, *args, **kwargs):
         self.frame.grid(*args, **kwargs)
@@ -54,15 +50,10 @@ class StatsUI:
                 color = "orange"
             else:
                 color = "red"
-
-        except ValueError:
+        except (ValueError, TypeError):
             pass
 
         self.text.config(text=text, fg=color)
 
     def update_stats(self, stats: dict):
         self.stats = stats
-
-    def _update_frame_height(self, *args):
-        frame_height = self.text.winfo_reqheight() + 20
-        self.frame.config(height=frame_height)
