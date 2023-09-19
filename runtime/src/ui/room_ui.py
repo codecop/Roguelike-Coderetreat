@@ -34,12 +34,6 @@ class RoomUI:
             bg="white",
         )
 
-        self.canvas.create_text(
-            200,
-            200,
-            text="Waiting for a room to be provided...",
-        )
-
         self.player_img_src = self._createTkImage("gfx/player.png")
         self.dead_img_src = self._createTkImage("gfx/dead.png")
         self.wall_img_src = self._createTkImage("gfx/wall.png")
@@ -78,10 +72,15 @@ class RoomUI:
         self._is_dead = True
 
     def draw(self):
-        if self._room is None:
-            return
         self.canvas.delete("all")
         self.canvas.update_idletasks()
+        if self._room is None:
+            self.canvas.create_text(
+                200,
+                200,
+                text="Waiting for a valid room to be provided...",
+            )
+            return
 
         for col_pos, room_row in enumerate(self._room):
             for row_pos, block in enumerate(room_row):
@@ -155,7 +154,10 @@ class RoomUI:
             self._act(self._room[desired_player_row][desired_player_col])
 
     def _tile_is_empty(self, new_player_col, new_player_row):
-        return isinstance(self._room[new_player_row][new_player_col], Empty)
+        try:
+            return isinstance(self._room[new_player_row][new_player_col], Empty)
+        except IndexError:
+            return False
 
     def _tile_is_open_door(self, new_player_col, new_player_row):
         return (
