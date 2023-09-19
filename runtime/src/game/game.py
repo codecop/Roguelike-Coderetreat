@@ -65,7 +65,8 @@ class Game:
             self._is_running = False
             self.ui.log(f"Congratulations! You've won the Coderetreat :-)")
             self.ui.display_win_screen()
-        self.ui.reset()
+        else:
+            self.ui.reset()
 
     def _get_room(self):
         room_json = self.game_service.get_room()
@@ -89,6 +90,7 @@ class Game:
             if stats_json.get("alive"):
                 self.ui.update_stats(stats_json)
             else:
+                self.ui.update_stats(stats_json)
                 self.ui.log("You are dead.")
                 self.ui.die()
 

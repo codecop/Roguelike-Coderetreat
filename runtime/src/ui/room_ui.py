@@ -48,6 +48,7 @@ class RoomUI:
         self._room = None
         self._is_door_open = False
         self._is_dead = False
+        self._won = False
 
         self._bindKeys()
 
@@ -58,6 +59,7 @@ class RoomUI:
         self._room = None
         self._is_door_open = False
         self._is_dead = False
+        self._won = False
 
     def update_room(self, room):
         self._room = room
@@ -72,8 +74,12 @@ class RoomUI:
         self._is_dead = True
 
     def draw(self):
+        if self._won:
+            return
+
         self.canvas.delete("all")
         self.canvas.update_idletasks()
+
         if self._room is None:
             self.canvas.create_text(
                 200,
@@ -117,6 +123,7 @@ class RoomUI:
                     )
 
     def display_win_screen(self):
+        self._won = True
         self.canvas.delete("all")
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.win_img_src)
 

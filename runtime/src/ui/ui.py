@@ -65,10 +65,8 @@ class UI:
         self._log_ui.add_line(text)
 
     def display_win_screen(self):
-        self._room_decription_ui.update_room_decription(
-            "This is a room where you can place your big medal."
-        )
-        self._stats_ui.update_stats("You are the shit.")
+        self._room_decription_ui.win()
+        self._stats_ui.update_stats("Dead or alive, does it matter anymore?")
         self._room_ui.display_win_screen()
 
     def mainloop(self):
