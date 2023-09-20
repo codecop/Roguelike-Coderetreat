@@ -37,11 +37,11 @@ class HelloAppTest {
         JsonPath json = getRoomLayout();
         String layout = json.get("layout");
         assertEquals(
-                "#######\n" +
-                "#@    #\n" +
-                "|     #\n" +
-                "#     #\n" +
-                "#######\n",
+                "#######\\n" +
+                "#@    #\\n" +
+                "|     #\\n" +
+                "#     #\\n" +
+                "#######\\n",
                 layout);
     }
 
@@ -88,11 +88,11 @@ class HelloAppTest {
         JsonPath json = getRoomLayout();
         String layout = json.get("layout");
         assertEquals(
-                        "#######\n" +
-                        "#     #\n" +
-                        "|     #\n" +
-                        "#    @#\n" +
-                        "#######\n",
+                        "#######\\n" +
+                        "#     #\\n" +
+                        "|     #\\n" +
+                        "#    @#\\n" +
+                        "#######\\n",
                 layout);
     }
 
