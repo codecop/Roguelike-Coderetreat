@@ -3,7 +3,7 @@ import random
 from src.endpoints.endpoints import Endpoints
 from src.room_parser.building_blocks.item import Item
 
-from src.room_parser.room_parser import RoomParser
+from src.room_parser.room_parser import RoomParseException, RoomParser
 from src.ui.ui import UI
 from src.game_service.game_service import GameService
 
@@ -23,6 +23,16 @@ class Game:
         self._previous_stats = None
         self.game_service.reset_stats()
         self.ui.mainloop()
+
+    def restart(self):
+        self.ui.log(f"Restart - let's try one more time.")
+        self.ui.log(f"----------------------------------")
+
+        self._is_running = True
+        self._previous_stats = None
+        self.game_service.reset_stats()
+        self.ui.reset()
+        self.endpoints.restart()
 
     def tick(self):
         if self._is_running:
@@ -65,14 +75,19 @@ class Game:
             self._is_running = False
             self.ui.log(f"Congratulations! You've won the Coderetreat :-)")
             self.ui.display_win_screen()
-        self.ui.reset()
+        else:
+            self.ui.reset()
 
     def _get_room(self):
         room_json = self.game_service.get_room()
         if room_json:
-            room = RoomParser().parse(room_json.get("layout", ""))
-            self.ui.update_room(room)
-            self.ui.update_room_decription(room_json.get("description", ""))
+            try:
+                room = RoomParser().parse(room_json.get("layout", ""))
+                self.ui.update_room(room)
+                self.ui.update_room_decription(room_json.get("description", ""))
+            except RoomParseException as e:
+                self.ui.update_room(None)
+                self.ui.update_room_decription(str(e))
 
     def _get_stats(self):
         stats_json = self.game_service.get_stats()
@@ -85,6 +100,7 @@ class Game:
             if stats_json.get("alive"):
                 self.ui.update_stats(stats_json)
             else:
+                self.ui.update_stats(stats_json)
                 self.ui.log("You are dead.")
                 self.ui.die()
 

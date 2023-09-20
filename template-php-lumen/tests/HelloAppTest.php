@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-class HelloControllerTest extends TestCase
+class HelloAppTest extends TestCase
 {
     /** @test */
     public function firstHello()

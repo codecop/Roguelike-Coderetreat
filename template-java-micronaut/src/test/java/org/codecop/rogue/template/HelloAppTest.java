@@ -15,7 +15,7 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
 import jakarta.inject.Inject;
 
 @MicronautTest
-class HelloRestTest {
+class HelloAppTest {
 
     @Inject
     EmbeddedApplication<?> application;
