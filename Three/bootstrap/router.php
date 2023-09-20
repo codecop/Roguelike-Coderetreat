@@ -11,5 +11,5 @@
 |
 */
 
-$router->get("/hello", 'HelloController@get');
-$router->post("/hello", 'HelloController@post');
+$router->get("/three", 'ThreeController@get');
+$router->post("/three/walk", 'ThreeController@post');
