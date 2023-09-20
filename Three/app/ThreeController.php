@@ -5,18 +5,19 @@ namespace App;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller;
 
-class HelloController extends Controller {
+class ThreeController extends Controller {
 
-    private $hello;
+    private $room;
 
-    public function __construct(Hello $hello)
+    public function __construct()
     {
-        $this->hello = $hello;
+        $this->room = new Room(10,10);
     }
 
     public function get(Request $request) {
+
         $data = array(
-            "name" => $this->hello->getName()
+            "layout" => $this->room->getStringifiedMap()
         );
         $content = json_encode($data);
 
@@ -25,9 +26,10 @@ class HelloController extends Controller {
     }
 
     public function post(Request $request) {
-        if ($request->exists('name')) {
-            $newName = $request->input('name');
-            $this->hello->setName($newName);
+        if ($request->exists('row') && $request->exists('column')) {
+            $newRow = $request->input('row');
+            $newColumn = $request->input('column');
+            $this->room->setPlayerPosition($newRow, $newColumn);
             return response('', 201);
         }
         return response('', 400);

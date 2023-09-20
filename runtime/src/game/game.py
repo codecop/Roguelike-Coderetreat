@@ -48,7 +48,7 @@ class Game:
         else:
             self.ui.log(f"You moved. The room stays silent...")
 
-    def do_action(self, item: Item | None):
+    def do_action(self, item):
         interact_words = ["bash", "probe", "enchant", "inspect", "interact with"]
         random.shuffle(interact_words)
         response_json = self.game_service.act(item)
