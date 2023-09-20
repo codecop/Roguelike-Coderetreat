@@ -12,9 +12,11 @@ class Room
 
     public function __construct($width = 10, $length = 10)
     {
-        $this->width = $width;
-        $this->length = $length;
-        $this->setupRoom();
+        if(!$this->map) {
+            $this->width = $width;
+            $this->length = $length;
+            $this->setupRoom();
+        }
     }
 
     public function setupRoom()
