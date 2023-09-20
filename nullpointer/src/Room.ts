@@ -12,7 +12,7 @@ export default class Room {
             "###########\n"
         this.room = roomString.split('');
 
-        this.playerPosition = this.convertPlayerArrayPositionToStringIndex(playerPosition);
+        this.playerPosition = this.convertArrayPositionToStringIndex(playerPosition);
         this.setPlayerPosition(playerPosition);
 
     }
@@ -24,15 +24,25 @@ export default class Room {
     setPlayerPosition(playerPosition){
         this.room.splice(this.playerPosition, 1, " ");
 
-        this.playerPosition = this.convertPlayerArrayPositionToStringIndex(playerPosition);
+        this.playerPosition = this.convertArrayPositionToStringIndex(playerPosition);
 
         this.room.splice(this.playerPosition, 1, "@");
     }
 
-    convertPlayerArrayPositionToStringIndex(playerPosition){
+    convertArrayPositionToStringIndex(playerPosition){
         const playerYIndex =  playerPosition[1] * (11 +1); // 11 = gridLength
         const playerXIndex = playerPosition[0];
         return playerXIndex + playerYIndex;
     }
 
+    setDoorOpener(doorOpenerPosition) {
+        this.room.splice(
+            this.convertArrayPositionToStringIndex(doorOpenerPosition),
+            1,
+            "X"
+        );
+    }
+    getNewField(column, row) {
+        return this.room[this.convertArrayPositionToStringIndex([column, row])];
+    }
 }

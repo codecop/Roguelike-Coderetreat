@@ -44,4 +44,20 @@ describe('Game', () => {
         );
     });
 
+    it('opens door if player steps on the door opener', () => {
+        const game = new Game();
+
+        expect(game.doorOpened).toBeFalsy();
+
+        game.room.setDoorOpener([9, 5]);
+
+        game.movePlayer([3, 4]);
+
+        expect(game.doorOpened).toBeFalsy();
+
+        game.movePlayer([9, 5]);
+
+        expect(game.doorOpened).toBeTruthy();
+    });
+
 });
