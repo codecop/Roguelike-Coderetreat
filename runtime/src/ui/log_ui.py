@@ -21,6 +21,7 @@ class LogUI(tk.Frame):
                 anchor="w",
                 padx=20,
                 pady=5,
+                font=("Courier New", 18),
             )
             label.pack(fill="both")
             self.label_widgets.append(label)
