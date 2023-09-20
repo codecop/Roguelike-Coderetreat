@@ -21,7 +21,7 @@ class GameService:
             f"{self.endpoints.room_url}/walk?column={column}&row={row}", "POST"
         )
 
-    def act(self, item: Item | None = None):
+    def act(self, item = None):
         item_param = f"item={item.identifier}" if item is not None else "item=c"
         return self._request(f"{self.endpoints.room_url}/interact?{item_param}", "POST")
 
