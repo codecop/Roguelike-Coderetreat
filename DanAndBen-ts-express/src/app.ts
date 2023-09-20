@@ -9,7 +9,8 @@ async function createApp() {
     
     app.get("/defaultRoom", async (_req, res) => {
         
-        res.json({ "layout": room.toString() });
+        res.json({ "layout": room.toString(),
+        "description": room.getDescription() });
     });
 
     app.post("/defaultRoom/walk", async (req, res) => {
