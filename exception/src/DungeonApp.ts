@@ -13,10 +13,11 @@ async function createApp() {
 
     });
 
-    app.post("/exception", async (req, res) => {
-        const { row, column } = req.body;
+    app.post("/exception/walk", async (req, res) => {
+        const { row, column } = req.query;
         if (row != undefined && column != undefined) {
-            dungeon.setNewPosition(row, column);
+            console.log("called", row, column)
+            dungeon.setNewPosition(Number(row), Number(column));
             res.status(201).json();
         } else {
             res.status(400).json();

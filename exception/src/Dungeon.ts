@@ -1,18 +1,18 @@
 export default class Dungeon {
     private currentPlayerPosition: Array<number> = [1,1]
 
-    setNewPosition(x: number, y: number) : void{
-        this.currentPlayerPosition = [x,y]
+    setNewPosition(row: number, column: number) : void{
+        this.currentPlayerPosition = [row,column]
     }
 
     print(): string {
 
         let layout = "";
 
-        Array(5).fill(null).forEach((_,y) => {
-            const isBottomLine =  y === 4;
-            Array(5).fill(null).forEach((_, x) => {
-                layout += this.createField(y, x, isBottomLine);
+        Array(5).fill(null).forEach((_,row) => {
+            const isBottomLine = row === 4;
+            Array(5).fill(null).forEach((_, column) => {
+                layout += this.createField(row, column, isBottomLine);
             })
             if(!isBottomLine) {
                 layout += "\n";
@@ -22,17 +22,18 @@ export default class Dungeon {
         return layout;
     }
 
-    private createField(y: number, x: number, isBottomLine: boolean) {
-        const hasDoor = y === 1 && x === 0;
+    private createField(row: number, column: number, isBottomLine: boolean) {
+        const hasDoor = column === 0 && row === 1;
         if (hasDoor) {
             return "|";
         } 
-        const hasPlayer = y === this.currentPlayerPosition[1] && x === this.currentPlayerPosition[0];
+        const hasPlayer = column === this.currentPlayerPosition[1] && row === this.currentPlayerPosition[0];
         if (hasPlayer) {
+            console.log(this.currentPlayerPosition)
             return "@";
         }
-        const isTopOrBottomLine = y === 0 || isBottomLine;
-        const isLeftOrRightLine = x === 0 || x === 4;
+        const isTopOrBottomLine = row === 0 || isBottomLine;
+        const isLeftOrRightLine = column === 0 || column === 4;
         if (!isTopOrBottomLine && !isLeftOrRightLine) {
             return " ";
         }
