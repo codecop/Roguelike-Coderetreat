@@ -18,7 +18,9 @@ class GameService:
 
     def move(self, column, row):
         return self._request(
-            f"{self.endpoints.room_url}/walk?column={column}&row={row}", "POST"
+            f"{self.endpoints.room_url}/walk?column={column}&row={row}",
+            "POST",
+            {"row": row, "column": column},
         )
 
     def act(self, item: Item | None = None):
@@ -28,7 +30,7 @@ class GameService:
     def open(self):
         return self._request(f"{self.endpoints.room_url}/open")
 
-    def _request(self, to_endpoint, method="GET", payload=None, print_exception=True):
+    def _request(self, to_endpoint, method="GET", payload=None, print_exception=False):
         try:
             request_method = requests.get if method == "GET" else requests.post
             response = request_method(to_endpoint, data=payload)
