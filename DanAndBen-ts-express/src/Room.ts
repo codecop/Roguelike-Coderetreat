@@ -65,4 +65,12 @@ export default class Room {
 
         return characterString;
     }
+    
+    public getDescription(): string {
+        if(this.playerColumn === 1 && this.playerRow === 5) {
+            return "Almost there!"
+        }
+        
+        return '';
+    }
 }
