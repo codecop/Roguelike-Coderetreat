@@ -29,7 +29,7 @@ export default class Room {
     }
 
     private startAndEndWall() {
-        let wall: string = '';
+        let wall: string;
         wall = this.repeatCharacter('#', this.xSize+2);
         wall += '\n';
 
