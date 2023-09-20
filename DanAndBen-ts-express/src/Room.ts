@@ -21,11 +21,10 @@ export default class Room {
         let space: string = '';
         for (let i = 0; i < this.ySize; i++) {
             space += '#';
-            for (let j = 0; j < this.xSize; j++) {
-                space += ' ' // TODO use repeatChars
-            }
+            space += this.repeatCharacter(' ', this.xSize);
             space += '#\n';
         }
+        
         return space;
     }
 
