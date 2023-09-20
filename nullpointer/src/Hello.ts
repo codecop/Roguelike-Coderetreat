@@ -8,4 +8,14 @@ export default class Hello {
     setName(name: string): void {
         this.name = name;
     }
+
+    createRoom():string {
+        return      "###########" +
+            "#         #" +
+            "#         #" +
+            "#         #" +
+            "#         |" +
+            "#         #" +
+            "###########";
+    }
 }
