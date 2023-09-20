@@ -20,3 +20,6 @@ class Endpoints:
         if self.current_room_index >= rooms_count - 1:
             return True
         self.current_room_index = self.current_room_index + 1
+
+    def restart(self):
+        self.current_room_index = 0
