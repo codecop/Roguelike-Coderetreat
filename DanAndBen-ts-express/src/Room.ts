@@ -1,14 +1,14 @@
 export default class Room {
     private xSize: number;
     private ySize: number;
-    private xPlayerPosition: number;
-    private yPlayerPosition: number;
+    private playerRow: number;
+    private playerColumn: number;
 
     constructor(xSize: number, ySize: number) {
         this.xSize = xSize;
         this.ySize = ySize;
-        this.xPlayerPosition = 0;
-        this.yPlayerPosition = 1;
+        this.playerRow = 2;
+        this.playerColumn = 1;
     }
 
     toString(): string {
@@ -21,19 +21,19 @@ export default class Room {
         return layout;
     }
 
-    public setNewPlayerPosition(xPlayerPosition: number, yPlayerPosition: number) {
-        this.xPlayerPosition = xPlayerPosition;
-        this.yPlayerPosition = yPlayerPosition;
+    public setNewPlayerPosition(playerRow: number, playerColumn: number) {
+        this.playerRow = playerRow;
+        this.playerColumn = playerColumn;
     }
 
     private middleSpace() {
         let space: string = '';
-        for (let i = 0; i < this.ySize; i++) {
+        for (let row = 1; row <= this.ySize; row++) {
             space += '#';
             let line = this.repeatCharacter(' ', this.xSize);
-            if (i === this.yPlayerPosition) { // line with character
-                line = this.repeatCharacter(' ', this.xPlayerPosition)
-                +'@' + line.substring(this.xPlayerPosition+1);
+            if (row === this.playerRow) { // line with character
+                line = this.repeatCharacter(' ', this.playerColumn-1)
+                +'@' + line.substring(this.playerColumn);
             }
             space += line;
             space += '#\n';

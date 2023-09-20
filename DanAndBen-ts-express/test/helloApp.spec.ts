@@ -29,18 +29,32 @@ describe('HelloApp', () => {
         await request(app).post('/defaultRoom/walk?row=3&column=5')
             // .send({ "newPlayerPosition": [3, 5] })
             .expect(201);
+        const response = await request(app).get('/defaultRoom').expect(200);
+
+        expect(response.header['content-type']).toBe('application/json; charset=utf-8');
+        expect(response.body.layout).toBe(`#######
+#     #
+#     #
+#    @#
+#     #
+#     #
+#|#####
+`);
+        
+        console.log(response.body.layout);
+            
     });
 
     it('default room with a character', () => {
         const room = new Room(5, 5);
 
-        room.setNewPlayerPosition(1, 1);
+        room.setNewPlayerPosition(4, 2);
 
         expect(room.toString()).toBe(`#######
 #     #
+#     #
+#     #
 # @   #
-#     #
-#     #
 #     #
 #|#####
 `)

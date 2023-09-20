@@ -32,7 +32,7 @@ describe('Room', () => {
     it('returns room with moved character', () => {
         const room = new Room(2,2);
         
-        room.setNewPlayerPosition(1,1);
+        room.setNewPlayerPosition(2,2);
         
         expect(room.toString()).toBe(`####
 #  #

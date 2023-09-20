@@ -20,7 +20,6 @@ class GameService:
         return self._request(
             f"{self.endpoints.room_url}/walk?column={column}&row={row}",
             "POST",
-            {"row": row, "column": column},
         )
 
     def act(self, item = None):

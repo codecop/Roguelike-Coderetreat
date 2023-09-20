@@ -7,9 +7,11 @@ async function createApp() {
     const game = new Game();
 
     app.get("/nullpointer", async (_req, res) => {
-
         res.json({ "layout": game.getCurrentRoom()});
+    });
 
+    app.get("/nullpointer/open", async (_req, res) => {
+        res.json(game.doorOpened);
     });
 
     app.post("/nullpointer/walk", async (req, res) => {
