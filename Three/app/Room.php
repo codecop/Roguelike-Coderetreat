@@ -2,27 +2,32 @@
 
 namespace App;
 
-/**
- * @property array $map
- */
 class Room
 {
 
+    private $map;
     private $width;
     private $length;
+    private $playerPostion;
 
     public function __construct($width, $length)
     {
         $this->width = $width;
         $this->length = $length;
+        $this->setupRoom();
     }
 
-    public function generateMap(): array
+    public function setupRoom(){
+        $this->generateMap();
+        $this->addWalls();
+        $this->addDoor();
+        $this->addPlayer();
+    }
+
+    public function generateMap(): void
     {
         $test = array_fill(0, $this->width, " ");
         $this->map = array_fill(0, $this->length, $test);
-
-        return $this->map;
     }
 
     public function addWalls()
@@ -34,25 +39,37 @@ class Room
         }
     }
 
-    public function getMap(): array
-    {
-        return $this->map;
-    }
-
     public function addDoor()
     {
         $this->map[2][9] = "|";
     }
 
-    public function getStringifiedMap()
+    public function addPlayer(): void
+    {
+        $this->map[1][1] = '@';
+        $this->playerPostion = [1, 1];
+    }
+    public function getMap(): array
+    {
+        return $this->map;
+    }
+
+    public function getStringifiedMap(): string
     {
         $stringifiedMap = "";
         foreach ($this->map as $column) {
-            $stringifiedMap .= "/n";
+            $stringifiedMap .= "\n";
             foreach ($column as $cell) {
                 $stringifiedMap .= $cell;
             }
         }
         return $stringifiedMap;
+    }
+
+    public function setPlayerPosition(int $column, int $row)
+    {
+        $this->map[$this->playerPostion[0]][$this->playerPostion[1]] = ' ';
+        $this->playerPostion = [$column, $row];
+        $this->map[$column][$row] = '@';
     }
 }

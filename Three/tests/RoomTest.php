@@ -30,11 +30,11 @@ class RoomTest extends TestCase {
     /**
      * @test
      */
-    public function should_generate_advanced_map_structure()
+    public function should_generate_empty_map()
     {
-        $map = $this->room->generateMap();
+        $this->room->generateMap();
 
-        $this->assertIsArray($map[8]);
+        $this->assertIsArray($this->room->getMap()[8]);
     }
 
 
@@ -73,4 +73,37 @@ class RoomTest extends TestCase {
 
         $this->assertEquals($expectedStringMap, $this->room->getStringifiedMap());
     }
+
+    /**
+     * @test
+     */
+    public function should_return_map_with_player()
+    {
+        $this->room->generateMap();
+        $this->room->addWalls();
+        $this->room->addDoor();
+        $this->room->addPlayer();
+
+        $expectedStringMap = "/n##########/n#@       #/n#        |/n#        #/n#        #/n#        #/n#        #/n#        #/n#        #/n##########";
+
+        $this->assertEquals($expectedStringMap, $this->room->getStringifiedMap());
+    }
+
+    /**
+     * @test
+     */
+    public function should_update_player_position()
+    {
+        $this->room->generateMap();
+        $this->room->addWalls();
+        $this->room->addDoor();
+        $this->room->addPlayer();
+        $this->room->setPlayerPosition(5, 4);
+
+        $expectedStringMap = "/n##########/n#        #/n#        |/n#        #/n#        #/n#   @    #/n#        #/n#        #/n#        #/n##########";
+
+        $this->assertEquals($expectedStringMap, $this->room->getStringifiedMap());
+    }
+
+
 }

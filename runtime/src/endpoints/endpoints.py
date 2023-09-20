@@ -6,7 +6,7 @@ class Endpoints:
     rooms_endpoints = []
 
     def __init__(self, room_endpoints):
-        self.rooms_endpoints = room_endpoints
+        self.rooms_endpoints = [i for i in filter(lambda x: bool(x), room_endpoints)]
         random.seed(10)
         random.shuffle(self.rooms_endpoints)
         self.current_room_index = 0
