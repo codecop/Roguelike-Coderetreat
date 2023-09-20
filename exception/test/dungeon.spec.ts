@@ -27,17 +27,9 @@ describe('Dungeon', () => {
     //     `);
     // });
 
-    it('should print a default layout of 5x5 with door at 1,0', () => {
+    it('should print a default layout of 5x5 with door at 1,0 and player at 1,1', () => {
         const dungeon = new Dungeon();
 
-        const layout = dungeon.print()
-        expect(layout).toBe(`#####\n|   #\n#   #\n#   #\n#####`);
-    });
-
-    it('should print a default layout with a player at 1,1', () => {
-        const dungeon = new Dungeon();
-        dungeon.setNewPosition(1,1);
-        
         const layout = dungeon.print()
         expect(layout).toBe(`#####\n|@  #\n#   #\n#   #\n#####`);
     });

@@ -1,9 +1,7 @@
 export default class Dungeon {
-    private shouldSetPosition: boolean = false
     private currentPlayerPosition: Array<number> = [1,1]
 
     setNewPosition(x: number, y: number) : void{
-        this.shouldSetPosition = true
         this.currentPlayerPosition = [x,y]
     }
 
@@ -30,7 +28,7 @@ export default class Dungeon {
             return "|";
         } 
         const hasPlayer = y === this.currentPlayerPosition[1] && x === this.currentPlayerPosition[0];
-        if (this.shouldSetPosition && hasPlayer) {
+        if (hasPlayer) {
             return "@";
         }
         const isTopOrBottomLine = y === 0 || isBottomLine;
