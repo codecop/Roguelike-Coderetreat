@@ -10,23 +10,23 @@ describe('HelloApp', () => {
         app = await createApp();
     });
 
-    it('first Hello', async () => {
+    it('first Room', async () => {
         const response = await request(app).
-            get('/hello').
+            get('/defaultRoom').
             expect(200);
 
         expect(response.header['content-type']).toBe('application/json; charset=utf-8');
-        expect(response.body.name).toBe('World!');
+        expect(response.body.layout).toBe(`###
+# #
+#|#
+`);
     });
 
-    it('updates', async () => {
+    it('updates player position', async () => {
         await request(app).
-            post('/hello').
-            send({ "name": "Peter" }).
-            expect(201);
-
-        const { body } = await request(app).get('/hello');
-        expect(body.name).toBe('Peter');
+            post('/defaultRoom/walk?row=3&column=5')
+            // .send({ "newPlayerPosition": [3, 5] })
+            .expect(201);
     });
 
 });

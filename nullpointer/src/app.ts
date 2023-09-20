@@ -1,27 +1,22 @@
 import express from "express";
-import Hello from "./Hello";
-
-const hello = new Hello();
+import Game from './Game';
 
 async function createApp() {
     const app = express();
     app.use(express.json());
+    const game = new Game();
 
-    app.get("/hello", async (_req, res) => {
+    app.get("/nullpointer", async (_req, res) => {
 
-        res.json({ "name": hello.getName() });
+        res.json({ "layout": game.getCurrentRoom()});
 
     });
 
-    app.post("/hello", async (req, res) => {
-        const { name } = req.body;
-        if (name != undefined) {
-            hello.setName(name);
-            res.status(201).json();
-        } else {
-            res.status(400).json();
-        }
+    app.post("/nullpointer", async (req, res) => {
+        const { row, column } = req.body;
 
+        game.movePlayer([column, row]);
+        res.status(201).json();
     });
 
     return app;
