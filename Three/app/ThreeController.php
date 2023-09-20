@@ -9,9 +9,9 @@ class ThreeController extends Controller {
 
     private $room;
 
-    public function __construct()
+    public function __construct(Room $room)
     {
-        $this->room = new Room(10,10);
+        $this->room = $room;
     }
 
     public function get(Request $request) {

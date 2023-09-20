@@ -11,7 +11,7 @@ class ThreeAppTest extends TestCase
 
         $response->assertOk();
         $response->assertHeader('Content-Type', 'application/json')
-                 ->assertJson([ 'layout' => '/n##########/n#@       #/n#        |/n#        #/n#        #/n#        #/n#        #/n#        #/n#        #/n##########' ]);
+                 ->assertJson([ 'layout' => "\n##########\n#@       #\n#        |\n#        #\n#        #\n#        #\n#        #\n#        #\n#        #\n##########" ]);
     }
 
     /** @test */
