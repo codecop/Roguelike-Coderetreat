@@ -1,7 +1,7 @@
 import express from "express";
 import Room from "./Room";
 
-const room = new Room(1, 1);
+const room = new Room(5, 5);
 
 async function createApp() {
     const app = express();
