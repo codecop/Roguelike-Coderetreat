@@ -11,6 +11,16 @@ describe('HelloApp', () => {
         app = await createApp();
     });
 
+    it('first Game', async () => {
+        const response = await request(app).
+        get('/nullpointer').
+        expect(200);
+
+        console.log(response.body)
+        expect(response.header['content-type']).toBe('application/json; charset=utf-8');
+        expect(response.body.name).toBe('World!');
+    });
+
     it('first Hello', async () => {
         const response = await request(app).
             get('/hello').
