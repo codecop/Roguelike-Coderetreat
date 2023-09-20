@@ -3,6 +3,10 @@ import Dungeon from "./Dungeon";
 
 const dungeon = new Dungeon();
 
+setInterval(() => {
+    dungeon.moveWall()
+}, 1000);
+
 async function createApp() {
     const app = express();
     app.use(express.json());
