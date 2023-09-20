@@ -58,7 +58,7 @@ class Room
     {
         $stringifiedMap = "";
         foreach ($this->map as $column) {
-            $stringifiedMap .= "/n";
+            $stringifiedMap .= "\n";
             foreach ($column as $cell) {
                 $stringifiedMap .= $cell;
             }
