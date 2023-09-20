@@ -45,7 +45,6 @@ public class RoomTest {
                         "#     #\n" +
                         "#######\n",
                 t0);
-
         assertEquals(
                         "#######\n" +
                         "# @   #\n" +
@@ -53,34 +52,23 @@ public class RoomTest {
                         "#     #\n" +
                         "#######\n",
                 t1);
-
-
     }
 
     @Test
     void shouldMoveRightTwice(){
         Room room = new Room();
-        String t0 = room.toString();
         room.setNewPosition(1,3);
+        room.setNewPosition(2,4);
+
         String t1 = room.toString();
 
         assertEquals(
                         "#######\n" +
-                        "#@    #\n" +
-                        "|     #\n" +
                         "#     #\n" +
-                        "#######\n",
-                t0);
-
-        assertEquals(
-                        "#######\n" +
-                        "#  @  #\n" +
-                        "|     #\n" +
+                        "|   @ #\n" +
                         "#     #\n" +
                         "#######\n",
                 t1);
-
-
     }
 
 
