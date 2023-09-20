@@ -53,8 +53,7 @@ public class Main {
         });
 
         post("/ohgod/walk", (req, res) -> {
-            if (req.contentType().startsWith("application/json")
-                    && !req.queryParams("row").isEmpty()
+            if ( !req.queryParams("row").isEmpty()
                     && !req.queryParams("column").isEmpty()
             ) {
                 String row = req.queryParams("row");
