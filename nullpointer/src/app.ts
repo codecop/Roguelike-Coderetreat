@@ -12,7 +12,7 @@ async function createApp() {
 
     });
 
-    app.post("/nullpointer", async (req, res) => {
+    app.post("/nullpointer/walk", async (req, res) => {
         let { row, column } = req.query;
 
         // @ts-ignore
