@@ -10,9 +10,9 @@ export default class Room {
     toString(): string {
         let layout: string = '';
         
-        layout += this.startAndEndWall();
+        layout += this.startWall();
         layout += this.middleSpace();
-        layout += this.startAndEndWall();
+        layout += this.endWall();
 
         return layout;
     }
@@ -28,12 +28,19 @@ export default class Room {
         return space;
     }
 
-    private startAndEndWall() {
+    private startWall() {
         let wall: string;
         wall = this.repeatCharacter('#', this.xSize+2);
         wall += '\n';
 
         return wall;
+    }
+
+    private endWall() {
+        let wall: string;
+        wall = this.startWall();
+        
+        return '#|' + wall.substring(2);
     }
 
     private repeatCharacter(char: string, repeat: number) {

@@ -6,7 +6,7 @@ describe('Room', () => {
         const room = new Room(1, 1);
         expect(room.toString()).toBe(`###
 # #
-###
+#|#
 `
         );
     });
@@ -16,7 +16,7 @@ describe('Room', () => {
         expect(twoByTwoRoom.toString()).toBe(`####
 #  #
 #  #
-####
+#|##
 `)
     })
 });
