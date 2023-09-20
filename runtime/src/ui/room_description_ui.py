@@ -12,7 +12,7 @@ class RoomDescriptionUI:
         self.frame = tk.Frame(
             self.window,
             width=300,
-            height=300,
+            height=600,
             highlightbackground="black",
             highlightthickness=2,
         )
@@ -23,12 +23,10 @@ class RoomDescriptionUI:
             text=self.room_description,
             padx=10,
             pady=10,
+            wraplength=300,
+            font=("Helvetica", 18),
         )
         self.text.pack(fill=tk.BOTH, expand=True)
-
-        self.text.bind("<Configure>", self._update_frame_height)
-
-        self._update_frame_height()
 
     def grid(self, *args, **kwargs):
         self.frame.grid(*args, **kwargs)
@@ -39,9 +37,10 @@ class RoomDescriptionUI:
     def draw(self):
         self.text.config(text=str(self.room_description))
 
+    def win(self):
+        self.update_room_decription(
+            "This room is for your big medal for being a winner."
+        )
+
     def update_room_decription(self, room_description: str):
         self.room_description = room_description
-
-    def _update_frame_height(self, *args):
-        frame_height = self.text.winfo_reqheight() + 20
-        self.frame.config(height=frame_height)
