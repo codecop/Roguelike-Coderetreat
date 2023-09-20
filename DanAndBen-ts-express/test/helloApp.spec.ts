@@ -26,7 +26,7 @@ describe('HelloApp', () => {
     });
 
     it('updates player position', async () => {
-        await request(app).post('/defaultRoom/walk?row=2&column=4')
+        await request(app).post('/defaultRoom/walk?row=3&column=5')
             // .send({ "newPlayerPosition": [3, 5] })
             .expect(201);
         const response = await request(app).get('/defaultRoom').expect(200);
@@ -48,7 +48,7 @@ describe('HelloApp', () => {
     it('default room with a character', () => {
         const room = new Room(5, 5);
 
-        room.setNewPlayerPosition(3, 1);
+        room.setNewPlayerPosition(4, 2);
 
         expect(room.toString()).toBe(`#######
 #     #

@@ -7,8 +7,8 @@ export default class Room {
     constructor(xSize: number, ySize: number) {
         this.xSize = xSize;
         this.ySize = ySize;
-        this.playerRow = 1;
-        this.playerColumn = 0;
+        this.playerRow = 2;
+        this.playerColumn = 1;
     }
 
     toString(): string {
@@ -28,12 +28,12 @@ export default class Room {
 
     private middleSpace() {
         let space: string = '';
-        for (let row = 0; row < this.ySize; row++) {
+        for (let row = 1; row <= this.ySize; row++) {
             space += '#';
             let line = this.repeatCharacter(' ', this.xSize);
             if (row === this.playerRow) { // line with character
-                line = this.repeatCharacter(' ', this.playerColumn)
-                +'@' + line.substring(this.playerColumn+1);
+                line = this.repeatCharacter(' ', this.playerColumn-1)
+                +'@' + line.substring(this.playerColumn);
             }
             space += line;
             space += '#\n';
