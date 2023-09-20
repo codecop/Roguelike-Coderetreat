@@ -22,14 +22,11 @@ describe('HelloApp', () => {
 `);
     });
 
-    // it('updates', async () => {
-    //     await request(app).
-    //         post('/hello').
-    //         send({ "name": "Peter" }).
-    //         expect(201);
-    //
-    //     const { body } = await request(app).get('/hello');
-    //     expect(body.name).toBe('Peter');
-    // });
+    it('updates player position', async () => {
+        await request(app).
+            post('/defaultRoom/walk?row=3&column=5')
+            // .send({ "newPlayerPosition": [3, 5] })
+            .expect(201);
+    });
 
 });

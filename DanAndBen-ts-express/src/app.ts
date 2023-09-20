@@ -12,16 +12,19 @@ async function createApp() {
         res.json({ "layout": room.toString() });
     });
 
-    // app.post("/hello", async (req, res) => {
-    //     const { name } = req.body;
-    //     if (name != undefined) {
-    //         hello.setName(name);
-    //         res.status(201).json();
-    //     } else {
-    //         res.status(400).json();
-    //     }
-    //
-    // });
+    app.post("/defaultRoom/walk", async (req, res) => {
+        
+        let row: number = parseInt(req.query.row as string);
+        let column: number = parseInt(req.query.column as string);
+        
+        if (row && column) {
+            room.setNewPlayerPosition(column, row);
+            res.status(201).json();
+        } else {
+            res.status(400).json();
+        }
+
+    });
 
     return app;
 }
