@@ -18,7 +18,9 @@ async function createApp() {
         let column: number = parseInt(req.query.column as string);
         
         if (row && column) {
-            room.setNewPlayerPosition(column, row);
+            console.log(row, column);
+            room.setNewPlayerPosition(row, column);
+            console.log(room.toString());
             res.status(201).json();
         } else {
             res.status(400).json();

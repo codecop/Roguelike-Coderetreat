@@ -5,9 +5,12 @@ namespace App;
 class Layout
 {
 
-    public function __construct()
+    public $doorPosition;
+    public $grid;
+    public function __construct($doorPosition = 5)
     {
-
+        $this->doorPosition = $doorPosition;
+        $this->grid = $this->setupGrid();
     }
 
     public function createLayout(): string
@@ -24,18 +27,31 @@ class Layout
         return $layout .= $first . $hashtag . $last;
     }
 
-    public function addDoor($position,$grid): string
+    public function addDoor($position, $grid): string
     {
-        return substr_replace($grid, "|", $position-1, 1);
+        return substr_replace($grid, "|", $position - 1, 1);
     }
 
     public function setInMultiArray($grid): array
     {
         $result = [];
-        $grid = str_split(str_replace("\n","",$grid), 15);
+
+        $grid = str_split(str_replace("\n", "", $grid), 15);
         foreach ($grid as $key => $value) {
             $result[] = str_split($value);
         }
         return $result;
+    }
+
+    public function setNewPosition($x, $y)
+    {
+        $this->grid[$x][$y] = '@';
+    }
+
+    private function setupGrid()
+    {
+        $grid = $this->createLayout();
+        $grid = $this->addDoor($this->doorPosition, $grid);
+        return $this->setInMultiArray($grid);
     }
 }

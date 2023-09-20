@@ -69,7 +69,7 @@ class RoomTest extends TestCase {
         $this->room->generateMap();
         $this->room->addWalls();
         $this->room->addDoor();
-        $expectedStringMap = "/n##########/n#        #/n#        |/n#        #/n#        #/n#        #/n#        #/n#        #/n#        #/n##########";
+        $expectedStringMap = "\n##########\n#        #\n#        |\n#        #\n#        #\n#        #\n#        #\n#        #\n#        #\n##########";
 
         $this->assertEquals($expectedStringMap, $this->room->getStringifiedMap());
     }
@@ -84,7 +84,7 @@ class RoomTest extends TestCase {
         $this->room->addDoor();
         $this->room->addPlayer();
 
-        $expectedStringMap = "/n##########/n#@       #/n#        |/n#        #/n#        #/n#        #/n#        #/n#        #/n#        #/n##########";
+        $expectedStringMap = "\n##########\n#@       #\n#        |\n#        #\n#        #\n#        #\n#        #\n#        #\n#        #\n##########";
 
         $this->assertEquals($expectedStringMap, $this->room->getStringifiedMap());
     }
@@ -100,7 +100,23 @@ class RoomTest extends TestCase {
         $this->room->addPlayer();
         $this->room->setPlayerPosition(5, 4);
 
-        $expectedStringMap = "/n##########/n#        #/n#        |/n#        #/n#        #/n#   @    #/n#        #/n#        #/n#        #/n##########";
+        $expectedStringMap = "\n##########\n#        #\n#        |\n#        #\n#        #\n#   @    #\n#        #\n#        #\n#        #\n##########";
+
+        $this->assertEquals($expectedStringMap, $this->room->getStringifiedMap());
+    }
+
+    /**
+     * @test
+     */
+    public function should_save_map_in_file()
+    {
+        $this->room->generateMap();
+        $this->room->addWalls();
+        $this->room->addDoor();
+        $this->room->addPlayer();
+        $this->room->setPlayerPosition(5, 4);
+
+        $expectedStringMap = "\n##########\n#        #\n#        |\n#        #\n#        #\n#   @    #\n#        #\n#        #\n#        #\n##########";
 
         $this->assertEquals($expectedStringMap, $this->room->getStringifiedMap());
     }
