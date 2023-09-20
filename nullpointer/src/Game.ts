@@ -13,4 +13,9 @@ export default class Game {
     getCurrentRoom() {
         return this.room.getRoom();
     }
+
+    movePlayer([column, row]) {
+        this.player.setPosition([column, row]);
+        this.room.setPlayerPosition([column, row]);
+    }
 }

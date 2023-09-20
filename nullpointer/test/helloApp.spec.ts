@@ -16,28 +16,38 @@ describe('HelloApp', () => {
         get('/nullpointer').
         expect(200);
 
-        console.log(response.body)
-        expect(response.header['content-type']).toBe('application/json; charset=utf-8');
-        expect(response.body.name).toBe('World!');
-    });
-
-    it('first Hello', async () => {
-        const response = await request(app).
-            get('/hello').
-            expect(200);
+        const expectedRoom = "###########\n" +
+            "#@        #\n" +
+            "#         #\n" +
+            "#         #\n" +
+            "#         |\n" +
+            "#         #\n" +
+            "###########\n";
 
         expect(response.header['content-type']).toBe('application/json; charset=utf-8');
-        expect(response.body.name).toBe('World!');
+        expect(response.body.layout).toBe(expectedRoom);
     });
 
-    it('updates', async () => {
+    it('updates player position', async () => {
         await request(app).
-            post('/hello').
-            send({ "name": "Peter" }).
-            expect(201);
+        post('/nullpointer').
+        send({ "row": 3, "column": 5 }).
+        expect(201);
 
-        const { body } = await request(app).get('/hello');
-        expect(body.name).toBe('Peter');
+        const expectedRoom =
+            "###########\n" +
+            "#         #\n" +
+            "#         #\n" +
+            "#    @    #\n" +
+            "#         |\n" +
+            "#         #\n" +
+            "###########\n";
+
+        const response = await request(app).
+        get('/nullpointer').
+        expect(200);
+
+        expect(response.body.layout).toBe(expectedRoom);
+
     });
-
 });
