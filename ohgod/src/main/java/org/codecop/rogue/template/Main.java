@@ -47,9 +47,8 @@ public class Main {
             Map<String,String> responseBody = new HashMap<>();
 
             String roomLayout =  room.toString();
-            String replaced = roomLayout.replace("\n", "\\n");
 
-            responseBody.put("layout",replaced);
+            responseBody.put("layout",roomLayout);
             return gson.toJson(responseBody);
         });
 

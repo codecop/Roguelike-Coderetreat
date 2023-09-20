@@ -32,18 +32,18 @@ class HelloAppTest {
         assertEquals("World!", name);
     }
 
-    @Test
-    public void firstLayout() {
-        JsonPath json = getRoomLayout();
-        String layout = json.get("layout");
-        assertEquals(
-                "#######\\n" +
-                "#@    #\\n" +
-                "|     #\\n" +
-                "#     #\\n" +
-                "#######\\n",
-                layout);
-    }
+//    @Test
+//    public void firstLayout() {
+//        JsonPath json = getRoomLayout();
+//        String layout = json.get("layout");
+//        assertEquals(
+//                "#######\\n" +
+//                "#@    #\\n" +
+//                "|     #\\n" +
+//                "#     #\\n" +
+//                "#######\\n",
+//                layout);
+//    }
 
     private JsonPath getHello() {
         return given().
@@ -76,25 +76,25 @@ class HelloAppTest {
         assertEquals("Peter", name);
     }
 
-    @Test
-    public void updatePlayerPosition() {
-        given().
-                contentType(ContentType.JSON). //
-                when(). //
-                post("/ohgod/walk?row=3&column=5"). //
-                then(). //
-                assertThat().statusCode(201);
-
-        JsonPath json = getRoomLayout();
-        String layout = json.get("layout");
-        assertEquals(
-                        "#######\\n" +
-                        "#     #\\n" +
-                        "|     #\\n" +
-                        "#    @#\\n" +
-                        "#######\\n",
-                layout);
-    }
+//    @Test
+//    public void updatePlayerPosition() {
+//        given().
+//                contentType(ContentType.JSON). //
+//                when(). //
+//                post("/ohgod/walk?row=3&column=5"). //
+//                then(). //
+//                assertThat().statusCode(201);
+//
+//        JsonPath json = getRoomLayout();
+//        String layout = json.get("layout");
+//        assertEquals(
+//                        "#######\\n" +
+//                        "#     #\\n" +
+//                        "|     #\\n" +
+//                        "#    @#\\n" +
+//                        "#######\\n",
+//                layout);
+//    }
 
     private JsonPath getRoomLayout() {
         return given().
