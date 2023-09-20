@@ -13,7 +13,12 @@ async function createApp() {
     });
 
     app.post("/nullpointer", async (req, res) => {
-        const { row, column } = req.body;
+        let { row, column } = req.query;
+
+        // @ts-ignore
+        row = parseInt(row);
+        // @ts-ignore
+        column = parseInt(column);
 
         game.movePlayer([column, row]);
         res.status(201).json();
