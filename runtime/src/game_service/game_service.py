@@ -11,7 +11,7 @@ class GameService:
         return self._request(f"{self.endpoints.room_url}")
 
     def get_stats(self):
-        return self._request(f"{self.endpoints.stats_endpoint}/hp")
+        return self._request(f"{self.endpoints.stats_endpoint}/hp", "GET", None, False)
 
     def reset_stats(self):
         return self._request(f"{self.endpoints.stats_endpoint}/hp?action=reset", "POST")
@@ -28,7 +28,7 @@ class GameService:
     def open(self):
         return self._request(f"{self.endpoints.room_url}/open")
 
-    def _request(self, to_endpoint, method="GET", payload=None):
+    def _request(self, to_endpoint, method="GET", payload=None, print_exception=True):
         try:
             request_method = requests.get if method == "GET" else requests.post
             response = request_method(to_endpoint, data=payload)
@@ -36,4 +36,5 @@ class GameService:
                 return None
             return response.json()
         except Exception as e:
-            print(str(e))
+            if print_exception:
+                print(str(e))
