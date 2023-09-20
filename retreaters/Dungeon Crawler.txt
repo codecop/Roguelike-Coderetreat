@@ -1,0 +1,6 @@
+
+Grid / Layout
+
+- 15 X 15
+- X, Y (coordinates), $isWall
+
