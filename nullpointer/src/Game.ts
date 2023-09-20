@@ -4,6 +4,7 @@ import Room from './Room';
 export default class Game {
     public player;
     public room;
+    public doorOpened = false;
 
     constructor() {
         this.player = new Player();
@@ -15,7 +16,13 @@ export default class Game {
     }
 
     movePlayer([column, row]) {
+        const newField = this.room.getNewField(column, row);
+
         this.player.setPosition(column, row);
         this.room.setPlayerPosition(this.player.getPosition());
+
+        if(newField === "X") {
+            this.doorOpened = true;
+        }
     }
 }

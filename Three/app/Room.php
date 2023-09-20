@@ -10,14 +10,17 @@ class Room
     private $length;
     private $playerPostion;
 
-    public function __construct($width, $length)
+    public function __construct($width = 10, $length = 10)
     {
-        $this->width = $width;
-        $this->length = $length;
-        $this->setupRoom();
+        if(!$this->map) {
+            $this->width = $width;
+            $this->length = $length;
+            $this->setupRoom();
+        }
     }
 
-    public function setupRoom(){
+    public function setupRoom()
+    {
         $this->generateMap();
         $this->addWalls();
         $this->addDoor();
@@ -49,6 +52,7 @@ class Room
         $this->map[1][1] = '@';
         $this->playerPostion = [1, 1];
     }
+
     public function getMap(): array
     {
         return $this->map;
@@ -71,5 +75,6 @@ class Room
         $this->map[$this->playerPostion[0]][$this->playerPostion[1]] = ' ';
         $this->playerPostion = [$column, $row];
         $this->map[$column][$row] = '@';
+        //file_put_contents("map.txt", json_encode($this->map));
     }
 }

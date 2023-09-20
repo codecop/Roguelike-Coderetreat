@@ -47,7 +47,7 @@ $app->singleton(
 );
 
 $app->singleton(
-    App\Hello::class
+    App\Room::class
 );
 
 /*
