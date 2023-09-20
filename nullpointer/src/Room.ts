@@ -24,7 +24,7 @@ export default class Room {
     setPlayerPosition(playerPosition){
         this.room.splice(this.playerPosition, 1, " ");
 
-         this.playerPosition = this.convertPlayerArrayPositionToStringIndex(playerPosition);
+        this.playerPosition = this.convertPlayerArrayPositionToStringIndex(playerPosition);
 
         this.room.splice(this.playerPosition, 1, "@");
     }

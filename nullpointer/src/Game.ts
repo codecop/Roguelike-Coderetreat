@@ -15,7 +15,7 @@ export default class Game {
     }
 
     movePlayer([column, row]) {
-        this.player.setPosition([column, row]);
-        this.room.setPlayerPosition([column, row]);
+        this.player.setPosition(column, row);
+        this.room.setPlayerPosition(this.player.getPosition());
     }
 }

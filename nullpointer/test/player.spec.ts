@@ -19,7 +19,6 @@ describe('Player', () => {
 
         player.setPosition(2,3);
 
-
         expect(player.getPosition()).toStrictEqual([2,3]);
     });
 
