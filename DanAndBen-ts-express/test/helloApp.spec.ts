@@ -12,7 +12,7 @@ describe('HelloApp', () => {
     });
 
     it('first Room', async () => {
-        const response = await request(app).get('/defaultRoom').expect(200);
+        const response = await request(app).get('/DanAndBenRoom').expect(200);
 
         expect(response.header['content-type']).toBe('application/json; charset=utf-8');
         expect(response.body.layout).toBe(`#######
@@ -26,10 +26,10 @@ describe('HelloApp', () => {
     });
 
     it('updates player position', async () => {
-        await request(app).post('/defaultRoom/walk?row=3&column=5')
+        await request(app).post('/DanAndBenRoom/walk?row=3&column=5')
             // .send({ "newPlayerPosition": [3, 5] })
             .expect(201);
-        const response = await request(app).get('/defaultRoom').expect(200);
+        const response = await request(app).get('/DanAndBenRoom').expect(200);
 
         expect(response.header['content-type']).toBe('application/json; charset=utf-8');
         expect(response.body.layout).toBe(`#######
@@ -60,16 +60,16 @@ describe('HelloApp', () => {
     });
 
     it('prints message at row5, column1', async () => {
-        await request(app).post('/defaultRoom/walk?row=5&column=1')
+        await request(app).post('/DanAndBenRoom/walk?row=5&column=1')
             // .send({ "newPlayerPosition": [3, 5] })
             .expect(201);
-        const response = await request(app).get('/defaultRoom').expect(200);
+        const response = await request(app).get('/DanAndBenRoom').expect(200);
         
         expect(response.body.description).toBe('Almost there!');
     });
 
     it('returns message', async () => {
-        const response = await request(app).get('/defaultRoom').expect(200);
+        const response = await request(app).get('/DanAndBenRoom').expect(200);
         
         expect(response.body.message).toBe('The floor is squeaking.');
     });
