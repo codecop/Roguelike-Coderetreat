@@ -21,8 +21,7 @@ describe('DungeonApp', () => {
 
     it('updates position', async () => {
         await request(app).
-            post('/exception').
-            send({ "row": 1, "column": 2 }).
+            post('/exception/walk?row=1&column=2').
             expect(201);
 
         const { body } = await request(app).get('/exception');
