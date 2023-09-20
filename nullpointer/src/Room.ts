@@ -1,7 +1,7 @@
 export default class Room {
     private room: string[]
     private playerPosition: number
-    constructor(playerPosition) {
+    constructor(playerPosition = [1, 1]) {
         const roomString =
             "###########\n" +
             "#         #\n" +

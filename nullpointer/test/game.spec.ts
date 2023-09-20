@@ -31,8 +31,7 @@ describe('Game', () => {
     it('should update room after player moves', () => {
         const game = new Game();
 
-        game.player.setPosition(9, 3);
-        game.room.setPlayerPosition([9,3]);
+        game.movePlayer([9, 3]);
 
         expect(game.getCurrentRoom()).toStrictEqual(
             "###########\n" +
