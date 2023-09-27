@@ -13,6 +13,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        php-version: ["7.3", "8.0", "8.2"]
+    
     steps:
     - name: Check out the repo
       uses: actions/checkout@v3
@@ -20,7 +25,7 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
-        php-version: 7.3
+        php-version: ${{ matrix.php-version }}
 
     - name: Set up dependencies
       working-directory: template-php-lumen
