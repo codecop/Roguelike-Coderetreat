@@ -20,12 +20,16 @@ class GameService:
         return self._request(
             f"{self.endpoints.room_url}/walk?column={column}&row={row}",
             "POST",
-            {"row": row, "column": column},
+            {"row": row, "column": column}
         )
 
-    def act(self, item = None):
-        item_param = f"item={item.identifier}" if item is not None else "item=c"
-        return self._request(f"{self.endpoints.room_url}/interact?{item_param}", "POST")
+    def act(self, item: Item):
+        item_param = f"item={item.identifier}"
+        return self._request(
+            f"{self.endpoints.room_url}/interact?{item_param}",
+            "POST",
+            {"item": item.identifier}
+        )
 
     def open(self):
         return self._request(f"{self.endpoints.room_url}/open")
