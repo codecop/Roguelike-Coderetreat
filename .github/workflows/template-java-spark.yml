@@ -13,6 +13,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        java-version: [8, 11, 17, 20]
+#                      21 is not available yet
+    
     steps:
     - name: Check out the repo
       uses: actions/checkout@v3
@@ -21,7 +27,7 @@ jobs:
       uses: actions/setup-java@v3
       with:
         distribution: 'adopt'
-        java-version: 8.0
+        java-version: ${{ matrix.java-version }}
     - name: Cache Maven packages
       uses: actions/cache@v3
       with:

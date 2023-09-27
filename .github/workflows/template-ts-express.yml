@@ -13,6 +13,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12, 14, 16, 18]
+#                      10 does not work
+
     steps:
     - name: Check out the repo
       uses: actions/checkout@v3
@@ -20,7 +26,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: 15.x
+        node-version: ${{ matrix.node-version }}
     - name: Cache Node packages
       uses: actions/cache@v3
       with:
