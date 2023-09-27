@@ -12,7 +12,7 @@ To run the tests:
 
 To start the application:
 
-    mvn exec:java
+    mvn compile exec:java
 
 ## Docker Image
 
