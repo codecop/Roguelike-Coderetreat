@@ -13,14 +13,13 @@ def read_response(response):
     str_response = response.data.decode('utf-8')
     return json.loads(str_response)
 
-
 def test_get_name(client):
     response = client.get("/hello")
     data = read_response(response)
     assert "World!" == data["name"]
 
 def test_set_name(client):
-    client.post("/hello",json="Paul")
+    client.post("/hello", json="Paul")
 
     response = client.get("/hello")
     data = read_response(response)
