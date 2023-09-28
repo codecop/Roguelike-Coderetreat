@@ -34,7 +34,7 @@ jobs:
         restore-keys: ${{ runner.os }}-npm
     - name: Set up dependencies
       working-directory: template-ts-express
-      run: npm install
+      run: npm install --force
 
     - name: Build and test
       working-directory: template-ts-express
