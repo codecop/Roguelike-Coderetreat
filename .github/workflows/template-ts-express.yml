@@ -16,8 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12, 14, 16, 18]
-#                      10 does not work
+        node-version: [10, 12, 14, 16, 18]
 
     steps:
     - name: Check out the repo
