@@ -33,6 +33,15 @@ jobs:
       working-directory: inventory
       run: mvn -B package
 
+    - name: Smoke test
+      working-directory: inventory
+      run: |
+        java -jar target/rogue-inventory-1.0-SNAPSHOT-jar-with-dependencies.jar &
+        sleep 1
+        wget -qO ./response.json http://localhost:8001/inventory
+        pkill -f "jar-with-dependencies"
+        cat response.json
+
     - name: Build Docker image
       working-directory: inventory
       run: |
