@@ -37,6 +37,15 @@ jobs:
         npm run build
         npm test
 
+    - name: Smoke test
+      working-directory: stats
+      run: |
+        node ./dist/index.js &
+        sleep 1
+        wget -qO ./response.json http://localhost:8002/stats/hp
+        pkill -f "index.js"
+        cat response.json
+
     - name: Build Docker image
       working-directory: stats
       run: |
