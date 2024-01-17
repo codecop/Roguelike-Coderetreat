@@ -15,12 +15,15 @@ def read_response(response):
 
 def test_get_name(client):
     response = client.get("/hello")
+    assert response.status_code == 200
+    assert response.content_type == "application/json"
     data = read_response(response)
     assert "World!" == data["name"]
 
 def test_set_name(client):
     client.post("/hello", json="Paul")
-
+    # client.post("/hello", json="{ \"name\":\"Paul\" }")
+    assert response.status_code == 201
     response = client.get("/hello")
     data = read_response(response)
     assert "Paul" == data["name"]
