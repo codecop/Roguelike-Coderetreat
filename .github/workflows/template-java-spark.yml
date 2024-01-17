@@ -16,8 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        java-version: [8, 11, 17, 20]
-#                      21 is not available yet
+        java-version: [8, 11, 17, 21]
     
     steps:
     - name: Check out the repo
@@ -37,4 +36,13 @@ jobs:
 
     - name: Build and test
       working-directory: template-java-spark
-      run: mvn -B test
+      run: mvn -B package
+
+    - name: Smoke test
+      working-directory: template-java-spark
+      run: |
+        java -jar target/rogue-template-spark-1.0-SNAPSHOT-jar-with-dependencies.jar &
+        sleep 1
+        wget -qO ./response.json http://localhost:4567/hello
+        pkill -f "rogue-template-spark"
+        cat response.json

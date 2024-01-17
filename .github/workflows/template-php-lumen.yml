@@ -34,3 +34,12 @@ jobs:
     - name: Test
       working-directory: template-php-lumen
       run: ./vendor/bin/phpunit
+
+    - name: Smoke test
+      working-directory: template-php-lumen
+      run: |
+        php -S localhost:8000 -t bootstrap &
+        sleep 1
+        wget -qO ./response.json http://localhost:8000/hello
+        pkill -f "localhost:8000"
+        cat response.json

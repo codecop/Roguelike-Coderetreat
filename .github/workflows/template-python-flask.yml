@@ -35,3 +35,12 @@ jobs:
     - name: Test
       working-directory: template-python-flask
       run: python -m pytest
+
+    - name: Smoke test
+      working-directory: template-python-flask
+      run: |
+        python ./src/app.py &
+        sleep 1
+        wget -qO ./response.json http://localhost:5000/hello
+        pkill -f "app.py"
+        cat response.json

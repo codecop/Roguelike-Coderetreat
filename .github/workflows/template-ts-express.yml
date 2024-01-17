@@ -41,3 +41,12 @@ jobs:
       run: |
         npm run build
         npm test
+
+    - name: Smoke test
+      working-directory: template-ts-express
+      run: |
+        node ./dist/index.js &
+        sleep 1
+        wget -qO ./response.json http://localhost:5010/hello
+        pkill -f "index.js"
+        cat response.json
