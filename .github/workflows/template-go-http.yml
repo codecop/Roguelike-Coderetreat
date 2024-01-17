@@ -1,0 +1,53 @@
+name: Test template-go-http
+
+on:
+  push:
+    paths:
+      - 'template-go-http/**'
+      - '.github/workflows/template-go-http.yml'
+  pull_request:
+    paths:
+      - 'template-go-http/**'
+      - '.github/workflows/template-go-http.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        go-version: [ '1.20', '1.21' ]
+# 1.16 readAll
+    
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v3
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: ${{ matrix.go-version }}
+    - name: Cache Go packages
+      uses: actions/cache@v3
+      with:
+        path: ~/go/pkg/mod
+        key: ${{ runner.os }}-go-${{ hashFiles('template-go-http/**/go.sum') }}
+        restore-keys: ${{ runner.os }}-go-
+
+    - name: Build and test
+      working-directory: template-go-http
+      run: |
+        cd hello
+        go test -v
+        cd ..
+        go build -o hello cmd/... 
+        ls -laR
+
+    - name: Smoke test
+      working-directory: template-go-http
+      run: |
+        hello &
+        sleep 1
+        wget -qO ./response.json http://localhost:8080/get_name
+        pkill -f "hello"
+        cat response.json
