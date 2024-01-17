@@ -21,8 +21,8 @@ def test_get_name(client):
     assert "World!" == data["name"]
 
 def test_set_name(client):
-    client.post("/hello", json="Paul")
-    # client.post("/hello", json="{ \"name\":\"Paul\" }")
+    response = client.post("/hello", json="Paul")
+    # response = client.post("/hello", json="{ \"name\":\"Paul\" }")
     assert response.status_code == 201
     response = client.get("/hello")
     data = read_response(response)
