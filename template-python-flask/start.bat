@@ -1,1 +1,1 @@
-python .\src\app.py
+python main.py

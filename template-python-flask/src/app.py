@@ -19,9 +19,3 @@ def add_data():
         return "", 201
     else:
         return abort(400, "no name specified")
-
-if __name__ == '__main__':
-    port = 5000
-    print(f'Hello started on {port},')
-    print(f'Open http://localhost:{port}/hello')
-    app.run(debug=True, port=port)

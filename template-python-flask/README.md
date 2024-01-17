@@ -17,4 +17,4 @@ To run the tests:
 
 To start the application:
 
-    python ./src/app.py 
+    python main.py 
