@@ -16,9 +16,12 @@ def add_data():
     new_name = request.json
     if len(new_name) > 0:
         hello.setName(new_name)
-        return jsonify({ "message": "Item added successfully!" }), 201
+        return "", 201
     else:
         return abort(400, "no name specified")
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    port = 5000
+    print(f'Hello started on {port},')
+    print(f'Open http://localhost:{port}/hello')
+    app.run(debug=True, port=port)
