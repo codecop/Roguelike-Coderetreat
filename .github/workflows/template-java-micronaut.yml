@@ -42,7 +42,7 @@ jobs:
       working-directory: template-java-micronaut
       run: |
         java -jar target/rogue-template-micronaut-1.0-SNAPSHOT.jar &
-        sleep 1
+        sleep 2
         wget -qO ./response.json http://localhost:8080/hello
         pkill -f "rogue-template-micronaut"
         cat response.json
