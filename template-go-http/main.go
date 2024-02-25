@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"hello"
+	"roguelike-go/hello"
 	"net/http"
 )
 

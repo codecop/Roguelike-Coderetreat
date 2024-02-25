@@ -40,14 +40,13 @@ jobs:
         cd hello
         go test -v
         cd ..
-        go build -o hello cmd/... 
-        ls -laR
+        go build
 
     - name: Smoke test
       working-directory: template-go-http
       run: |
-        hello &
+        ./roguelike-go &
         sleep 1
         wget -qO ./response.json http://localhost:8080/get_name
-        pkill -f "hello"
+        pkill -f "roguelike-go"
         cat response.json

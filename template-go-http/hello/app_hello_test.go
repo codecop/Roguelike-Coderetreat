@@ -3,10 +3,10 @@ package hello_test
 import (
 	"bytes"
 	"encoding/json"
-	"hello"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
+	"roguelike-go/hello"
 	"testing"
 
 	"github.com/stretchr/testify/assert"

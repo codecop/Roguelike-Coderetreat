@@ -1,4 +1,4 @@
-module hello
+module roguelike-go
 
 go 1.18
 

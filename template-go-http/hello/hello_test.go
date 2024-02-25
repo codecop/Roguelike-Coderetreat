@@ -1,7 +1,7 @@
 package hello_test
 
 import (
-	"hello"
+	"roguelike-go/hello"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
