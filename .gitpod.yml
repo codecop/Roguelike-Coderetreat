@@ -1,0 +1,19 @@
+ports:
+  - port: 8080
+    onOpen: open-browser
+    name: GoTemplateEndpoint
+    description: Roguelike Tenplate Go Rest endpoint
+    visibility: public
+
+tasks:
+    - init: dep ensure
+
+vscode:
+  extensions:
+    - streetsidesoftware.code-spell-checker
+    - DavidAnson.vscode-markdownlint
+    - Gruntfuggly.todo-tree
+    - golang.go
+    - premparihar.gotestexplorer
+
+workspaceLocation: '/workspace/Roguelike-Coderetreat/go'
