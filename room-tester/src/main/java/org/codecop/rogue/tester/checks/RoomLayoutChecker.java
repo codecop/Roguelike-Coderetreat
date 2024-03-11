@@ -6,6 +6,8 @@ import org.json.JSONObject;
 public class RoomLayoutChecker implements Checker {
 
     private static final int MAX_SIZE = 15;
+    public static final char DOOR = '|';
+    public static final char PLAYER = '@';
 
     @Override
     public void check(Findings findings, Response response) {
@@ -37,55 +39,87 @@ public class RoomLayoutChecker implements Checker {
 
         // TODO Must all lines be same length?
 
-        int countDoors = Strings.count(layout, '|');
+        int countDoors = Strings.count(layout, DOOR);
         if (countDoors == 0) {
-            findings.error("Expect at least one door '|', was none");
+            findings.error("Expect at least one door '" + DOOR + "', was none");
         }
 
-        int countPlayers = Strings.count(layout, '@');
+        int countPlayers = Strings.count(layout, PLAYER);
         if (countPlayers != 1) {
-            findings.error("Expect one player '@', was none/more");
+            findings.error("Expect one player '" + PLAYER + "', was none/more");
         }
 
-        if (hasHoles(Strings.toCharArrayArray(lines))) {
+        char[][] yxField = Strings.toCharArrayArray(lines);
+        fillReachable(yxField);
+
+        if (hasHolesInOuterWall(yxField)) {
             findings.error("Expected walls around level");
         }
 
-
-      /*
-    . room invalid (checks ondrej does)
-     */
-
+        if (!canReachDoor(yxField)) {
+            findings.warn("Expected free way to door");
+        }
     }
 
-    private boolean hasHoles(char[][] yx) {
+    private void fillReachable(char[][] yx) {
         boolean changed = true;
         while (changed) {
             changed = false;
             for (int y = 0; y < yx.length; y++) {
                 for (int x = 0; x < yx[y].length; x++) {
-                    if (yx[y][x] == '@') {
+                    if (yx[y][x] == PLAYER) {
 
                         if (y - 1 < 0 || y + 1 >= yx.length || x - 1 < 0 || x + 1 >= yx[y].length) {
-                            return true;
+                            continue;
                         }
 
                         if (yx[y - 1][x] == ' ') {
-                            yx[y - 1][x] = '@';
+                            yx[y - 1][x] = PLAYER;
                             changed = true;
                         }
                         if (yx[y + 1][x] == ' ') {
-                            yx[y + 1][x] = '@';
+                            yx[y + 1][x] = PLAYER;
                             changed = true;
                         }
                         if (yx[y][x - 1] == ' ') {
-                            yx[y][x - 1] = '@';
+                            yx[y][x - 1] = PLAYER;
                             changed = true;
                         }
                         if (yx[y][x + 1] == ' ') {
-                            yx[y][x + 1] = '@';
+                            yx[y][x + 1] = PLAYER;
                             changed = true;
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean hasHolesInOuterWall(char[][] yx) {
+        for (int y = 0; y < yx.length; y++) {
+            for (int x = 0; x < yx[y].length; x++) {
+                if (yx[y][x] == PLAYER) {
+                    if (y - 1 < 0 || y + 1 >= yx.length || x - 1 < 0 || x + 1 >= yx[y].length) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean canReachDoor(char[][] yx) {
+        for (int y = 0; y < yx.length; y++) {
+            for (int x = 0; x < yx[y].length; x++) {
+                if (yx[y][x] == PLAYER) {
+
+                    if (y - 1 < 0 || y + 1 >= yx.length || x - 1 < 0 || x + 1 >= yx[y].length) {
+                        continue;
+                    }
+
+                    if (yx[y - 1][x] == DOOR || yx[y + 1][x] == DOOR ||
+                            yx[y][x - 1] == DOOR || yx[y][x + 1] == DOOR) {
+                        return true;
                     }
                 }
             }

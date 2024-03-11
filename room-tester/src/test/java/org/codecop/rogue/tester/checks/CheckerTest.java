@@ -46,6 +46,19 @@ class CheckerTest {
         assertEquals(expected, findings.get(1));
     }
 
+    @Test
+    void shouldHaveWayToDoor() {
+        String json = "{\"layout\":\"" +
+                "#####\\n" +
+                "#@ #|\\n" +
+                "#####\\n\"}";
+
+        new RoomLayoutChecker().check(findings, responseOkWith(json));
+
+        Finding expected = Finding.warn("Expected free way to door");
+        assertEquals(expected, findings.get(1));
+    }
+
     private Response responseOkWith(String json) {
         return new Response(200,
                 "application/json", //
