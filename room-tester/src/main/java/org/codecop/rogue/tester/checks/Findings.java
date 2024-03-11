@@ -2,6 +2,7 @@ package org.codecop.rogue.tester.checks;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class Findings {
@@ -34,4 +35,9 @@ public class Findings {
                 map(Finding::toString). //
                 collect(Collectors.joining("\n"));
     }
+
+    public void forEach(Consumer<Finding> consumer) {
+        findings.forEach(consumer);
+    }
+
 }

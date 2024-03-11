@@ -8,17 +8,40 @@ import org.junit.jupiter.api.Test;
 
 class CheckerTest {
 
-    // JSONObject data = new JSONObject("{\"layout\":\"#####\\n#c@ |\\n#####\\n\"}");
-
     Findings findings = new Findings();
+
+    @Test
+    void shouldHaveNoFindings() {
+        String json = "{\"description\" : \"A locked room. There is a <c>hest at the South wall.\",\n" +
+                "\"layout\" : \"#######\\n#  @  #\\n#     #\\n#     |\\n#     #\\n#  c  #\\n#######\\n\",\n" +
+                "\"legend\":[{\"item\":\"c\",\"description\":\"a sturdy chest\"}]}";
+
+        findings = new Checkers().check(responseOkWith(json));
+
+        findings.forEach(finding -> assertEquals(Level.INFO, finding.level));
+    }
 
     @Test
     void shouldHaveLayoutField() {
         String json = "{}";
 
-        new RoomFormatChecker().check(findings, responseOkWith(json));
+        // new RoomFormatChecker().check(findings, responseOkWith(json));
+        findings = new Checkers().check(responseOkWith(json));
 
         Finding expected = Finding.error("JSONObject[\"layout\"] not found.");
+        assertEquals(expected, findings.get(0));
+    }
+
+    @Test
+    void shouldHaveWallsAround() {
+        String json = "{\"layout\":\"" +
+                "## ##\\n" +
+                "#c@ |\\n" +
+                "#####\\n\"}";
+
+        new RoomLayoutChecker().check(findings, responseOkWith(json));
+
+        Finding expected = Finding.error("Expected walls around level");
         assertEquals(expected, findings.get(0));
     }
 

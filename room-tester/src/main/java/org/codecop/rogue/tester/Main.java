@@ -75,9 +75,6 @@ representation, so the `@` is in the right place.
     /*
     2. Tester für Clients selber laufen lassen, als Java Tool JAR bzw. Docker
   . most mistakes were:
-    . room invalid (checks ondrej does)
-      . no character in room, no door in room
-    . Json broken (" and \n)
     . movement broken means not working
       . not moving at all
       . wrong direction on arrows
