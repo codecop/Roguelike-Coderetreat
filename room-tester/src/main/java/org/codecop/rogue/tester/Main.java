@@ -1,5 +1,9 @@
 package org.codecop.rogue.tester;
 
+import org.codecop.rogue.tester.http.Api;
+import org.codecop.rogue.tester.http.HttpClientApi;
+import org.codecop.rogue.tester.http.Response;
+
 public class Main {
 
     public static void main(String[] args) {
@@ -29,6 +33,7 @@ returns JSON body with
         System.out.println(response.statusCode); // 200
         System.out.println(response.contentType); // content-type=[application/json]
         System.out.println(response.jsonBody);
+        // see https://www.baeldung.com/java-jsonobject-get-value
 
         /*
 Check if the door is open or locked with:

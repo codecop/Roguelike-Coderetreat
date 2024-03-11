@@ -1,4 +1,4 @@
-package org.codecop.rogue.tester;
+package org.codecop.rogue.tester.http;
 
 import org.json.JSONObject;
 
@@ -10,6 +10,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class HttpClientApi implements Api {
+    // see https://dzone.com/articles/java-11-http-client-api-to-consume-restful-web-ser-1
 
     private static final String CONTENT_TYPE = "application/json";
 
