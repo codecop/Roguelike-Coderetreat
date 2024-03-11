@@ -10,4 +10,12 @@ public class Strings {
         }
         return count;
     }
+
+    public static char[][] toCharArrayArray(String[] lines) {
+        char[][] result = new char[lines.length][];
+        for (int y = 0; y < lines.length; y++) {
+            result[y] = lines[y].toCharArray();
+        }
+        return result;
+    }
 }

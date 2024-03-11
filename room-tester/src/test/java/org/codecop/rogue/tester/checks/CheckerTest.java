@@ -42,7 +42,8 @@ class CheckerTest {
         new RoomLayoutChecker().check(findings, responseOkWith(json));
 
         Finding expected = Finding.error("Expected walls around level");
-        assertEquals(expected, findings.get(0));
+        // 0 is layout found
+        assertEquals(expected, findings.get(1));
     }
 
     private Response responseOkWith(String json) {
