@@ -1,6 +1,6 @@
 # Rogue-Room-Tester
 
-This is a Java 8 command line tool to test your Roguelike rooms.
+This is a Java 11 command line tool to test your Roguelike rooms.
 
 ## Usage
 

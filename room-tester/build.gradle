@@ -8,9 +8,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.rest-assured:rest-assured:5.3.1'
-    implementation 'org.slf4j:jcl-over-slf4j:1.7.25'
-    implementation 'org.slf4j:slf4j-simple:1.7.25'
+    implementation 'org.json:json:20240303'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.3'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.3'
 }
@@ -21,7 +19,7 @@ test {
 
 group = 'org.codecop.rogue'
 version = '1.0-SNAPSHOT'
-java.sourceCompatibility = JavaVersion.VERSION_1_8
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
