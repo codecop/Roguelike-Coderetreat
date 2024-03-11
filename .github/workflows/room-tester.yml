@@ -1,0 +1,49 @@
+name: Test room-tester
+
+on:
+  push:
+    paths:
+      - 'room-tester/**'
+      - '.github/workflows/room-tester.yml'
+  pull_request:
+    paths:
+      - 'room-tester/**'
+      - '.github/workflows/room-tester.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v3
+
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'adopt'
+        java-version: 8.0
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('room-tester/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    - name: Build and test
+      working-directory: room-tester
+      run: mvn -B package
+
+    - name: Build Docker image
+      working-directory: room-tester
+      run: |
+        docker build . --file Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/rogue-room-tester:latest
+        echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login --username ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/rogue-room-tester:latest
+
+    - name: Push Docker Hub Description
+      uses: peter-evans/dockerhub-description@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+        repository: ${{ secrets.DOCKERHUB_USERNAME }}/rogue-room-tester
+        readme-filepath: ./room-tester/README.md
