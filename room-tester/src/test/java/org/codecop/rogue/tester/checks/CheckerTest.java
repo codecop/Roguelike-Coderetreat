@@ -6,18 +6,16 @@ import org.codecop.rogue.tester.http.Response;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 class CheckerTest {
 
     // JSONObject data = new JSONObject("{\"layout\":\"#####\\n#c@ |\\n#####\\n\"}");
+
+    Findings findings = new Findings();
 
     @Test
     void shouldHaveLayoutField() {
         String json = "{}";
 
-        List<Finding> findings = new ArrayList<>();
         new RoomFormatChecker().check(findings, responseOkWith(json));
 
         Finding expected = Finding.error("JSONObject[\"layout\"] not found.");

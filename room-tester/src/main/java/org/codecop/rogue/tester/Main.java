@@ -1,5 +1,7 @@
 package org.codecop.rogue.tester;
 
+import org.codecop.rogue.tester.checks.Checkers;
+import org.codecop.rogue.tester.checks.Findings;
 import org.codecop.rogue.tester.http.Api;
 import org.codecop.rogue.tester.http.HttpClientApi;
 import org.codecop.rogue.tester.http.Response;
@@ -12,6 +14,7 @@ public class Main {
 //                "Open http://localhost:" + PORT + "/inventory");
 
         Api api = new HttpClientApi();
+        Checkers checker = new Checkers();
         /*
 Get the room:
 
@@ -33,6 +36,8 @@ returns JSON body with
         System.out.println(response.statusCode); // 200
         System.out.println(response.contentType); // content-type=[application/json]
         System.out.println(response.jsonBody);
+        Findings findings = checker.check(response);
+        System.out.println(findings);
         // see https://www.baeldung.com/java-jsonobject-get-value
 
         /*
@@ -46,7 +51,12 @@ returns `true` or `false`. (If this is 404 then the door is open.)
         System.out.println(response.statusCode); // 200 or 404
         System.out.println(response.contentType); // content-type=[application/json]
         System.out.println(response.jsonBody); // true or false
+        findings = checker.check(response);
+        System.out.println(findings);
+
         response = api.get("http://localhost:8004/minimal/open");
+        findings = checker.check(response);
+        System.out.println(findings);
 
 /*
  To walk around use:
