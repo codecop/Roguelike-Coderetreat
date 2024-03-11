@@ -3,7 +3,7 @@ package org.codecop.rogue.tester.checks;
 import org.codecop.rogue.tester.http.Response;
 import org.json.JSONObject;
 
-public class DescriptionChecker implements Checker {
+public class RoomDescriptionChecker implements Checker {
 
     @Override
     public void check(Findings findings, Response response) {
@@ -20,12 +20,12 @@ public class DescriptionChecker implements Checker {
 
             char firstLetter = description.charAt(0);
             if (!Character.isUpperCase(firstLetter)) {
-                findings.warn("Start description with upper case, was " + description);
+                findings.warn("Start description with upper case, was " + firstLetter);
             }
 
             char lastLetter = description.charAt(description.length() - 1);
             if (lastLetter != '.' && lastLetter != '!') {
-                findings.warn("End description with . or !, was " + description);
+                findings.warn("End description with . or !, was " + lastLetter);
             }
 
             if (description.indexOf('\n') != -1) {
