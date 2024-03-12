@@ -18,3 +18,7 @@ local.properties
 .project
 .settings
 .classpath
+
+# Peter's local markers
+Idee - *
+Weiter *
