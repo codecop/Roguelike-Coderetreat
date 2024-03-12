@@ -117,7 +117,7 @@ public class MonsterRoom implements AnyRoom {
 
     @Override
     public String description() {
-        return "A <Z>ombie is hear. Do not let it touch you.";
+        return "A <Z>ombie is here. Do not let it touch you.";
     }
 
 }
