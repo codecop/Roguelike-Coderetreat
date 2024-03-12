@@ -16,7 +16,7 @@ class CheckerTest {
                 "\"layout\" : \"#######\\n#  @  #\\n#     #\\n#     |\\n#     #\\n#  c  #\\n#######\\n\",\n" +
                 "\"legend\":[{\"item\":\"c\",\"description\":\"a sturdy chest\"}]}";
 
-        findings = new Checkers().check(responseOkWith(json));
+        findings = Checkers.roomCheckers().check(responseOkWith(json));
 
         findings.forEach(finding -> assertEquals(Level.INFO, finding.level));
     }
@@ -26,7 +26,7 @@ class CheckerTest {
         String json = "{}";
 
         // new RoomFormatChecker().check(findings, responseOkWith(json));
-        findings = new Checkers().check(responseOkWith(json));
+        findings = Checkers.roomCheckers().check(responseOkWith(json));
 
         Finding expected = Finding.error("JSONObject[\"layout\"] not found.");
         assertEquals(expected, findings.get(0));

@@ -8,11 +8,20 @@ import java.util.List;
 
 public class Checkers implements Checker {
 
-    private final List<Checker> checkers = Arrays.asList(
-            new RoomFormatChecker(),
-            new RoomLayoutChecker(),
-            new RoomDescriptionChecker()
-    );
+    private final List<Checker> checkers;
+
+    public static Checkers roomCheckers() {
+        return new Checkers(Arrays.asList(
+                new RoomFormatChecker(),
+                new RoomLayoutChecker(),
+                new RoomDescriptionChecker(),
+                new RoomItemChecker()
+        ));
+    }
+
+    public Checkers(List<Checker> checkers) {
+        this.checkers = checkers;
+    }
 
     public Findings check(Response response) {
         Findings findings = new Findings();

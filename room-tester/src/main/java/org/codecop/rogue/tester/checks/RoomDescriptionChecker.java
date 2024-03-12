@@ -8,7 +8,6 @@ public class RoomDescriptionChecker implements Checker {
     @Override
     public void check(Findings findings, Response response) {
         JSONObject json = response.jsonBody;
-        // String layout = json.getString("layout");
 
         if (json.has("description")) {
             String description = json.getString("description");
@@ -31,7 +30,9 @@ public class RoomDescriptionChecker implements Checker {
             if (description.indexOf('\n') != -1) {
                 findings.warn("Description should not have newline, was " + description);
             }
+
         }
+
     }
 
 }
