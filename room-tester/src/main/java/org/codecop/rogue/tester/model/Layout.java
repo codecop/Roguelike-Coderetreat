@@ -17,4 +17,19 @@ public class Layout {
                 mapToObj(c -> new Item((char) c)).
                 collect(Collectors.toList());
     }
+
+    public int count(char c) {
+        return Strings.count(s, c);
+    }
+
+    public Maze toMaze() {
+        String[] lines = s.split("\n");
+        char[][] yxField = Strings.toCharArrayArray(lines);
+        return new Maze(yxField);
+    }
+
+    @Override
+    public String toString() {
+        return s;
+    }
 }

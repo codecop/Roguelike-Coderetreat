@@ -1,4 +1,4 @@
-package org.codecop.rogue.tester.checks;
+package org.codecop.rogue.tester.model;
 
 public class Strings {
     public static int count(String layout, char c) {

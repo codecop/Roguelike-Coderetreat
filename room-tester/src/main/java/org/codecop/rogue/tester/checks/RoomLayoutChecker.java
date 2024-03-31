@@ -1,5 +1,7 @@
 package org.codecop.rogue.tester.checks;
 
+import org.codecop.rogue.tester.model.Layout;
+import org.codecop.rogue.tester.model.Maze;
 import org.codecop.rogue.tester.model.Response;
 
 /**
@@ -19,114 +21,48 @@ public class RoomLayoutChecker implements Checker {
 
     @Override
     public void check(Findings findings, Response response) {
-        String layout = response.getLayoutString();
+        Layout layout = response.getLayout();
         findings.info("Layout found: " + layout);
 
-        String[] lines = layout.split("\n");
-        if (lines.length < 3) {
-            findings.error("Expect layout min height 3, was " + lines.length);
-        }
-        if (lines.length > MAX_SIZE) {
-            findings.warn("Expect layout max height " + MAX_SIZE + ", was " + lines.length);
-        }
-
-        for (String line : lines) {
-            if (line.length() < 3) {
-                findings.error("Expect layout min width 3, was " + line.length());
-            }
-            if (line.length() > MAX_SIZE) {
-                findings.warn("Expect layout max width " + MAX_SIZE + ", was " + line.length());
-            }
-        }
-
-        // TODO Must all lines be same length?
-
-        int countDoors = Strings.count(layout, DOOR);
+        int countDoors = layout.count(DOOR);
         if (countDoors == 0) {
             findings.error("Expect at least one door '" + DOOR + "', was none");
         }
 
-        int countPlayers = Strings.count(layout, PLAYER);
+        int countPlayers = layout.count(PLAYER);
         if (countPlayers != 1) {
             findings.error("Expect one player '" + PLAYER + "', was none/more");
         }
 
-        char[][] yxField = Strings.toCharArrayArray(lines);
-        fillReachableFromPlayer(yxField);
+        Maze maze = layout.toMaze();
 
-        if (hasHolesInOuterWall(yxField)) {
+        int height = maze.height();
+        if (height < 3) {
+            findings.error("Expect layout min height 3, was " + height);
+        }
+        if (height > MAX_SIZE) {
+            findings.warn("Expect layout max height " + MAX_SIZE + ", was " + height);
+        }
+
+        // TODO Must all lines be same length?
+        for (int y = 0; y < height; y++) {
+            double width = maze.width(y);
+            if (width < 3) {
+                findings.error("Expect layout min width 3, was " + width);
+            }
+            if (width > MAX_SIZE) {
+                findings.warn("Expect layout max width " + MAX_SIZE + ", was " + width);
+            }
+        }
+
+        maze.fillAllEmptyFrom(PLAYER);
+        if (maze.touchesOuterWall(PLAYER)) {
             findings.error("Expected walls around level");
         }
 
-        if (!canReachDoor(yxField)) {
+        if (!maze.canReach(PLAYER, DOOR)) {
             findings.warn("Expected free way to door");
         }
-    }
-
-    private void fillReachableFromPlayer(char[][] yx) {
-        boolean changed = true;
-        while (changed) {
-            changed = false;
-            for (int y = 0; y < yx.length; y++) {
-                for (int x = 0; x < yx[y].length; x++) {
-                    if (yx[y][x] == PLAYER) {
-
-                        if (y - 1 < 0 || y + 1 >= yx.length || x - 1 < 0 || x + 1 >= yx[y].length) {
-                            continue;
-                        }
-
-                        if (yx[y - 1][x] == ' ') {
-                            yx[y - 1][x] = PLAYER;
-                            changed = true;
-                        }
-                        if (yx[y + 1][x] == ' ') {
-                            yx[y + 1][x] = PLAYER;
-                            changed = true;
-                        }
-                        if (yx[y][x - 1] == ' ') {
-                            yx[y][x - 1] = PLAYER;
-                            changed = true;
-                        }
-                        if (yx[y][x + 1] == ' ') {
-                            yx[y][x + 1] = PLAYER;
-                            changed = true;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private boolean hasHolesInOuterWall(char[][] yx) {
-        for (int y = 0; y < yx.length; y++) {
-            for (int x = 0; x < yx[y].length; x++) {
-                if (yx[y][x] == PLAYER) {
-                    if (y - 1 < 0 || y + 1 >= yx.length || x - 1 < 0 || x + 1 >= yx[y].length) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    private boolean canReachDoor(char[][] yx) {
-        for (int y = 0; y < yx.length; y++) {
-            for (int x = 0; x < yx[y].length; x++) {
-                if (yx[y][x] == PLAYER) {
-
-                    if (y - 1 < 0 || y + 1 >= yx.length || x - 1 < 0 || x + 1 >= yx[y].length) {
-                        continue;
-                    }
-
-                    if (yx[y - 1][x] == DOOR || yx[y + 1][x] == DOOR ||
-                            yx[y][x - 1] == DOOR || yx[y][x + 1] == DOOR) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
     }
 
 }
