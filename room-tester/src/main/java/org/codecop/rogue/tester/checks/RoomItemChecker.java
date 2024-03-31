@@ -1,17 +1,20 @@
 package org.codecop.rogue.tester.checks;
 
+import org.codecop.rogue.tester.model.Item;
+import org.codecop.rogue.tester.model.Layout;
 import org.codecop.rogue.tester.model.Response;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RoomItemChecker implements Checker {
 
     @Override
     public void check(Findings findings, Response response) {
-        String layout = response.getLayout();
-        String itemsOrMonsters = layout.replaceAll("[# @|\n]", "");
+        Layout layout = response.getLayout();
+        List<Item> itemsOrMonsters = layout.itemsOrMonsters();
 
-        boolean hasItemsOrMonsters = itemsOrMonsters.length() > 0;
+        boolean hasItemsOrMonsters = itemsOrMonsters.size() > 0;
         if (!hasItemsOrMonsters) {
             return;
         }
@@ -22,8 +25,8 @@ public class RoomItemChecker implements Checker {
         if (optionalDescription.isPresent()) {
             String description = optionalDescription.get();
 
-            for (char item : itemsOrMonsters.toCharArray()) {
-                String mnemonic = "<" + item + ">";
+            for (Item item : itemsOrMonsters) {
+                String mnemonic = item.getMnemonic();
                 if (!description.contains(mnemonic)) {
                     findings.warn("Expect mnemonic " + mnemonic + " for item in description, was " + description);
                 }

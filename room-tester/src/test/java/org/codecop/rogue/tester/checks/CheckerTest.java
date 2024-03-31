@@ -79,7 +79,7 @@ class CheckerTest {
 
         new RoomItemChecker().check(findings, responseOkWith(json));
 
-        Finding expected = Finding.warn("Expect description with mnemonics <x> for items or monsters c");
+        Finding expected = Finding.warn("Expect description with mnemonics <x> for items or monsters [c]");
         assertEquals(expected, findings.get(1));
     }
 

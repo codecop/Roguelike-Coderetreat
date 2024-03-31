@@ -33,9 +33,13 @@ public class Response {
     /**
      * Shortcut method.
      */
-    public String getLayout() {
+    public String getLayoutString() {
         String key = "layout";
         return jsonBody.getString(key);
+    }
+
+    public Layout getLayout() {
+        return new Layout(getLayoutString());
     }
 
     public Optional<String> getDescription() {

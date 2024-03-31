@@ -19,7 +19,7 @@ public class RoomLayoutChecker implements Checker {
 
     @Override
     public void check(Findings findings, Response response) {
-        String layout = response.getLayout();
+        String layout = response.getLayoutString();
         findings.info("Layout found: " + layout);
 
         String[] lines = layout.split("\n");
