@@ -6,6 +6,14 @@ import org.json.JSONObject;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Checks the technical format of a room request
+ * <ul>
+ *     <li>A JSON with response code 200.</li>
+ *     <li>Only allowed JSON elements.</li>
+ *     <li>layout is mandatory.</li>
+ * </ul>
+ */
 public class RoomFormatChecker implements Checker {
 
     private static final String CONTENT_TYPE = "application/json";

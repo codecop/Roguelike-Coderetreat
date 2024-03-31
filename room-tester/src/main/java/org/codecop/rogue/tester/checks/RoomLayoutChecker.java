@@ -3,6 +3,15 @@ package org.codecop.rogue.tester.checks;
 import org.codecop.rogue.tester.http.Response;
 import org.json.JSONObject;
 
+/**
+ * Checks the layout of the room:
+ * <ul>
+ *     <li>Min and max size of whole response using newlines.</li>
+ *     <li>Must have a door.</li>
+ *     <li>Must have a player which should be able to reach the door.</li>
+ *     <li>Must have walls around everything.</li>
+ * </ul>
+ */
 public class RoomLayoutChecker implements Checker {
 
     private static final int MAX_SIZE = 15;
@@ -13,12 +22,12 @@ public class RoomLayoutChecker implements Checker {
     public void check(Findings findings, Response response) {
         JSONObject json = response.jsonBody;
         String layout = json.getString("layout");
-        findings.info("Layout found: " + layout);
-
-        if (layout == null) {
+        boolean hasLayout = layout != null;
+        if (!hasLayout) {
             findings.error("Expect layout, was null");
             return;
         }
+        findings.info("Layout found: " + layout);
 
         String[] lines = layout.split("\n");
         if (lines.length < 3) {
@@ -50,7 +59,7 @@ public class RoomLayoutChecker implements Checker {
         }
 
         char[][] yxField = Strings.toCharArrayArray(lines);
-        fillReachable(yxField);
+        fillReachableFromPlayer(yxField);
 
         if (hasHolesInOuterWall(yxField)) {
             findings.error("Expected walls around level");
@@ -61,7 +70,7 @@ public class RoomLayoutChecker implements Checker {
         }
     }
 
-    private void fillReachable(char[][] yx) {
+    private void fillReachableFromPlayer(char[][] yx) {
         boolean changed = true;
         while (changed) {
             changed = false;

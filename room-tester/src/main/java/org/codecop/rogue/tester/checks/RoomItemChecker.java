@@ -11,22 +11,25 @@ public class RoomItemChecker implements Checker {
         String layout = json.getString("layout");
         String itemsOrMonsters = layout.replaceAll("[# @|\n]", "");
 
-        if (itemsOrMonsters.length() > 0) {
-            findings.info("Items or monsters found: " + itemsOrMonsters);
+        boolean hasItemsOrMonsters = itemsOrMonsters.length() > 0;
+        if (!hasItemsOrMonsters) {
+            return;
+        }
 
-            if (json.has("description")) {
-                String description = json.getString("description");
+        findings.info("Items or monsters found: " + itemsOrMonsters);
 
-                for (char item : itemsOrMonsters.toCharArray()) {
-                    String mnemonic = "<" + item + ">";
-                    if (!description.contains(mnemonic)) {
-                        findings.warn("Expect mnemonic " + mnemonic + " for item, was " + description);
-                    }
+        if (json.has("description")) {
+            String description = json.getString("description");
+
+            for (char item : itemsOrMonsters.toCharArray()) {
+                String mnemonic = "<" + item + ">";
+                if (!description.contains(mnemonic)) {
+                    findings.warn("Expect mnemonic " + mnemonic + " for item in description, was " + description);
                 }
-
-            } else {
-                findings.warn("Expect description with mnemonics <x> for items or monsters " + itemsOrMonsters);
             }
+
+        } else {
+            findings.warn("Expect description with mnemonics <x> for items or monsters " + itemsOrMonsters);
         }
 
     }
