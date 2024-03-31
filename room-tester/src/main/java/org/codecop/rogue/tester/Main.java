@@ -9,6 +9,10 @@ import org.codecop.rogue.tester.model.Maze;
 import org.codecop.rogue.tester.model.Position;
 import org.codecop.rogue.tester.model.Response;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Supplier;
+
 public class Main {
 
     private final Api api;
@@ -36,13 +40,13 @@ public class Main {
      * (Description is optional.)
      */
     public void checkRoom() {
-        Checkers checkers = Checkers.roomCheckers();
-
         String url = baseUrl;
         findings.info("Testing room " + url);
         Response response = api.get(url);
+
+        Checkers checkers = Checkers.roomCheckers();
         checkers.check(findings, response);
-        debug(url, response);
+        // debug(url, response);
         onErrorsExit();
 
         lastLayout = response.getLayout();
@@ -65,23 +69,41 @@ public class Main {
      * representation, so the `@` is in the right place.
      */
     public void checkMovement() {
-        Checkers walkCheckers = Checkers.walkCheckers();
-
         Maze maze = lastLayout.toMaze();
-        Position p = maze.getPositionOf('@');
-//        maze.isFree(p.up());
-//        maze.isFree(p.right());
-//        maze.isFree(p.down());
-//        maze.isFree(p.left());
-//
-//        String url = baseUrl + "walk?";
-//        findings.info("Testing walk " + url);
-//        Response response = api.post(url);
-//        walkCheckers.check(findings, response);
-//        debug(url, response);
+        Position player = maze.getPositionOf('@');
+        List<Supplier<Position>> possiblePositions = Arrays.asList(
+                player::up,
+                player::right,
+                player::down,
+                player::left);
+        for (Supplier<Position> direction : possiblePositions) {
+            Position newPosition = direction.get();
+            if (maze.isFree(newPosition)) {
+                checkMovementTo(newPosition);
+                // stop at first free position
+                break;
+            }
+        }
+    }
+
+    private void checkMovementTo(Position newPosition) {
+        String url = baseUrl + "walk?row=" + newPosition.y + "&column=" + newPosition.x;
+        findings.info("Testing walk " + url);
+        Response response = api.post(url);
+
+        Checkers walkCheckers = Checkers.walkCheckers();
+        walkCheckers.check(findings, response);
+        // debug(url, response);
         onErrorsExit();
 
         checkRoom();
+
+        Maze maze = lastLayout.toMaze();
+        Position player = maze.getPositionOf('@');
+        if (!player.equals(newPosition)) {
+            findings.error("Expected player @ at " + newPosition + ", was " + player);
+        }
+        onErrorsExit();
     }
 
     private void onErrorsExit() {
@@ -91,14 +113,21 @@ public class Main {
         }
     }
 
+    private void exit() {
+        System.out.println(findings);
+        System.exit(0);
+    }
+
     public static void main(String[] args) {
         // System.out.println("Testing room " + args[0]);
-        String url1 = "http://localhost:8004/key/";
-        String url = "http://localhost:8004/monster/";
+        // String url = "http://localhost:8004/key/";
+        // String url = "http://localhost:8004/monster/";
+        String url = "http://localhost:8004/minimal";
 
         Main main = new Main(new HttpClientApi(), url);
         main.checkRoom();
         main.checkMovement();
+        main.exit();
 
         /*
 Check if the door is open or locked with:
@@ -122,13 +151,5 @@ returns `true` or `false`. (If this is 404 then the door is open.)
 
         System.exit(0);
     }
-
-    /*
-    2. Tester für Clients selber laufen lassen, als Java Tool JAR bzw. Docker
-  . most mistakes were:
-    . movement broken means not working
-      . not moving at all
-      . wrong direction on arrows
-     */
 
 }
