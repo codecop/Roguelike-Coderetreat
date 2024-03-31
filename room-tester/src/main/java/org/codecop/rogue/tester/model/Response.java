@@ -8,10 +8,6 @@ public class Response {
 
     public final int statusCode;
 
-    public boolean isStatusOk() {
-        return statusCode == 200;
-    }
-
     public static final String CONTENT_TYPE = "application/json";
 
     public final String contentType; // or null if not set
@@ -47,7 +43,16 @@ public class Response {
 
     public Optional<String> getDescription() {
         String key = "description";
-        if (jsonBody.has(key)) {
+        return getOptionalString(key);
+    }
+
+    public Optional<String> getMessage() {
+        String key = "message";
+        return getOptionalString(key);
+    }
+
+    private Optional<String> getOptionalString(String key) {
+        if (jsonBody != null && jsonBody.has(key)) {
             return Optional.of(jsonBody.getString(key));
         }
         return Optional.empty();

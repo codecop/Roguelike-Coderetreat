@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.codecop.rogue.tester.model.Response;
 import org.junit.jupiter.api.Test;
 
-class CheckerTest {
+class RoomCheckersTest {
 
     Findings findings = new Findings();
 
@@ -62,7 +62,7 @@ class CheckerTest {
     @Test
     void shouldHaveBetterDescription() {
         String json = "{\"layout\":\"#####\\n# @ |\\n#####\\n\"," +
-                       "\"description\" : \"Foo.\"}";
+                "\"description\" : \"Foo.\"}";
 
         new RoomDescriptionChecker().check(findings, responseOkWith(json));
 
@@ -87,7 +87,7 @@ class CheckerTest {
         return new Response(200,
                 "application/json", //
                 json //
-        ); //
+        );
     }
 
 }

@@ -26,7 +26,7 @@ public class RoomFormatChecker implements Checker {
 
     @Override
     public void check(Findings findings, Response response) {
-        if (!response.isStatusOk()) {
+        if (response.statusCode != 200) {
             findings.error("Expect Status Code 200, was " + response.statusCode);
         }
 
