@@ -2,12 +2,19 @@ package org.codecop.rogue.tester.checks;
 
 import org.codecop.rogue.tester.model.Response;
 
+/**
+ * Checks the technical format of a door request
+ * <ul>
+ *     <li>A JSON with response code 200 or 404.</li>
+ *     <li>Only allowed true or false.</li>
+ * </ul>
+ */
 public class DoorFormatChecker implements Checker {
 
     @Override
     public void check(Findings findings, Response response) {
         if (response.statusCode != 200 && response.statusCode != 404) {
-            findings.error("Expect Status Code 200 (or 404), was " + response.statusCode);
+            findings.error("Expect Status Code 200 or 404, was " + response.statusCode);
         }
 
         if (response.statusCode == 404) {
@@ -21,4 +28,5 @@ public class DoorFormatChecker implements Checker {
             findings.error("Expect true/false for door, was " + response.body);
         }
     }
+
 }

@@ -10,7 +10,7 @@ import java.util.Set;
  * Checks the technical format of a walk request
  * <ul>
  *     <li>A JSON with response code 201.</li>
- *     <li>Only allowed JSON elements.</li>
+ *     <li>Only allowed JSON element message.</li>
  *     <li>optional message.</li>
  * </ul>
  */
