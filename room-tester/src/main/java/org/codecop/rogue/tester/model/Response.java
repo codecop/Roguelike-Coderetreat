@@ -5,9 +5,15 @@ import org.json.JSONObject;
 import java.util.Optional;
 
 public class Response {
-    public static final String CONTENT_TYPE = "application/json";
 
     public final int statusCode;
+
+    public boolean isStatusOk() {
+        return statusCode == 200;
+    }
+
+    public static final String CONTENT_TYPE = "application/json";
+
     public final String contentType; // or null if not set
 
     public boolean hasJsonContentType() {
@@ -49,5 +55,4 @@ public class Response {
         }
         return Optional.empty();
     }
-
 }
