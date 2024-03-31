@@ -23,17 +23,33 @@ public class HttpClientApi implements Api {
         HttpRequest getRequest = HttpRequest.newBuilder(uri). //
                 header("Accept", Response.CONTENT_TYPE). //
                 GET(). //
-                build(); //
+                build();
 
+        return executeNoBody(getRequest);
+    }
+
+    private Response executeNoBody(HttpRequest request) {
         HttpResponse.BodyHandler<String> noBody = HttpResponse.BodyHandlers. //
                 ofString();
 
-        HttpResponse<String> response = send(getRequest, noBody);
+        HttpResponse<String> response = send(request, noBody);
 
         return new Response(response.statusCode(), //
                 getContentType(response),
                 response.body()
         );
+    }
+
+    @Override
+    public Response post(String url) {
+        URI uri = URI.create(url);
+
+        HttpRequest postRequest = HttpRequest.newBuilder(uri). //
+                header("Accept", Response.CONTENT_TYPE). //
+                POST(HttpRequest.BodyPublishers.noBody()). //
+                build();
+
+        return executeNoBody(postRequest);
     }
 
     private HttpResponse<String> send(HttpRequest request, HttpResponse.BodyHandler<String> body) {
