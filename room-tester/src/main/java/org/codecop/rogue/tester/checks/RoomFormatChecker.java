@@ -17,7 +17,6 @@ import java.util.Set;
 public class RoomFormatChecker implements Checker {
 
     private final Set<String> allowedJsonKeys = new HashSet<>();
-
     {
         allowedJsonKeys.add("layout");
         allowedJsonKeys.add("description");

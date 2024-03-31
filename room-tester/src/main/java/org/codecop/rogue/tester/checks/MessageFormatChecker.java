@@ -17,7 +17,6 @@ import java.util.Set;
 public class MessageFormatChecker implements Checker {
 
     private final Set<String> allowedJsonKeys = new HashSet<>();
-
     {
         allowedJsonKeys.add("message");
     }
