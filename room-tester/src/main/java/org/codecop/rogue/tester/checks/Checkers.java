@@ -18,6 +18,12 @@ public class Checkers implements Checker {
         ));
     }
 
+    public static Checkers walkCheckers() {
+        return new Checkers(Arrays.asList(
+
+        ));
+    }
+
     public Checkers(List<Checker> checkers) {
         this.checkers = checkers;
     }
