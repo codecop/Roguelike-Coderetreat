@@ -4,7 +4,7 @@ import org.codecop.rogue.tester.checks.Checkers;
 import org.codecop.rogue.tester.checks.Findings;
 import org.codecop.rogue.tester.http.Api;
 import org.codecop.rogue.tester.http.HttpClientApi;
-import org.codecop.rogue.tester.http.Response;
+import org.codecop.rogue.tester.model.Response;
 
 public class Main {
 

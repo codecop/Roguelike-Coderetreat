@@ -1,7 +1,6 @@
 package org.codecop.rogue.tester.checks;
 
-import org.codecop.rogue.tester.http.Response;
-import org.json.JSONObject;
+import org.codecop.rogue.tester.model.Response;
 
 /**
  * Checks the layout of the room:
@@ -20,13 +19,7 @@ public class RoomLayoutChecker implements Checker {
 
     @Override
     public void check(Findings findings, Response response) {
-        JSONObject json = response.jsonBody;
-        String layout = json.getString("layout");
-        boolean hasLayout = layout != null;
-        if (!hasLayout) {
-            findings.error("Expect layout, was null");
-            return;
-        }
+        String layout = response.getLayout();
         findings.info("Layout found: " + layout);
 
         String[] lines = layout.split("\n");

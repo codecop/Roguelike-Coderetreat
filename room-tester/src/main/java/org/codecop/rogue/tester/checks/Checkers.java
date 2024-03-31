@@ -1,6 +1,6 @@
 package org.codecop.rogue.tester.checks;
 
-import org.codecop.rogue.tester.http.Response;
+import org.codecop.rogue.tester.model.Response;
 
 import java.util.Arrays;
 import java.util.List;

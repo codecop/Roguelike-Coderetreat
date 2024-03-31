@@ -2,8 +2,7 @@ package org.codecop.rogue.tester.checks;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.codecop.rogue.tester.http.Response;
-import org.json.JSONObject;
+import org.codecop.rogue.tester.model.Response;
 import org.junit.jupiter.api.Test;
 
 class CheckerTest {
@@ -87,8 +86,8 @@ class CheckerTest {
     private Response responseOkWith(String json) {
         return new Response(200,
                 "application/json", //
-                json, //
-                new JSONObject(json)); //
+                json //
+        ); //
     }
 
 }

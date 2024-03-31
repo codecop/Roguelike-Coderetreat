@@ -1,6 +1,6 @@
 package org.codecop.rogue.tester.checks;
 
-import org.codecop.rogue.tester.http.Response;
+import org.codecop.rogue.tester.model.Response;
 import org.json.JSONObject;
 
 import java.util.HashSet;
@@ -16,8 +16,6 @@ import java.util.Set;
  */
 public class RoomFormatChecker implements Checker {
 
-    private static final String CONTENT_TYPE = "application/json";
-
     private final Set<String> allowedJsonKeys = new HashSet<>();
 
     {
@@ -32,8 +30,8 @@ public class RoomFormatChecker implements Checker {
             findings.error("Expect Status Code 200, was " + response.statusCode);
         }
 
-        if (response.contentType == null || !response.contentType.startsWith(CONTENT_TYPE)) {
-            findings.warn("Expect ContentType '" + CONTENT_TYPE + "', was " + response.contentType);
+        if (!response.hasJsonContentType()) {
+            findings.warn("Expect ContentType '" + Response.CONTENT_TYPE + "', was " + response.contentType);
         }
 
         if (response.jsonBody == null) {
@@ -48,7 +46,7 @@ public class RoomFormatChecker implements Checker {
             }
         }
 
-        json.getString("layout");
+        response.getLayout();
     }
 
 }

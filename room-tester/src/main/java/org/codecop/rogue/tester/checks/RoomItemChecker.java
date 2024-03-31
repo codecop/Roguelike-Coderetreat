@@ -1,14 +1,14 @@
 package org.codecop.rogue.tester.checks;
 
-import org.codecop.rogue.tester.http.Response;
-import org.json.JSONObject;
+import org.codecop.rogue.tester.model.Response;
+
+import java.util.Optional;
 
 public class RoomItemChecker implements Checker {
 
     @Override
     public void check(Findings findings, Response response) {
-        JSONObject json = response.jsonBody;
-        String layout = json.getString("layout");
+        String layout = response.getLayout();
         String itemsOrMonsters = layout.replaceAll("[# @|\n]", "");
 
         boolean hasItemsOrMonsters = itemsOrMonsters.length() > 0;
@@ -18,8 +18,9 @@ public class RoomItemChecker implements Checker {
 
         findings.info("Items or monsters found: " + itemsOrMonsters);
 
-        if (json.has("description")) {
-            String description = json.getString("description");
+        Optional<String> optionalDescription = response.getDescription();
+        if (optionalDescription.isPresent()) {
+            String description = optionalDescription.get();
 
             for (char item : itemsOrMonsters.toCharArray()) {
                 String mnemonic = "<" + item + ">";

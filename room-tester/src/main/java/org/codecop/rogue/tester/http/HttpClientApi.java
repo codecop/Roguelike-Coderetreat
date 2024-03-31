@@ -1,6 +1,6 @@
 package org.codecop.rogue.tester.http;
 
-import org.json.JSONObject;
+import org.codecop.rogue.tester.model.Response;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -12,8 +12,6 @@ import java.net.http.HttpResponse;
 public class HttpClientApi implements Api {
     // see https://dzone.com/articles/java-11-http-client-api-to-consume-restful-web-ser-1
 
-    private static final String CONTENT_TYPE = "application/json";
-
     private final HttpClient client = HttpClient.newBuilder(). //
             version(HttpClient.Version.HTTP_1_1). //
             build();
@@ -23,7 +21,7 @@ public class HttpClientApi implements Api {
         URI uri = URI.create(url);
 
         HttpRequest getRequest = HttpRequest.newBuilder(uri). //
-                header("Accept", CONTENT_TYPE). //
+                header("Accept", Response.CONTENT_TYPE). //
                 GET(). //
                 build(); //
 
@@ -34,8 +32,7 @@ public class HttpClientApi implements Api {
 
         return new Response(response.statusCode(), //
                 getContentType(response),
-                response.body(),
-                getJsonBody(response)
+                response.body()
         );
     }
 
@@ -51,12 +48,6 @@ public class HttpClientApi implements Api {
 
     private String getContentType(HttpResponse<String> response) {
         return response.headers().firstValue("Content-Type").orElse(null);
-    }
-
-    private JSONObject getJsonBody(HttpResponse<String> response) {
-        String body = response.body();
-        boolean hasBody = body != null && body.length() > 0 && body.trim().startsWith("{");
-        return hasBody ? new JSONObject(body) : null;
     }
 
 }

@@ -1,16 +1,17 @@
 package org.codecop.rogue.tester.checks;
 
-import org.codecop.rogue.tester.http.Response;
-import org.json.JSONObject;
+import org.codecop.rogue.tester.model.Response;
+
+import java.util.Optional;
 
 public class RoomDescriptionChecker implements Checker {
 
     @Override
     public void check(Findings findings, Response response) {
-        JSONObject json = response.jsonBody;
+        Optional<String> optionalDescription = response.getDescription();
 
-        if (json.has("description")) {
-            String description = json.getString("description");
+        if (optionalDescription.isPresent()) {
+            String description = optionalDescription.get();
             findings.info("Description found: " + description);
 
             if (description.length() < 10) {
