@@ -4,30 +4,29 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Layout {
-    private final String s;
+    private final String layout;
 
-    public Layout(String s) {
-
-        this.s = s;
+    public Layout(String layout) {
+        this.layout = layout;
     }
 
     public List<Item> itemsOrMonsters() {
-        String itemsOrMonsters = s.replaceAll("[# @|\n]", "");
+        String itemsOrMonsters = layout.replaceAll("[# @|\n]", "");
         return itemsOrMonsters.chars().
                 mapToObj(c -> new Item((char) c)).
                 collect(Collectors.toList());
     }
 
     public int count(char c) {
-        return Strings.count(s, c);
+        return Strings.count(layout, c);
     }
 
     public Maze toMaze() {
-        return new Maze(s);
+        return new Maze(layout);
     }
 
     @Override
     public String toString() {
-        return s;
+        return layout;
     }
 }

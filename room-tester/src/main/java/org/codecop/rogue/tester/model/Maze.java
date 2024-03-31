@@ -95,4 +95,14 @@ public class Maze {
                 yx[y][x - 1] == item || yx[y][x + 1] == item;
     }
 
+    public Position getPositionOf(char c) {
+        for (int y = 0; y < height(); y++) {
+            for (int x = 0; x < width(y); x++) {
+                if (yx[y][x] == c) {
+                    return new Position(x, y);
+                }
+            }
+        }
+        return null;
+    }
 }
