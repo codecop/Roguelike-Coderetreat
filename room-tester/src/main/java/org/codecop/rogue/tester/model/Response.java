@@ -36,10 +36,7 @@ public class Response {
         return hasBody ? new JSONObject(body) : null;
     }
 
-    /**
-     * Shortcut method.
-     */
-    public String getLayoutString() {
+    private String getLayoutString() {
         String key = "layout";
         return jsonBody.getString(key);
     }

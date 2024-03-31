@@ -29,13 +29,6 @@ public class Findings {
         return findings.get(index);
     }
 
-    @Override
-    public String toString() {
-        return findings.stream(). //
-                map(Finding::toString). //
-                collect(Collectors.joining("\n"));
-    }
-
     public void forEach(Consumer<Finding> consumer) {
         findings.forEach(consumer);
     }
@@ -46,5 +39,12 @@ public class Findings {
 
     public boolean hasErrors() {
         return count(Level.ERROR) > 0;
+    }
+
+    @Override
+    public String toString() {
+        return findings.stream(). //
+                map(Finding::toString). //
+                collect(Collectors.joining("\n"));
     }
 }
