@@ -13,7 +13,6 @@ public class RoomItemChecker implements Checker {
     public void check(Findings findings, Response response) {
         Layout layout = response.getLayout();
         List<Item> itemsOrMonsters = layout.itemsOrMonsters();
-
         boolean hasItemsOrMonsters = itemsOrMonsters.size() > 0;
         if (!hasItemsOrMonsters) {
             return;
@@ -22,18 +21,18 @@ public class RoomItemChecker implements Checker {
         findings.info("Items or monsters found: " + itemsOrMonsters);
 
         Optional<String> optionalDescription = response.getDescription();
-        if (optionalDescription.isPresent()) {
-            String description = optionalDescription.get();
-
-            for (Item item : itemsOrMonsters) {
-                String mnemonic = item.getMnemonic();
-                if (!description.contains(mnemonic)) {
-                    findings.warn("Expect mnemonic " + mnemonic + " for item in description, was " + description);
-                }
-            }
-
-        } else {
+        if (optionalDescription.isEmpty()) {
             findings.warn("Expect description with mnemonics <x> for items or monsters " + itemsOrMonsters);
+            return;
+        }
+
+        String description = optionalDescription.get();
+
+        for (Item item : itemsOrMonsters) {
+            String mnemonic = item.getMnemonic();
+            if (!description.contains(mnemonic)) {
+                findings.warn("Expect mnemonic " + mnemonic + " for item in description, was " + description);
+            }
         }
 
     }
