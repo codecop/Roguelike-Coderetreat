@@ -5,6 +5,10 @@ public class Maze {
 
     private final char[][] yx;
 
+    public Maze(String layout) {
+        this(Strings.toCharArrayArray(layout.split("\n")));
+    }
+
     public Maze(char[][] yxField) {
         this.yx = yxField;
     }
@@ -21,11 +25,11 @@ public class Maze {
         boolean changed = true;
         while (changed) {
             changed = false;
-            for (int y = 0; y < yx.length; y++) {
-                for (int x = 0; x < yx[y].length; x++) {
+            for (int y = 0; y < height(); y++) {
+                for (int x = 0; x < width(y); x++) {
                     if (yx[y][x] == player) {
 
-                        if (y - 1 < 0 || y + 1 >= yx.length || x - 1 < 0 || x + 1 >= yx[y].length) {
+                        if (isAtBorder(y, x)) {
                             continue;
                         }
 
@@ -51,11 +55,33 @@ public class Maze {
         }
     }
 
+    private boolean isAtBorder(int y, int x) {
+        return y - 1 < 0 || y + 1 >= height() ||
+                x - 1 < 0 || x + 1 >= width(y);
+    }
+
     public boolean touchesOuterWall(char player) {
-        for (int y = 0; y < yx.length; y++) {
-            for (int x = 0; x < yx[y].length; x++) {
+        for (int y = 0; y < height(); y++) {
+            for (int x = 0; x < width(y); x++) {
+                if (yx[y][x] == player && isAtBorder(y, x)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean canReach(char player, char item) {
+        for (int y = 0; y < height(); y++) {
+            for (int x = 0; x < width(y); x++) {
                 if (yx[y][x] == player) {
-                    if (y - 1 < 0 || y + 1 >= yx.length || x - 1 < 0 || x + 1 >= yx[y].length) {
+
+                    if (isAtBorder(y, x)) {
+                        // player should not be at border, just avoid IndexOutOfBounds
+                        continue;
+                    }
+
+                    if (isItemNextTo(item, y, x)) {
                         return true;
                     }
                 }
@@ -64,23 +90,9 @@ public class Maze {
         return false;
     }
 
-    public boolean canReach(char player, char item) {
-        for (int y = 0; y < yx.length; y++) {
-            for (int x = 0; x < yx[y].length; x++) {
-                if (yx[y][x] == player) {
-
-                    if (y - 1 < 0 || y + 1 >= yx.length || x - 1 < 0 || x + 1 >= yx[y].length) {
-                        continue;
-                    }
-
-                    if (yx[y - 1][x] == item || yx[y + 1][x] == item ||
-                            yx[y][x - 1] == item || yx[y][x + 1] == item) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+    private boolean isItemNextTo(char item, int y, int x) {
+        return yx[y - 1][x] == item || yx[y + 1][x] == item ||
+                yx[y][x - 1] == item || yx[y][x + 1] == item;
     }
 
 }

@@ -23,9 +23,7 @@ public class Layout {
     }
 
     public Maze toMaze() {
-        String[] lines = s.split("\n");
-        char[][] yxField = Strings.toCharArrayArray(lines);
-        return new Maze(yxField);
+        return new Maze(s);
     }
 
     @Override
