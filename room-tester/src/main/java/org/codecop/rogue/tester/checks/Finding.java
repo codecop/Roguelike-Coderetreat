@@ -23,7 +23,6 @@ public class Finding {
         this.message = message;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

@@ -7,19 +7,27 @@ import org.junit.jupiter.api.Test;
 
 class FindingsTest {
 
-    Findings f = new Findings();
+    Findings findings = new Findings();
 
     @Test
     void shouldCountByLevel() {
-        assertEquals(0, f.count(Level.ERROR));
+        assertEquals(0, findings.count(Level.ERROR));
     }
 
     @Test
     void shouldCountErrors() {
-        f.error("Foo");
-        assertEquals(1, f.count(Level.ERROR));
-        assertEquals(0, f.count(Level.WARNING));
-        assertTrue(f.hasErrors());
+        findings.error("Foo");
+        assertEquals(1, findings.count(Level.ERROR));
+        assertEquals(0, findings.count(Level.WARNING));
+        assertTrue(findings.hasErrors());
+    }
+
+    @Test
+    void shouldNotRepeatDuplicateElements() {
+        findings.error("Foo");
+        findings.error("Foo");
+        findings.warn("Foo");
+        assertEquals(1, findings.count(Level.ERROR));
     }
 
 }

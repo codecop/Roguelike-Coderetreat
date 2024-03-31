@@ -10,7 +10,7 @@ public class Findings {
     private final List<Finding> findings = new ArrayList<>();
 
     public void error(String message) {
-        findings.add(Finding.error(message));
+        add(Finding.error(message));
     }
 
     public void error(Exception e) {
@@ -18,11 +18,18 @@ public class Findings {
     }
 
     public void warn(String message) {
-        findings.add(Finding.warn(message));
+        add(Finding.warn(message));
     }
 
     public void info(String message) {
-        findings.add(Finding.info(message));
+        add(Finding.info(message));
+    }
+
+    private void add(Finding finding) {
+        if (findings.contains(finding)) {
+            return;
+        }
+        findings.add(finding);
     }
 
     public Finding get(int index) {
