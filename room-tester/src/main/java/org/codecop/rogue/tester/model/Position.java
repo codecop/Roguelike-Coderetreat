@@ -12,6 +12,22 @@ public class Position {
         this.y = y;
     }
 
+    public Position up() {
+        return new Position(x, y - 1);
+    }
+
+    public Position right() {
+        return new Position(x + 1, y);
+    }
+
+    public Position down() {
+        return new Position(x, y + 1);
+    }
+
+    public Position left() {
+        return new Position(x - 1, y);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) {

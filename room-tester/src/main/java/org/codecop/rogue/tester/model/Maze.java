@@ -33,19 +33,19 @@ public class Maze {
                             continue;
                         }
 
-                        if (yx[y - 1][x] == EMPTY) {
+                        if (isFree(y - 1, x)) {
                             yx[y - 1][x] = player;
                             changed = true;
                         }
-                        if (yx[y + 1][x] == EMPTY) {
+                        if (isFree(y + 1, x)) {
                             yx[y + 1][x] = player;
                             changed = true;
                         }
-                        if (yx[y][x - 1] == EMPTY) {
+                        if (isFree(y, x - 1)) {
                             yx[y][x - 1] = player;
                             changed = true;
                         }
-                        if (yx[y][x + 1] == EMPTY) {
+                        if (isFree(y, x + 1)) {
                             yx[y][x + 1] = player;
                             changed = true;
                         }
@@ -104,5 +104,13 @@ public class Maze {
             }
         }
         return null;
+    }
+
+    public boolean isFree(Position p) {
+        return isFree(p.y, p.x);
+    }
+
+    private boolean isFree(int y, int x) {
+        return yx[y][x] == EMPTY;
     }
 }
