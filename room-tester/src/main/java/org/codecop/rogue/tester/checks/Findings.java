@@ -40,4 +40,11 @@ public class Findings {
         findings.forEach(consumer);
     }
 
+    public long count(Level level) {
+        return findings.stream().filter(f -> f.level == level).count();
+    }
+
+    public boolean hasErrors() {
+        return count(Level.ERROR) > 0;
+    }
 }
