@@ -1,7 +1,6 @@
 package org.codecop.rogue.tester.checks;
 
 import org.codecop.rogue.tester.http.Response;
-import org.json.JSONException;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +32,7 @@ public class Checkers implements Checker {
     public void check(Findings findings, Response response) {
         try {
             checkAll(findings, response);
-        } catch (JSONException e) {
+        } catch (Exception e) {
             findings.error(e);
         }
     }

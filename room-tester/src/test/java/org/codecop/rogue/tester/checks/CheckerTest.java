@@ -26,6 +26,7 @@ class CheckerTest {
         String json = "{}";
 
         // new RoomFormatChecker().check(findings, responseOkWith(json));
+        // use all checkers to see early return
         findings = Checkers.roomCheckers().check(responseOkWith(json));
 
         Finding expected = Finding.error("JSONObject[\"layout\"] not found.");
@@ -56,6 +57,30 @@ class CheckerTest {
         new RoomLayoutChecker().check(findings, responseOkWith(json));
 
         Finding expected = Finding.warn("Expected free way to door");
+        assertEquals(expected, findings.get(1));
+    }
+
+    @Test
+    void shouldHaveBetterDescription() {
+        String json = "{\"layout\":\"#####\\n# @ |\\n#####\\n\"," +
+                       "\"description\" : \"Foo.\"}";
+
+        new RoomDescriptionChecker().check(findings, responseOkWith(json));
+
+        Finding expected = Finding.warn("Expect useful description, was short Foo.");
+        assertEquals(expected, findings.get(1));
+    }
+
+    @Test
+    void shouldHaveDescriptionOfItem() {
+        String json = "{\"layout\":\"" +
+                "#####\\n" +
+                "#c@ |\\n" +
+                "#####\\n\"}";
+
+        new RoomItemChecker().check(findings, responseOkWith(json));
+
+        Finding expected = Finding.warn("Expect description with mnemonics <x> for items or monsters c");
         assertEquals(expected, findings.get(1));
     }
 
