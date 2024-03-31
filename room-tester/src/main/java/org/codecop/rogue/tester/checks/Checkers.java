@@ -22,12 +22,6 @@ public class Checkers implements Checker {
         this.checkers = checkers;
     }
 
-    public Findings check(Response response) {
-        Findings findings = new Findings();
-        check(findings, response);
-        return findings;
-    }
-
     @Override
     public void check(Findings findings, Response response) {
         try {

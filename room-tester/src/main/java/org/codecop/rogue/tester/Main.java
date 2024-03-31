@@ -34,7 +34,8 @@ returns JSON body with
         System.out.println(response.statusCode); // 200
         System.out.println(response.contentType); // content-type=[application/json]
         System.out.println(response.jsonBody);
-        Findings findings = checkers.check(response);
+        Findings findings = new Findings();
+        checkers.check(findings, response);
         System.out.println(findings);
         // see https://www.baeldung.com/java-jsonobject-get-value
 
