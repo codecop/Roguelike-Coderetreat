@@ -25,6 +25,12 @@ public class Checkers implements Checker {
         ));
     }
 
+    public static Checkers doorCheckers() {
+        return new Checkers(Arrays.asList(
+                new DoorFormatChecker()
+        ));
+    }
+
     public Checkers(List<Checker> checkers) {
         this.checkers = checkers;
     }

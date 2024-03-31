@@ -9,9 +9,10 @@ import org.codecop.rogue.tester.model.Maze;
 import org.codecop.rogue.tester.model.Position;
 import org.codecop.rogue.tester.model.Response;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 public class Main {
 
@@ -60,33 +61,48 @@ public class Main {
         System.out.println(findings);
     }
 
+    private final List<Function<Position, Position>> allDirections = Arrays.asList(
+            Position::up,
+            Position::down,
+            Position::right,
+            Position::left);
+
     /**
      * To walk around use:
      * <pre>
      * post localhost:8004/empty/walk?row=3&column=5
      * </pre>
      * sends the new coordinate to the room which has to update its internal
-     * representation, so the `@` is in the right place.
+     * representation, so the `@` is in the right place. (A message is optional.)
      */
-    public void checkMovement() {
+    public void checkWalk() {
+        List<Function<Position, Position>> remainingDirections = new ArrayList<>(allDirections);
+        checkWalkTo(remainingDirections);
+    }
+
+    private void checkWalkTo(List<Function<Position, Position>> remainingDirections) {
         Maze maze = lastLayout.toMaze();
         Position player = maze.getPositionOf('@');
-        List<Supplier<Position>> possiblePositions = Arrays.asList(
-                player::up,
-                player::right,
-                player::down,
-                player::left);
-        for (Supplier<Position> direction : possiblePositions) {
-            Position newPosition = direction.get();
+
+        for (Function<Position, Position> direction : remainingDirections) {
+            Position newPosition = direction.apply(player);
             if (maze.isFree(newPosition)) {
-                checkMovementTo(newPosition);
-                // stop at first free position
-                break;
+                checkWalkTo(newPosition);
+                checkRoom();
+                checkPlayerHasMovedTo(newPosition);
+
+                remainingDirections.remove(direction);
+                checkWalkTo(remainingDirections);
+                return;
             }
+        }
+
+        if (remainingDirections.size() > 0) {
+            findings.info("Could not walk to all directions");
         }
     }
 
-    private void checkMovementTo(Position newPosition) {
+    private void checkWalkTo(Position newPosition) {
         String url = baseUrl + "walk?row=" + newPosition.y + "&column=" + newPosition.x;
         findings.info("Testing walk " + url);
         Response response = api.post(url);
@@ -95,14 +111,32 @@ public class Main {
         walkCheckers.check(findings, response);
         // debug(url, response);
         onErrorsExit();
+    }
 
-        checkRoom();
-
+    private void checkPlayerHasMovedTo(Position newPosition) {
         Maze maze = lastLayout.toMaze();
         Position player = maze.getPositionOf('@');
         if (!player.equals(newPosition)) {
             findings.error("Expected player @ at " + newPosition + ", was " + player);
         }
+        onErrorsExit();
+    }
+
+    /**
+     * Check if the door is open or locked with:
+     * <pre>
+     * get localhost:8004/empty/open
+     * </pre>
+     * returns `true` or `false`. (If this is 404 then the door is open.)
+     */
+    public void checkDoor() {
+        String url = baseUrl + "open";
+        findings.info("Testing door " + url);
+        Response response = api.get(url);
+
+        Checkers checkers = Checkers.doorCheckers();
+        checkers.check(findings, response);
+        // debug(url, response);
         onErrorsExit();
     }
 
@@ -119,37 +153,17 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        // System.out.println("Testing room " + args[0]);
+        // String url = args[0];
+        // String url = "http://localhost:8004/empty/";
         // String url = "http://localhost:8004/key/";
         // String url = "http://localhost:8004/monster/";
         String url = "http://localhost:8004/minimal";
 
         Main main = new Main(new HttpClientApi(), url);
         main.checkRoom();
-        main.checkMovement();
+        main.checkWalk();
+        main.checkDoor();
         main.exit();
-
-        /*
-Check if the door is open or locked with:
-
-    get http://localhost:8004/empty/open
-
-returns `true` or `false`. (If this is 404 then the door is open.)
-         */
-        Api api = new HttpClientApi();
-        Response response = api.get("http://localhost:8004/empty/open");
-        System.out.println(response.statusCode); // 200 or 404
-        System.out.println(response.contentType); // content-type=[application/json]
-        System.out.println(response.jsonBody); // true or false
-        // findings = checkers.check(response);
-        // System.out.println(findings);
-
-        response = api.get("http://localhost:8004/minimal/open");
-        // findings = checkers.check(response);
-        // System.out.println(findings);
-
-
-        System.exit(0);
     }
 
 }

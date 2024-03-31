@@ -57,4 +57,14 @@ public class Response {
         }
         return Optional.empty();
     }
+
+    public boolean getDoor() {
+        if (statusCode == 404) {
+            return true;
+        }
+        if ("true".equals(body) || "false".equals(body)) {
+            return Boolean.parseBoolean(body);
+        }
+        throw new IllegalArgumentException("Invalid door " + body);
+    }
 }
