@@ -37,4 +37,6 @@ public class RoomItemChecker implements Checker {
 
     }
 
+    // Check "legend":[{"item":"c","description":"a sturdy chest"}]}
+    // if there is legend, no need for mnemonics
 }
