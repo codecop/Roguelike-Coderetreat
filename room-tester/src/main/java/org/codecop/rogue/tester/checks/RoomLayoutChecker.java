@@ -45,13 +45,21 @@ public class RoomLayoutChecker implements Checker {
         }
 
         // TODO Must all lines be same length?
+        int firstSet = 0;
         for (int y = 0; y < height; y++) {
             double width = maze.width(y);
+            if (width == 0) {
+                if (y == firstSet) {
+                    firstSet++;
+                    findings.warn("Empty row in layout row nr. " + (y + 1));
+                    continue;
+                }
+            }
             if (width < 3) {
-                findings.error("Expect layout min width 3, was " + width);
+                findings.error("Expect layout min width 3, row nr. " + (y + 1) + " was " + width);
             }
             if (width > MAX_SIZE) {
-                findings.warn("Expect layout max width " + MAX_SIZE + ", was " + width);
+                findings.warn("Expect layout max width " + MAX_SIZE + ", row nr. " + (y + 1) + " , was " + width);
             }
         }
 
