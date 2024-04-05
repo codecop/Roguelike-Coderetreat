@@ -12,4 +12,4 @@ Make sure your room is running and all required dependencies run as well, e.g. i
 
 The application is published on [docker hub](https://hub.docker.com/r/codecop/rogue-room-tester). Run it:
 
-    docker run "codecop/rogue-room-tester" <room URL>
+    docker run --network=host "codecop/rogue-room-tester" <room URL like http://localhost:8004/my_room>
