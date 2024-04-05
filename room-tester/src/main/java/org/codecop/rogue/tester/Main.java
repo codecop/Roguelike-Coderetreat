@@ -153,16 +153,25 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        if (args.length != 1) {
+            System.err.println("Provide base URL of room, e.g. http://localhost:8004/empty/");
+            System.exit(1);
+        }
         String url = args[0];
+        System.out.println(url);
         // String url = "http://localhost:8004/empty/";
         // String url = "http://localhost:8004/key/";
         // String url = "http://localhost:8004/monster/";
         // String url = "http://localhost:8004/minimal";
 
         Main main = new Main(new HttpClientApi(), url);
-        main.checkRoom();
-        main.checkWalk();
-        main.checkDoor();
+        try {
+            main.checkRoom();
+            main.checkWalk();
+            main.checkDoor();
+        } catch (Exception e) {
+            main.findings.error(e);
+        }
         main.exit();
     }
 

@@ -14,7 +14,7 @@ public class Findings {
     }
 
     public void error(Exception e) {
-        error(e.getMessage());
+        error(e.toString());
     }
 
     public void warn(String message) {

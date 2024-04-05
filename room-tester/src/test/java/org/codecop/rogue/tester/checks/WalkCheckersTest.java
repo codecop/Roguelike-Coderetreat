@@ -20,9 +20,8 @@ class WalkCheckersTest {
 
     @Test
     void shouldHaveNoFindingsNoJson() {
-        String json = null;
 
-        Checkers.walkCheckers().check(findings, responseCreatedWith(json));
+        Checkers.walkCheckers().check(findings, responseCreatedWith(null));
 
         findings.forEach(finding -> assertEquals(Level.INFO, finding.level));
     }
