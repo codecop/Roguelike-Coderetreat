@@ -8,6 +8,10 @@ Make sure your room is running and all required dependencies run as well, e.g. i
 
     mvn compile exec:java -Dexec.args="http://localhost:8004/my_room"
 
+or
+
+    java -jar target/rogue-room-tester-1.0-SNAPSHOT-jar-with-dependencies.jar    
+
 ## Docker Image
 
 The application is published on [docker hub](https://hub.docker.com/r/codecop/rogue-room-tester). Run it:
