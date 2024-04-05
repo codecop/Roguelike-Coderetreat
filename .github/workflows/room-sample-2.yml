@@ -47,5 +47,5 @@ jobs:
       run: |
         java -jar target/rogue-room-sample-2-1.0-SNAPSHOT.jar &
         sleep 2
-        docker run --network=host "codecop/rogue-room-tester" http://127.0.0.1:8004/key/
+        docker run --network=host "codecop/rogue-room-tester" http://localhost:8004/key/
         pkill -f "rogue-room-sample"
