@@ -19,6 +19,9 @@ public class RoomDescriptionChecker implements Checker {
 
         if (description.length() < 10) {
             findings.warn("Expect useful description, was short " + description);
+            if (description.isEmpty()) {
+                return;
+            }
         }
 
         char firstLetter = description.charAt(0);

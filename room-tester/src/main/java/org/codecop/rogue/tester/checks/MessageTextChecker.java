@@ -19,6 +19,9 @@ public class MessageTextChecker implements Checker {
 
         if (message.length() < 10) {
             findings.warn("Expect useful message, was short " + message);
+            if (message.isEmpty()) {
+                return;
+            }
         }
 
         char firstLetter = message.charAt(0);

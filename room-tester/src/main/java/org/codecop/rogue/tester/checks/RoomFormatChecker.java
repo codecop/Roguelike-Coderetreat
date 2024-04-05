@@ -41,7 +41,7 @@ public class RoomFormatChecker implements Checker {
         JSONObject json = response.jsonBody;
         for (String key : json.keySet()) {
             if (!allowedJsonKeys.contains(key)) {
-                findings.warn("Unexpected key in JSON " + key);
+                findings.warn("Unexpected key in JSON: " + key);
             }
         }
 
