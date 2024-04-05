@@ -14,6 +14,11 @@ cd ..
 cd room-sample-2
 rmdir /S /Q target
 cd ..
+cd room-tester
+rmdir /S /Q build
+rmdir /S /Q .gradle
+rmdir /S /Q target
+cd ..
 
 @rem PHP
 cd template-php-lumen
@@ -37,5 +42,8 @@ cd ..
 
 @rem Python
 cd runtime
+del /s *.pyc
+cd ..
+cd template-python-flask
 del /s *.pyc
 cd ..
