@@ -39,6 +39,26 @@ public class Finding {
 
     @Override
     public String toString() {
+        if (message.contains("\n") && message.contains(": ")) {
+            StringBuilder intendedMessage = new StringBuilder();
+
+            int firstColon = message.indexOf(':');
+            String description = level.name() + '\t' + message.substring(0, firstColon + 2);
+            intendedMessage.append(description);
+
+            String[] remainingMessages = message.substring(firstColon + 2).split("\n");
+            intendedMessage.append(remainingMessages[0]);
+            intendedMessage.append('\n');
+
+            String intent = description.replaceAll("[^\t]", " ");
+            for (int i = 1; i < remainingMessages.length; i++) {
+                intendedMessage.append(intent);
+                intendedMessage.append(remainingMessages[i]);
+                intendedMessage.append('\n');
+            }
+
+            return intendedMessage.toString();
+        }
         return level.name() + '\t' + message;
     }
 }

@@ -21,6 +21,23 @@ class RoomCheckersTest {
     }
 
     @Test
+    void shouldIntentRoomLayout() {
+        String json = "{\"description\" : \"A locked room. There is a <c>hest at the South wall.\",\n" +
+                "\"layout\" : \"#######\\n#  @  #\\n#     #\\n#     |\\n#     #\\n#  c  #\\n#######\\n\",\n" +
+                "\"legend\":[{\"item\":\"c\",\"description\":\"a sturdy chest\"}]}";
+
+        Checkers.roomCheckers().check(findings, responseOkWith(json));
+
+        assertEquals("INFO\tLayout found: #######\n" +
+                "    \t              #  @  #\n" +
+                "    \t              #     #\n" +
+                "    \t              #     |\n" +
+                "    \t              #     #\n" +
+                "    \t              #  c  #\n" +
+                "    \t              #######\n", findings.get(0).toString());
+    }
+
+    @Test
     void shouldHaveLayoutField() {
         String json = "{}";
 
