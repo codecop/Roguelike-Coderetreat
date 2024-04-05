@@ -1,4 +1,9 @@
-# Rogue-Room-sample 8003
+# DEPRECATED Rogue-Room-sample 8003
+
+> [!WARNING]
+> This is **not** the sample room you are looking for. This room's format is deprecated and 
+> is **not** supported by the Game runtime **nor** the room tester.
+> It is only kept for reference. 
 
 This is a Java 8 [Maven](https://maven.apache.org/) project.
 
