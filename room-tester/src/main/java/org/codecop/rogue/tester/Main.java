@@ -23,7 +23,7 @@ public class Main {
 
     public Main(Api api, String baseUrl) {
         this.api = api;
-        this.baseUrl = baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
+        this.baseUrl = baseUrl;
     }
 
     /**
@@ -103,7 +103,7 @@ public class Main {
     }
 
     private void checkWalkTo(Position newPosition) {
-        String url = baseUrl + "walk?row=" + newPosition.y + "&column=" + newPosition.x;
+        String url = baseUrlStart() + "walk?row=" + newPosition.y + "&column=" + newPosition.x;
         findings.info("Testing walk " + url);
         Response response = api.post(url);
 
@@ -111,6 +111,10 @@ public class Main {
         walkCheckers.check(findings, response);
         // debug(url, response);
         onErrorsExit();
+    }
+
+    private String baseUrlStart() {
+        return baseUrl.endsWith("/") ? baseUrl : baseUrl + "/";
     }
 
     private void checkPlayerHasMovedTo(Position newPosition) {
@@ -130,7 +134,7 @@ public class Main {
      * returns `true` or `false`. (If this is 404 then the door is open.)
      */
     public void checkDoor() {
-        String url = baseUrl + "open";
+        String url = baseUrlStart() + "open";
         findings.info("Testing door " + url);
         Response response = api.get(url);
 
