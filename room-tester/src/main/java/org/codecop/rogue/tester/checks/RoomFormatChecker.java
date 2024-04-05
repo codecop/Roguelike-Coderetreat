@@ -1,6 +1,7 @@
 package org.codecop.rogue.tester.checks;
 
 import org.codecop.rogue.tester.model.Response;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashSet;
@@ -34,8 +35,7 @@ public class RoomFormatChecker implements Checker {
         }
 
         if (response.jsonBody == null) {
-            findings.error("Expect valid JSON {...}, was " + response.body);
-            return;
+            throw new JSONException("Expect valid JSON {...}, was " + response.body);
         }
 
         JSONObject json = response.jsonBody;
