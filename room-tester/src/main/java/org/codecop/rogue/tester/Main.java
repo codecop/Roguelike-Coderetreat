@@ -153,11 +153,11 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        // String url = args[0];
+        String url = args[0];
         // String url = "http://localhost:8004/empty/";
         // String url = "http://localhost:8004/key/";
         // String url = "http://localhost:8004/monster/";
-        String url = "http://localhost:8004/minimal";
+        // String url = "http://localhost:8004/minimal";
 
         Main main = new Main(new HttpClientApi(), url);
         main.checkRoom();
