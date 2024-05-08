@@ -6,16 +6,22 @@ import java.util.Optional;
 
 public class MessageTextChecker implements Checker {
 
+    private final String kind;
+
+    public MessageTextChecker(String kind) {
+        this.kind = kind;
+    }
+
     @Override
     public void check(Findings findings, Response response) {
         Optional<String> optionalMessage = response.getMessage();
         if (optionalMessage.isEmpty()) {
-            findings.infoOptional("walking message");
+            findings.infoOptional(kind + " message");
             return;
         }
 
         String message = optionalMessage.get();
-        findings.infoFound("Walking message", message);
+        findings.infoFound(kind + " message", message);
 
         if (message.length() < 10) {
             findings.warn("Expect useful message, was short " + message);

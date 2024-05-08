@@ -30,7 +30,7 @@ class WalkCheckersTest {
     void shouldHaveBetterMessage() {
         String json = "{\"message\" : \"Foo.\"}";
 
-        new MessageTextChecker().check(findings, responseCreatedWith(json));
+        new MessageTextChecker("walking").check(findings, responseCreatedWith(json));
 
         Finding expected = Finding.warn("Expect useful message, was short Foo.");
         assertEquals(expected, findings.get(1));

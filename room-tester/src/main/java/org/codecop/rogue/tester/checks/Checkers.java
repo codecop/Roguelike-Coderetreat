@@ -21,13 +21,20 @@ public class Checkers implements Checker {
     public static Checkers walkCheckers() {
         return new Checkers(Arrays.asList(
                 new MessageFormatChecker(),
-                new MessageTextChecker()
+                new MessageTextChecker("walking")
         ));
     }
 
     public static Checkers doorCheckers() {
         return new Checkers(Arrays.asList(
                 new DoorFormatChecker()
+        ));
+    }
+
+    public static Checkers interactionCheckers() {
+        return new Checkers(Arrays.asList(
+                new MessageFormatChecker(),
+                new MessageTextChecker("interaction")
         ));
     }
 
