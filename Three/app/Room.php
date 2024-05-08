@@ -62,10 +62,10 @@ class Room
     {
         $stringifiedMap = "";
         foreach ($this->map as $column) {
-            $stringifiedMap .= "\n";
             foreach ($column as $cell) {
                 $stringifiedMap .= $cell;
             }
+            $stringifiedMap .= "\n";
         }
         return $stringifiedMap;
     }
