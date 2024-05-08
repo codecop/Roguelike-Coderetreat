@@ -35,6 +35,8 @@ public class Check {
                     findings.warn("Unexpected key in JSON " + key);
                 }
             }
+        } else if (response.body != null && !response.body.isEmpty()) {
+            findings.warn("Unexpected body " + response.body);
         }
     }
 }
