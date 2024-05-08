@@ -37,7 +37,19 @@ class HelloController extends Controller {
 
     public function layout()
     {
-        print_r($this->layout->grid);
+        // print_r($this->layout->grid);
+
+        $string = "";
+        foreach ($this->layout->grid as $row) {
+            foreach ($row as $char) {
+                $string .= $char;
+            }
+            $string .= "\n";
+        }
+        $content = json_encode(array("layout" => $string));
+
+        return response($content, 200)
+               ->header('Content-Type', 'application/json');
     }
 
     public function setPosition(Request $request)
