@@ -2,7 +2,6 @@ package org.codecop.rogue.tester.checks;
 
 import org.codecop.rogue.tester.model.Response;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,33 +16,17 @@ import java.util.Set;
  */
 public class RoomFormatChecker implements Checker {
 
-    private final Set<String> allowedJsonKeys = new HashSet<>();
-    {
-        allowedJsonKeys.add("layout");
-        allowedJsonKeys.add("description");
-        allowedJsonKeys.add("legend");
-    }
-
     @Override
     public void check(Findings findings, Response response) {
-        if (response.statusCode != 200) {
-            findings.error("Expect Status Code 200, was " + response.statusCode);
-        }
+        Check.statusCodeIs(findings, response, 200);
 
-        if (!response.hasJsonContentType()) {
-            findings.warn("Expect ContentType '" + Response.CONTENT_TYPE + "', was " + response.contentType);
-        }
+        Check.contentTypeIsJson(findings, response);
 
         if (response.jsonBody == null) {
             throw new JSONException("Expect valid JSON {...}, was " + response.body);
         }
 
-        JSONObject json = response.jsonBody;
-        for (String key : json.keySet()) {
-            if (!allowedJsonKeys.contains(key)) {
-                findings.warn("Unexpected key in JSON: " + key);
-            }
-        }
+        Check.jsonBodyOnlyHas(findings, response, "layout", "description", "legend");
 
         response.getLayout();
     }

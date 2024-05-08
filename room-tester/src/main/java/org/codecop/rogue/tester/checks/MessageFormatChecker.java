@@ -1,10 +1,8 @@
 package org.codecop.rogue.tester.checks;
 
 import org.codecop.rogue.tester.model.Response;
-import org.json.JSONObject;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Arrays;
 
 /**
  * Checks the technical format of a walk request
@@ -16,31 +14,17 @@ import java.util.Set;
  */
 public class MessageFormatChecker implements Checker {
 
-    private final Set<String> allowedJsonKeys = new HashSet<>();
-    {
-        allowedJsonKeys.add("message");
-    }
-
     @Override
     public void check(Findings findings, Response response) {
-        if (response.statusCode != 200 && response.statusCode != 201 && response.statusCode != 202) {
-            findings.error("Expect Status Code 2xx, was " + response.statusCode);
+        if (Check.statusCodeIs(findings, response, 200, 201, 202)) {
+
         } else if (response.statusCode != 201) {
             findings.warn("Expect Status Code 201, was " + response.statusCode);
         }
 
-        if (!response.hasJsonContentType()) {
-            findings.warn("Expect ContentType '" + Response.CONTENT_TYPE + "', was " + response.contentType);
-        }
+        Check.contentTypeIsJson(findings, response);
 
-        if (response.jsonBody != null) {
-            JSONObject json = response.jsonBody;
-            for (String key : json.keySet()) {
-                if (!allowedJsonKeys.contains(key)) {
-                    findings.warn("Unexpected key in JSON " + key);
-                }
-            }
-        }
+        Check.jsonBodyOnlyHas(findings, response, "message");
     }
 
 }
