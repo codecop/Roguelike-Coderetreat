@@ -15,10 +15,11 @@ public class RoomItemChecker implements Checker {
         List<Item> itemsOrMonsters = layout.itemsOrMonsters();
         boolean hasItemsOrMonsters = itemsOrMonsters.size() > 0;
         if (!hasItemsOrMonsters) {
+            findings.infoOptional("items or monsters (in layout)");
             return;
         }
 
-        findings.info("Items or monsters found: " + itemsOrMonsters);
+        findings.infoFound("Items or monsters", itemsOrMonsters.toString());
 
         Optional<String> optionalDescription = response.getDescription();
         if (optionalDescription.isEmpty()) {

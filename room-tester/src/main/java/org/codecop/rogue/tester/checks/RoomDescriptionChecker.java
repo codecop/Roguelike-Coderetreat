@@ -10,12 +10,12 @@ public class RoomDescriptionChecker implements Checker {
     public void check(Findings findings, Response response) {
         Optional<String> optionalDescription = response.getDescription();
         if (optionalDescription.isEmpty()) {
-            findings.info("Could have optional description");
+            findings.infoOptional("room description");
             return;
         }
 
         String description = optionalDescription.get();
-        findings.info("Description found: " + description);
+        findings.infoFound("Room description", description);
 
         if (description.length() < 10) {
             findings.warn("Expect useful description, was short " + description);

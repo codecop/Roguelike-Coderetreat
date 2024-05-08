@@ -22,7 +22,7 @@ public class RoomLayoutChecker implements Checker {
     @Override
     public void check(Findings findings, Response response) {
         Layout layout = response.getLayout();
-        findings.info("Layout found: " + layout);
+        findings.infoFound("Layout", layout.toString());
 
         int countDoors = layout.count(DOOR);
         if (countDoors == 0) {

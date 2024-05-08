@@ -21,7 +21,7 @@ public class DoorFormatChecker implements Checker {
         }
 
         if ("true".equals(response.body) || "false".equals(response.body)) {
-            findings.info("Door found, door is " + (response.getDoor() ? "open" : "closed"));
+            findings.infoFound("Door", (response.getDoor() ? "open" : "closed"));
         } else {
             findings.error("Expect true/false for door, was " + response.body);
         }

@@ -10,12 +10,12 @@ public class MessageTextChecker implements Checker {
     public void check(Findings findings, Response response) {
         Optional<String> optionalMessage = response.getMessage();
         if (optionalMessage.isEmpty()) {
-            findings.info("Could have optional message");
+            findings.infoOptional("walking message");
             return;
         }
 
         String message = optionalMessage.get();
-        findings.info("Message found: " + message);
+        findings.infoFound("Walking message", message);
 
         if (message.length() < 10) {
             findings.warn("Expect useful message, was short " + message);

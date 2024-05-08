@@ -29,7 +29,15 @@ public class Findings {
         add(Finding.info(message));
     }
 
-     public void testingSection(String subject, String url) {
+    public void infoFound(String key, String value) {
+        info(key + " found: " + value);
+    }
+
+    public void infoOptional(String key) {
+        info("Could have optional " + key + ", was none");
+    }
+
+    public void testingSection(String subject, String url) {
         String header = "==========";
         info("Testing: " + subject + " " + header + "\n" + url);
     }
