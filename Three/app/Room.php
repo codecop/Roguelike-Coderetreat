@@ -17,6 +17,10 @@ class Room
             $this->length = $length;
             $this->setupRoom();
         }
+        if (file_exists("../player.txt")) {
+            $newPlayerPostion = json_decode(file_get_contents("../player.txt"), true);
+            $this->setPlayerPosition($newPlayerPostion[0], $newPlayerPostion[1]);
+        }
     }
 
     public function setupRoom()
@@ -75,6 +79,6 @@ class Room
         $this->map[$this->playerPostion[0]][$this->playerPostion[1]] = ' ';
         $this->playerPostion = [$column, $row];
         $this->map[$column][$row] = '@';
-        //file_put_contents("map.txt", json_encode($this->map));
+        file_put_contents("../player.txt", json_encode($this->playerPostion));
     }
 }
