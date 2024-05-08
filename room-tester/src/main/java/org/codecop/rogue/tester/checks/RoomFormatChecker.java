@@ -3,9 +3,6 @@ package org.codecop.rogue.tester.checks;
 import org.codecop.rogue.tester.model.Response;
 import org.json.JSONException;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Checks the technical format of a room request
  * <ul>

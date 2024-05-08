@@ -15,7 +15,7 @@ class FindingsTest {
     }
 
     @Test
-    void shouldCountFatals() {
+    void shouldCountFatalEntries() {
         findings.fatal("Foo");
         assertEquals(1, findings.count(Level.FATAL));
         assertEquals(0, findings.count(Level.ERROR));

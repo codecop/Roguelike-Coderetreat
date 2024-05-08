@@ -18,7 +18,7 @@ class MazeTest {
     }
 
     @Test
-    void shoudKnowNeighbouringPositions() {
+    void shouldKnowNeighbouringPositions() {
         Maze maze = new Maze("#####\n# @ |\n#####\n");
         Position p = maze.getPositionOf('@');
         assertFalse(maze.isFree(p.up()));

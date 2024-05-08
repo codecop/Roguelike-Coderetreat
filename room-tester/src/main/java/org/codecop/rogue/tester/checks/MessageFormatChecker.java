@@ -2,8 +2,6 @@ package org.codecop.rogue.tester.checks;
 
 import org.codecop.rogue.tester.model.Response;
 
-import java.util.Arrays;
-
 /**
  * Checks the technical format of a walk request
  * <ul>
@@ -16,9 +14,9 @@ public class MessageFormatChecker implements Checker {
 
     @Override
     public void check(Findings findings, Response response) {
-        if (Check.statusCodeIs(findings, response, 200, 201, 202)) {
-
-        } else if (response.statusCode != 201) {
+        Check.statusCodeIs(findings, response, 200, 201, 202);
+        
+        if (response.statusCode == 200 || response.statusCode == 202) {
             findings.warn("Expect Status Code 201, was " + response.statusCode);
         }
 

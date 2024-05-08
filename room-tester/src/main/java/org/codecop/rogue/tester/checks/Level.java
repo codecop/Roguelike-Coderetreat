@@ -1,8 +1,8 @@
 package org.codecop.rogue.tester.checks;
 
 public enum Level {
-    FATAL,
-    ERROR,
+    FATAL, // stops execution
+    ERROR, // must be fixed to work
     WARNING,
     INFO
 }
