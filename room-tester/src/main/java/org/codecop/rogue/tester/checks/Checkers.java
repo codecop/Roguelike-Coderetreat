@@ -20,7 +20,7 @@ public class Checkers implements Checker {
 
     public static Checkers walkCheckers() {
         return new Checkers(Arrays.asList(
-                new MessageFormatChecker(),
+                new WalkMessageFormatChecker(),
                 new MessageTextChecker("walking")
         ));
     }
@@ -33,7 +33,7 @@ public class Checkers implements Checker {
 
     public static Checkers interactionCheckers() {
         return new Checkers(Arrays.asList(
-                new MessageFormatChecker(),
+                new InteractionMessageFormatChecker(),
                 new MessageTextChecker("interaction")
         ));
     }

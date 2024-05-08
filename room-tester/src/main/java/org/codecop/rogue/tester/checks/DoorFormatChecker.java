@@ -13,12 +13,12 @@ public class DoorFormatChecker implements Checker {
 
     @Override
     public void check(Findings findings, Response response) {
-        Check.statusCodeIs(findings, response, 200, 404);
-
         if (response.statusCode == 404) {
             findings.info("Door not found, door is considered open");
             return;
         }
+
+        Check.statusCodeIs(findings, response, 200);
 
         if ("true".equals(response.body) || "false".equals(response.body)) {
             findings.infoFound("Door", (response.getDoor() ? "open" : "closed"));
