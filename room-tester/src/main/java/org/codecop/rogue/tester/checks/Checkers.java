@@ -40,7 +40,7 @@ public class Checkers implements Checker {
         try {
             checkAll(findings, response);
         } catch (Exception e) {
-            findings.error(e);
+            findings.fatal(e);
         }
     }
 

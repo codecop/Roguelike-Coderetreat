@@ -15,11 +15,12 @@ class FindingsTest {
     }
 
     @Test
-    void shouldCountErrors() {
-        findings.error("Foo");
-        assertEquals(1, findings.count(Level.ERROR));
+    void shouldCountFatals() {
+        findings.fatal("Foo");
+        assertEquals(1, findings.count(Level.FATAL));
+        assertEquals(0, findings.count(Level.ERROR));
         assertEquals(0, findings.count(Level.WARNING));
-        assertTrue(findings.hasErrors());
+        assertTrue(findings.isFatal());
     }
 
     @Test

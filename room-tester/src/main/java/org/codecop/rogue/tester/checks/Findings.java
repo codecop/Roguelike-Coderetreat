@@ -9,12 +9,16 @@ public class Findings {
 
     private final List<Finding> findings = new ArrayList<>();
 
-    public void error(String message) {
-        add(Finding.error(message));
+    public void fatal(String message) {
+        add(Finding.fatal(message));
     }
 
-    public void error(Exception e) {
-        error(e.toString());
+    public void fatal(Exception e) {
+        fatal(e.toString());
+    }
+
+    public void error(String message) {
+        add(Finding.error(message));
     }
 
     public void warn(String message) {
@@ -44,8 +48,8 @@ public class Findings {
         return findings.stream().filter(f -> f.level == level).count();
     }
 
-    public boolean hasErrors() {
-        return count(Level.ERROR) > 0;
+    public boolean isFatal() {
+        return count(Level.FATAL) > 0;
     }
 
     @Override

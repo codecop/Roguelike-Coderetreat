@@ -48,7 +48,7 @@ public class Main {
         Checkers checkers = Checkers.roomCheckers();
         checkers.check(findings, response);
         // debug(url, response);
-        onErrorsExit();
+        onFatalExit();
 
         lastLayout = response.getLayout();
     }
@@ -110,7 +110,7 @@ public class Main {
         Checkers walkCheckers = Checkers.walkCheckers();
         walkCheckers.check(findings, response);
         // debug(url, response);
-        onErrorsExit();
+        onFatalExit();
     }
 
     private String baseUrlStart() {
@@ -123,7 +123,7 @@ public class Main {
         if (!player.equals(newPosition)) {
             findings.error("Expected player @ at " + newPosition + ", was " + player);
         }
-        onErrorsExit();
+        onFatalExit();
     }
 
     /**
@@ -141,11 +141,11 @@ public class Main {
         Checkers checkers = Checkers.doorCheckers();
         checkers.check(findings, response);
         // debug(url, response);
-        onErrorsExit();
+        onFatalExit();
     }
 
-    private void onErrorsExit() {
-        if (findings.hasErrors()) {
+    private void onFatalExit() {
+        if (findings.isFatal()) {
             System.out.println(findings);
             System.exit(1);
         }

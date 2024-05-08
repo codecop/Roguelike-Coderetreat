@@ -45,7 +45,7 @@ class RoomCheckersTest {
         // use all checkers to see early return
         Checkers.roomCheckers().check(findings, responseOkWith(json));
 
-        Finding expected = Finding.error("org.json.JSONException: JSONObject[\"layout\"] not found.");
+        Finding expected = Finding.fatal("org.json.JSONException: JSONObject[\"layout\"] not found.");
         assertEquals(expected, findings.get(0));
     }
 

@@ -31,7 +31,7 @@ public class RoomLayoutChecker implements Checker {
 
         int countPlayers = layout.count(PLAYER);
         if (countPlayers != 1) {
-            findings.error("Expect one player '" + PLAYER + "', was none/more");
+            findings.fatal("Expect one player '" + PLAYER + "', was none/more");
         }
 
         Maze maze = layout.toMaze();

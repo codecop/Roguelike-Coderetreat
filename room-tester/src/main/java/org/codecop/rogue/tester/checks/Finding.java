@@ -6,6 +6,10 @@ public class Finding {
     public final Level level;
     public final String message;
 
+    public static Finding fatal(String message) {
+        return new Finding(Level.FATAL, message);
+    }
+
     public static Finding error(String message) {
         return new Finding(Level.ERROR, message);
     }
