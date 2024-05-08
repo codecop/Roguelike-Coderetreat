@@ -29,6 +29,11 @@ public class Findings {
         add(Finding.info(message));
     }
 
+     public void testingSection(String subject, String url) {
+        String header = "==========";
+        info("Testing: " + subject + " " + header + "\n" + url);
+    }
+
     private void add(Finding finding) {
         if (findings.contains(finding)) {
             return;

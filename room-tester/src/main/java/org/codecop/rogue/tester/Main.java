@@ -42,7 +42,7 @@ public class Main {
      */
     public void checkRoom() {
         String url = baseUrl;
-        findings.info("== Testing: room\n" + url);
+        findings.testingSection("room", url);
         Response response = api.get(url);
 
         Checkers checkers = Checkers.roomCheckers();
@@ -76,7 +76,7 @@ public class Main {
      * representation, so the `@` is in the right place. (A message is optional.)
      */
     public void checkWalk() {
-        findings.info("== Testing: walk\n" + baseUrlStart() + "walk?...");
+        findings.testingSection("walk", baseUrlStart() + "walk?...");
         List<Function<Position, Position>> remainingDirections = new ArrayList<>(allDirections);
         checkWalkTo(remainingDirections);
     }
@@ -136,7 +136,7 @@ public class Main {
      */
     public void checkDoor() {
         String url = baseUrlStart() + "open";
-        findings.info("== Testing: door\n" + url);
+        findings.testingSection("door", url);
         Response response = api.get(url);
 
         Checkers checkers = Checkers.doorCheckers();
