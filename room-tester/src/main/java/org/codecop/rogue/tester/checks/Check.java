@@ -8,13 +8,11 @@ import java.util.Collection;
 import java.util.List;
 
 public class Check {
-    public static boolean statusCodeIs(Findings findings, Response response, Integer... codes) {
+    public static void statusCodeIs(Findings findings, Response response, Integer... codes) {
         List<Integer> list = Arrays.asList(codes);
         if (!list.contains(response.statusCode)) {
             findings.error("Expect Status Code " + list + ", was " + response.statusCode);
-            return true;
         }
-        return false;
     }
 
     public static void contentTypeIsJson(Findings findings, Response response) {
