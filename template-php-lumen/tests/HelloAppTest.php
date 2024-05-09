@@ -4,6 +4,13 @@ namespace Tests;
 
 class HelloAppTest extends TestCase
 {
+    /** @before */
+    public function beforeAll() {
+        if (file_exists("./name.txt")) {
+            unlink("./name.txt");
+        }
+    }
+
     /** @test */
     public function firstHello()
     {
