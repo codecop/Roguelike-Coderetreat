@@ -1,31 +1,48 @@
 #!/usr/bin/env io
+doRelativeFile("./Hello.io")
 
 PORT := 8010
 
-main := Yown clone do(
+app := Yown clone do(
+    // self is app, with prototype of Yown, which has req with prototype of WebRequest
 
-    WebServer setPort(PORT)
+    Yown WebServer setPort(PORT)
 
     hello := Hello clone // mutable data, not concurrent, not thread safe
 
     get("/hello",
-        // res.type("application/json");
+        req sendHeader ("Content-type", "application/json")
         hello asJson
     )
 
+    get("/test",
+        # if (req headers at("Content-type") beginWithSeqSeq("application/json"),
+            // && hello.nameFromJson(body)) {
+            req sendResponse (201, "CREATED")
+            "<pre>" ..
+            req queryArgs asJson ..
+            "</pre>" ..
+            "<pre>" ..
+            req headers asJson ..
+            "</pre>"
+    )
+    
     post("/hello",
-            // String body = req.body();
-            // if (req.contentType().startsWith("application/json") && hello.nameFromJson(body)) {
-            //     res.status(HttpServletResponse.SC_CREATED);
-            // } else {
-            //     res.status(HttpServletResponse.SC_BAD_REQUEST);
-            // }
-            // res.type("application/json");
+        req sendHeader ("Content-type", "application/json")
+        if (req headers at("Content-type") beginSeq("application/json"),
+            // && hello.nameFromJson(body)) {
+            req sendResponse (201, "CREATED")
+            "<pre>" ..
+            req queryArgs asString ..
+            "</pre>"
+        ,
+            req sendResponse (400, "BAD_REQUEST")
             ""
+        )
     )
 )
 
 if (isLaunchScript,
     "Hello started on #{PORT},\nOpen http://localhost:#{PORT}/hello" interpolate println
-    main run
+    app run
 )
