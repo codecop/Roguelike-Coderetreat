@@ -1,0 +1,12 @@
+{
+  "name": "rogue-template-yown",
+  "version": "1.0.0",
+  "readme": "README.md",
+  "protos": [ ],
+  "dependencies": {
+    "libs": [],
+    "headers": [],
+    "protos": [],
+    "packages": [ "Yown" ]
+  }
+}

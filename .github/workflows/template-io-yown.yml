@@ -1,0 +1,39 @@
+name: Test template-io-yown
+
+on:
+  push:
+    paths:
+      - 'template-io-yown/**'
+      - '.github/workflows/template-io-yown.yml'
+  pull_request:
+    paths:
+      - 'template-io-yown/**'
+      - '.github/workflows/template-io-yown.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v3
+
+    - name: Set up Io
+      run: |
+        wget -q http://iobin.suspended-chord.info/linux/iobin-linux-x64-deb-current.zip
+        unzip -qq iobin-linux-x64-deb-current.zip
+        sudo dpkg -i IoLanguage-2013.11.04-Linux-x64.deb
+        sudo ldconfig
+        io --version
+
+    - name: Test
+      working-directory: template-io-yown
+      run: io ./tests/correctness/run.io
+
+    - name: Smoke test
+      working-directory: template-io-yown
+      run: |
+        io ./io/main.io &
+        sleep 1
+        wget -qO ./response.json http://localhost:8010/hello
+        pkill -f "main.io"
+        cat response.json
