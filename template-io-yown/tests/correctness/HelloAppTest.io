@@ -9,11 +9,11 @@ HelloAppTest := UnitTest clone do(
     )
 
     tearDown := method(
-        # TODO Spark stop
+        # TODO app stop
         nil
     )
 
-    testFirstHello := method(
+    test_first_hello := method(
         json := getHello parseJson # TODO remove dependency?
         name := json at("name")
         assertEquals("World!", name)
@@ -38,17 +38,20 @@ HelloAppTest := UnitTest clone do(
         request
     )
 
-    // testzupdate := method(
-    //     self helloRequest 
-    //         contentType(ContentType JSON) body("( \"name\":\"Peter\" )")  //
-    //     when  //
-    //         post("/hello")  //
-    //     then  //
-    //         assertThat statusCode(201)
+    test_z_update := method(
+        request := self helloRequest
+        request setHttpMethod("POST")
+        request setBody("{\"name\":\"Peter\"}")
+        request setHeader("Content-Type", "application/json")
 
-    //     JsonPath json := getHello
-    //     String name := json get("name")
-    //     assertEquals("Peter", name)
-    // )
+        response := request connection sendRequest response
+
+        assertEquals("201", response statusCode)
+        assertEquals("application/json", response headerAt("Content-Type"))
+
+        json := getHello parseJson # TODO remove dependency?
+        name := json at("name")
+        assertEquals("Peter", name)
+    )
 
 )

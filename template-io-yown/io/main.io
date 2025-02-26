@@ -26,7 +26,7 @@ app := Yown clone do(
             req headers asJson ..
             "</pre>"
     )
-    
+
     post("/hello",
         req sendHeader ("Content-type", "application/json")
         if (req headers at("Content-type") beginSeq("application/json"),
