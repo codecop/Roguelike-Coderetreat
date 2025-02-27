@@ -19,11 +19,20 @@ jobs:
 
     - name: Set up Io
       run: |
+        sudo apt-get install build-essential cmake libpcre3-dev
         wget -q http://iobin.suspended-chord.info/linux/iobin-linux-x64-deb-current.zip
         unzip -qq iobin-linux-x64-deb-current.zip
         sudo dpkg -i IoLanguage-2013.11.04-Linux-x64.deb
         sudo ldconfig
         io --version
+
+    - name: Set up dependencies
+      working-directory: template-io-yown
+      run: |
+        io -e "System installPrefix println"
+        git clone https://github.com/codecop/Yown.git
+        sudo mv Yown /usr/local/lib/io/addons/
+        io -e "Yown"
 
     - name: Test
       working-directory: template-io-yown
