@@ -4,7 +4,10 @@ doRelativeFile("./Hello.io")
 PORT := 8010
 
 app := Yown clone do(
-    // self is app, with prototype of Yown, which has req with prototype of WebRequest
+    // `self` is the `app`, with prototype of `Yown`,
+    // which has a `req` with prototype of `Yown WebRequest`.
+    // `Yown WebServer` has prototype of (Socket's) ` Server`
+    // which has an `app` field with prototype of `Yown`, and the `run` method.
 
     Yown WebServer setPort(PORT)
 
@@ -39,6 +42,10 @@ app := Yown clone do(
             req sendResponse (400, "BAD_REQUEST")
             ""
         )
+    )
+
+    stop := method(
+        Yown WebServer stop
     )
 )
 

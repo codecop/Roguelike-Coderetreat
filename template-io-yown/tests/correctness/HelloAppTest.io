@@ -4,13 +4,11 @@ HttpClient
 HelloAppTest := UnitTest clone do(
 
     setUp := method(
-        # app @run
-        nil
+        app @run
     )
 
     tearDown := method(
-        # TODO app stop
-        nil
+        app stop
     )
 
     test_first_hello := method(
