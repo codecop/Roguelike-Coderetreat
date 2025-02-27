@@ -4,16 +4,20 @@ ports:
     name: GoTemplateEndpoint
     description: Roguelike Tenplate Go Rest endpoint
     visibility: public
-
-tasks:
-    - init: dep ensure
+  - port: 8010
+    onOpen: open-browser
+    name: IoTemplateEndpoint
+    description: Roguelike Tenplate Io Rest endpoint
+    visibility: public
 
 vscode:
   extensions:
     - streetsidesoftware.code-spell-checker
+    - streetsidesoftware.code-spell-checker-german
     - DavidAnson.vscode-markdownlint
     - Gruntfuggly.todo-tree
     - golang.go
     - premparihar.gotestexplorer
+    - kennethceyer.io
 
-workspaceLocation: '/workspace/Roguelike-Coderetreat/go'
+workspaceLocation: '/workspace/Roguelike-Coderetreat/template-io-yown'

@@ -17,9 +17,16 @@ jobs:
     - name: Check out the repo
       uses: actions/checkout@v3
 
+    - name: Set up Io dependencies
+      working-directory: template-io-yown
+      run: |
+        sudo apt-get install build-essential cmake libpcre3-dev libevent-dev
+        # link to newer libevent 2.1.x
+        ls -la /usr/lib/x86_64-linux-gnu/libevent*.so.*
+        sudo ln -s /usr/lib/x86_64-linux-gnu/libevent-2.1.so.7.0.1 /usr/lib/x86_64-linux-gnu/libevent-2.0.so.5
+
     - name: Set up Io
       run: |
-        sudo apt-get install build-essential cmake libpcre3-dev
         wget -q http://iobin.suspended-chord.info/linux/iobin-linux-x64-deb-current.zip
         unzip -qq iobin-linux-x64-deb-current.zip
         sudo dpkg -i IoLanguage-2013.11.04-Linux-x64.deb
@@ -27,7 +34,6 @@ jobs:
         io --version
 
     - name: Set up dependencies
-      working-directory: template-io-yown
       run: |
         io -e "System installPrefix println"
         git clone https://github.com/codecop/Yown.git
