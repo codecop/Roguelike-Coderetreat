@@ -7,6 +7,6 @@
     "libs": [],
     "headers": [],
     "protos": [],
-    "packages": [ "Yown", "HttpClient" ]
+    "packages": [ "Yown", "Json", "HttpClient" ]
   }
 }

@@ -12,7 +12,7 @@ HelloAppTest := UnitTest clone do(
     )
 
     test_first_hello := method(
-        json := getHello parseJson # TODO remove dependency?
+        json := getHello parseJson
         name := json at("name")
         assertEquals("World!", name)
     )
@@ -47,7 +47,7 @@ HelloAppTest := UnitTest clone do(
         assertEquals("201", response statusCode)
         assertEquals("application/json", response headerAt("Content-Type"))
 
-        json := getHello parseJson # TODO remove dependency?
+        json := getHello parseJson
         name := json at("name")
         assertEquals("Peter", name)
     )

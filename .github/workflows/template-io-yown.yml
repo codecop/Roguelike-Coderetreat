@@ -36,6 +36,9 @@ jobs:
     - name: Set up dependencies
       run: |
         io -e "System installPrefix println"
+        git clone https://github.com/codecop/Json.git
+        sudo mv Json /usr/local/lib/io/addons/
+        io -e "Json"
         git clone https://github.com/codecop/Yown.git
         sudo mv Yown /usr/local/lib/io/addons/
         io -e "Yown"

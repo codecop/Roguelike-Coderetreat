@@ -26,11 +26,11 @@ app := Yown clone do(
         req sendHeader ("Content-type", "application/json")
 
         // req queryArgs first element is a string of the body
-        body := req queryArgs keys at(0) 
+        body := req queryArgs keys at(0)
 
         # if (req headers at("Content-type") ?beginSeq("application/json"),
         e := try(
-            json := body parseJson # TODO dependency?
+            json := body parseJson
         )
 
         if (e not,
