@@ -15,33 +15,33 @@ app := Yown clone do(
 
     get("/hello",
         req sendHeader ("Content-type", "application/json")
-        hello asJson
-    )
 
-    get("/test",
-        # if (req headers at("Content-type") beginWithSeqSeq("application/json"),
-            // && hello.nameFromJson(body)) {
-            req sendResponse (201, "CREATED")
-            "<pre>" ..
-            req queryArgs asJson ..
-            "</pre>" ..
-            "<pre>" ..
-            req headers asJson ..
-            "</pre>"
+        // req queryPath -> the full path
+        // req queryArgs -> a map of string for each http parameter
+
+        hello asJson
     )
 
     post("/hello",
         req sendHeader ("Content-type", "application/json")
-        if (req headers at("Content-type") beginSeq("application/json"),
-            // && hello.nameFromJson(body)) {
+
+        // req queryArgs first element is a string of the body
+        body := req queryArgs keys at(0) 
+
+        # if (req headers at("Content-type") ?beginSeq("application/json"),
+        e := try(
+            json := body parseJson # TODO dependency?
+        )
+
+        if (e not,
+            hello setName(json at("name"))
             req sendResponse (201, "CREATED")
-            "<pre>" ..
-            req queryArgs asString ..
-            "</pre>"
+            ""
         ,
             req sendResponse (400, "BAD_REQUEST")
-            ""
         )
+
+        ""
     )
 
     stop := method(
