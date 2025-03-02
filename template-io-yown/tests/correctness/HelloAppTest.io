@@ -39,8 +39,8 @@ HelloAppTest := UnitTest clone do(
     test_z_update := method(
         request := self helloRequest
         request setHttpMethod("POST")
-        request setBody("{\"name\":\"Peter\"}")
-        request setHeader("Content-Type", "application/json")
+        request setBody("body=" .. CGI encodeUrlParam("{\"name\":\"Peter\"}"))
+        request setHeader("Content-Type", "application/x-www-form-urlencoded")
 
         response := request connection sendRequest response
 

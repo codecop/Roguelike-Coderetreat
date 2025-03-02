@@ -25,8 +25,8 @@ app := Yown clone do(
     post("/hello",
         req sendHeader ("Content-type", "application/json")
 
-        // req queryArgs first element is a string of the body
-        body := req queryArgs keys at(0)
+        // req queryArgs -> a map of post parameters
+        body := req queryArgs at("body")
 
         # if (req headers at("Content-type") ?beginSeq("application/json"),
         e := try(
@@ -39,6 +39,7 @@ app := Yown clone do(
             ""
         ,
             req sendResponse (400, "BAD_REQUEST")
+            e showStack
         )
 
         ""
