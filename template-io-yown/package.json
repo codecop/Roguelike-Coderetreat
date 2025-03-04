@@ -7,6 +7,6 @@
     "libs": [],
     "headers": [],
     "protos": [],
-    "packages": [ "https://github.com/codecop/Yown.git", "https://github.com/codecop/Json.git", "https://github.com/IoLanguage/HttpClient.git" ]
+    "packages": [ "https://github.com/codecop/Yown.git", "https://github.com/IoLanguage/HttpClient.git" ]
   }
 }

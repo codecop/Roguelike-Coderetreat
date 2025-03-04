@@ -3,22 +3,19 @@ HttpClient
 
 HelloAppTest := UnitTest clone do(
 
-    setUp := method(
+    test_a_setUp := method(
+        // trick a one time setup which is run first as tests are sorted by line number
         app @run
     )
 
-    tearDown := method(
-        app stop
-    )
-
     test_first_hello := method(
-        json := getHello parseJson
-        name := json at("name")
-        assertEquals("World!", name)
+        json := getHello
+        assertEquals("{\"name\":\"World!\"}", json)
     )
 
     getHello := method(
-        request := self helloRequest
+        // wget http://localhost:8010/hello
+        request := self helloRequest("")
         request setHttpMethod("GET")
 
         response := request connection sendRequest response
@@ -29,27 +26,30 @@ HelloAppTest := UnitTest clone do(
         response content
     )
 
-    helloRequest := method(
-        url := HCUrl with("http://localhost:#{PORT}/hello" interpolate)
+    helloRequest := method(params,
+        url := HCUrl with("http://localhost:#{PORT}/hello#{params}" interpolate)
         request := HCRequest with(url)
         request setHeader("Accept", "application/json")
         request
     )
 
-    test_z_update := method(
-        request := self helloRequest
+    test_y_update := method(
+        // wget --method POST http://localhost:8010/hello?name=Peter
+        request := self helloRequest("?name=Peter")
         request setHttpMethod("POST")
-        request setBody("body=" .. CGI encodeUrlParam("{\"name\":\"Peter\"}"))
-        request setHeader("Content-Type", "application/x-www-form-urlencoded")
+        request setBody("")
 
         response := request connection sendRequest response
 
         assertEquals("201", response statusCode)
         assertEquals("application/json", response headerAt("Content-Type"))
 
-        json := getHello parseJson
-        name := json at("name")
-        assertEquals("Peter", name)
+        json := getHello
+        assertEquals("{\"name\":\"Peter\"}", json)
+    )
+
+    test_t_tearDown := method(
+        app stop
     )
 
 )

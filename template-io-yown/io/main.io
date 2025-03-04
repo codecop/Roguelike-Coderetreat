@@ -14,7 +14,7 @@ app := Yown clone do(
     hello := Hello clone // mutable data, not concurrent, not thread safe
 
     get("/hello",
-        req sendHeader ("Content-type", "application/json")
+        req sendHeader("Content-type", "application/json")
 
         // req queryPath -> the full path
         // req queryArgs -> a map of string for each http parameter
@@ -23,23 +23,17 @@ app := Yown clone do(
     )
 
     post("/hello",
-        req sendHeader ("Content-type", "application/json")
+        req sendHeader("Content-type", "application/json")
 
         // req queryArgs -> a map of post parameters
-        body := req queryArgs at("body")
+        name := req queryArgs at("name")
 
-        # if (req headers at("Content-type") ?beginSeq("application/json"),
-        e := try(
-            json := body parseJson
-        )
-
-        if (e not,
-            hello setName(json at("name"))
-            req sendResponse (201, "CREATED")
+        if (name,
+            hello setName(name)
+            req sendResponse(201, "CREATED")
             ""
         ,
-            req sendResponse (400, "BAD_REQUEST")
-            e showStack
+            req sendResponse(400, "BAD_REQUEST")
         )
 
         ""

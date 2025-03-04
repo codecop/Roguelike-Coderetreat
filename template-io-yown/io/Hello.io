@@ -16,13 +16,4 @@ Hello := Object clone do(
         Map with("name", name) asJson
     )
 
-    // nameFromJson := method(json,
-    //     Matcher matcher := Pattern compile("\"name\":\\s*\"([^\"]+)\"") matcher(json)
-    //     if (!matcher find,
-    //          return false
-    //     )
-    //     setName(matcher group(1))
-    //     return false
-    // )
-
 )
