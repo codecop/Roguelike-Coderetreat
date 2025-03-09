@@ -20,7 +20,7 @@ jobs:
     - name: Set up Io dependencies
       working-directory: template-io-yown
       run: |
-        sudo apt-get install build-essential cmake libpcre3-dev libevent-dev
+        sudo apt-get install libpcre3-dev libevent-dev
         # link to newer libevent 2.1.x
         ls -la /usr/lib/x86_64-linux-gnu/libevent*.so.*
         sudo ln -s /usr/lib/x86_64-linux-gnu/libevent-2.1.so.7.0.1 /usr/lib/x86_64-linux-gnu/libevent-2.0.so.5
@@ -42,7 +42,7 @@ jobs:
 
     - name: Test
       working-directory: template-io-yown
-      run: io ./tests/correctness/run.io
+      run: io ./tests/correctness/run.io HelloTest.io
 
     - name: Smoke test
       working-directory: template-io-yown
