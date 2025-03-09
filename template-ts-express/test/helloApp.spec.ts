@@ -21,8 +21,8 @@ describe('HelloApp', () => {
 
     it('updates', async () => {
         await request(app).
-            post('/hello').
-            send({ "name": "Peter" }).
+            post('/hello?name=Peter').
+            send().
             expect(201);
 
         const { body } = await request(app).get('/hello');

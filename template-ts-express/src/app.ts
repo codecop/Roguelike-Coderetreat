@@ -14,9 +14,9 @@ async function createApp() {
     });
 
     app.post("/hello", async (req, res) => {
-        const { name } = req.body;
+        const name = req.query.name;
         if (name != undefined) {
-            hello.setName(name);
+            hello.setName(name.toString());
             res.status(201).json();
         } else {
             res.status(400).json();
