@@ -1,9 +1,8 @@
 package hello_test
 
 import (
-	"bytes"
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
 	"roguelike-go/hello"
@@ -15,7 +14,7 @@ import (
 func readResponseName(response *httptest.ResponseRecorder) (string, error) {
 	res := response.Result()
 	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
+	body, err := io.ReadAll(res.Body)
 	if err != nil {
 		return "", err
 	}
@@ -28,8 +27,9 @@ func readResponseName(response *httptest.ResponseRecorder) (string, error) {
 
 func TestGetNameResponse(t *testing.T) {
 	t.Run("should get name", func(t *testing.T) {
-		expected_name := "John Doe"
+		expected_name := "World!"
 		request := httptest.NewRequest(http.MethodGet, "/get_name", nil)
+		request.Header.Add("Accept", "application/json")
 		response := httptest.NewRecorder()
 
 		hello.GetName(response, request)
@@ -42,18 +42,14 @@ func TestGetNameResponse(t *testing.T) {
 
 func TestSetNameResponse(t *testing.T) {
 	t.Run("should assign new name", func(t *testing.T) {
-		var (
-			expected_name = "Paul"
-			b             bytes.Buffer
-			nameCall      = hello.NameCall{Name: expected_name}
-		)
-		json.NewEncoder(&b).Encode(nameCall)
-		setNameRequest := httptest.NewRequest(http.MethodPost, "/set_name", &b)
-		getNameRequest := httptest.NewRequest(http.MethodGet, "/get_name", nil)
-		response := httptest.NewRecorder()
+		expected_name := "Paul"
+		setNameRequest := httptest.NewRequest(http.MethodPost, "/set_name?name=Paul", nil)
 
 		hello.SetName(httptest.NewRecorder(), setNameRequest)
 
+		getNameRequest := httptest.NewRequest(http.MethodGet, "/get_name", nil)
+		getNameRequest.Header.Add("Accept", "application/json")
+		response := httptest.NewRecorder()
 		hello.GetName(response, getNameRequest)
 		assert.Equal(t, response.Code, http.StatusOK)
 		name, _ := readResponseName(response)

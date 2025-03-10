@@ -12,16 +12,14 @@ func TestGetName(t *testing.T) {
 	hello := hello.NewHello(name)
 
 	assert.Equal(t, hello.GetName(), name)
-
 }
 
 func TestSetName(t *testing.T) {
 	name := "World!"
-	newName := "Paul"
 	hello := hello.NewHello(name)
 
+	newName := "Paul"
 	hello.SetName(newName)
 
 	assert.Equal(t, hello.GetName(), newName)
-
 }
