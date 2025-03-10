@@ -24,7 +24,7 @@ class HelloAppTest extends TestCase
     /** @test */
     public function update()
     {
-        $response = $this->call('POST', '/hello', [ 'name' => 'Peter' ]);
+        $response = $this->call('POST', '/hello?name=Peter');
         $response->assertCreated();
 
         $response = $this->call('GET', '/hello');
