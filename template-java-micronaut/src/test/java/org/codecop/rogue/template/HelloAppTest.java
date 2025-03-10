@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.MediaType;
+import io.micronaut.http.MutableHttpRequest;
 import io.micronaut.http.client.HttpClient;
 import io.micronaut.http.client.annotation.Client;
 import io.micronaut.runtime.EmbeddedApplication;
@@ -44,9 +45,9 @@ class HelloAppTest {
 
     @Test
     public void zupdate() {
-        HttpResponse<Object> post = client.toBlocking().exchange( // 
-                HttpRequest.POST("/hello", "{ \"name\":\"Peter\" }"). // 
-                        contentType(MediaType.APPLICATION_JSON_TYPE));
+        MutableHttpRequest<String> postRequest = HttpRequest.POST("/hello", "");
+        postRequest.getParameters().add("name", "Peter");
+        HttpResponse<Object> post = client.toBlocking().exchange(postRequest);
         assertEquals(201, post.code());
 
         String body = client.toBlocking().retrieve( //

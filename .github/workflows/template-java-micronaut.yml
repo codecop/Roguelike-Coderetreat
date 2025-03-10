@@ -16,7 +16,7 @@ jobs:
     
     strategy:
       matrix:
-        java-version: [8, 11, 17, 21]
+        java-version: [8, 11, 17, 21, 23]
     
     steps:
     - name: Check out the repo
@@ -44,5 +44,9 @@ jobs:
         java -jar target/rogue-template-micronaut-1.0-SNAPSHOT.jar &
         sleep 2
         wget -qO ./response.json http://localhost:8080/hello
+        wget -q --method POST http://localhost:8080/hello?name=Peter
+        wget -qO ./response2.json http://localhost:8080/hello
         pkill -f "rogue-template-micronaut"
+        sleep 1
         cat response.json
+        cat response2.json
