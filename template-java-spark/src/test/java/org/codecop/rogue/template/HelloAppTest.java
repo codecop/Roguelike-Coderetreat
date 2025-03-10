@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.specification.RequestSpecification;
 import spark.Spark;
@@ -34,7 +33,7 @@ class HelloAppTest {
 
     private JsonPath getHello() {
         return given().
-                // params(paramName, paramValue, otherParamPairs).
+                // param(paramName, paramValue, otherParamPairs).
             when(). //
                 get("/hello"). //
             then(). // 
@@ -52,7 +51,8 @@ class HelloAppTest {
     @Test
     public void zupdate() {
         given().
-            contentType(ContentType.JSON).body("{ \"name\":\"Peter\" }"). //
+            // contentType(ContentType.JSON).body("{ \"name\":\"Peter\" }"). //
+            param("name", "Peter"). //
         when(). //
             post("/hello"). //
         then(). //

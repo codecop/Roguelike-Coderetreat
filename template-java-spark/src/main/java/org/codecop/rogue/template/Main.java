@@ -28,8 +28,9 @@ public class Main {
         });
 
         post("/hello", (req, res) -> {
-            String body = req.body();
-            if (req.contentType().startsWith("application/json") && hello.nameFromJson(body)) {
+            String name = req.queryParams("name");
+            if (name != null) {
+                hello.setName(name);
                 res.status(HttpServletResponse.SC_CREATED);
             } else {
                 res.status(HttpServletResponse.SC_BAD_REQUEST);
