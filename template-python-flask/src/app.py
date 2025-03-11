@@ -13,8 +13,7 @@ def get_data():
 @app.route('/hello', methods=['POST'])
 def add_data():
     global hello
-    request_data = request.get_json()
-    new_name = request_data['name']
+    new_name = request.args.get('name')
     if len(new_name) > 0:
         hello.setName(new_name)
         return "", 201

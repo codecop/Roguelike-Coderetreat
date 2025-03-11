@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.7", "3.8", "3.10", "3.11"]
+        python-version: ["3.7", "3.8", "3.10", "3.11", "3.12"]
 
     steps:
     - name: Check out the repo
@@ -42,5 +42,9 @@ jobs:
         python main.py &
         sleep 1
         wget -qO ./response.json http://localhost:5000/hello
+        wget -q --method POST http://localhost:5000/hello?name=Peter
+        wget -qO ./response2.json http://localhost:5000/hello
         pkill -f "main.py"
+        sleep 1
         cat response.json
+        cat response2.json

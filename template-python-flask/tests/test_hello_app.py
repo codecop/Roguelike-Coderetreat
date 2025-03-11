@@ -21,9 +21,8 @@ def test_get_name(client):
     assert "World!" == data["name"]
 
 def test_set_name(client):
-    response = client.post("/hello", 
-                           headers={'Content-Type': 'application/json'},
-                           data="{ \"name\": \"Paul\" }")
+    response = client.post("/hello?name=Paul", 
+                           headers={'Content-Type': 'application/json'})
     assert response.status_code == 201
 
     response = client.get("/hello")
