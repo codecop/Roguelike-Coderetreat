@@ -1,8 +1,7 @@
-# Creating a New Roguelike Template
+# Creating a New Template
 
-This document provides a complete guide for creating a new language/framework
-template that follows the established patterns of the Roguelike Coderetreat
-project.
+This document provides a guide for creating a new language/framework
+template that follows the established patterns in this repository.
 
 ## Overview
 
@@ -132,7 +131,6 @@ Test 2: "update" or "test_set_name"
 - Python: pytest + Flask test client
 - Go: testing + httptest
 - TypeScript: Jest/Mocha + supertest
-- PHP: PHPUnit
 
 ### 6. Start Script (start.bat)
 
@@ -152,20 +150,7 @@ Create a one-line batch file:
 
 ### 7. .gitignore File
 
-Create a language-specific .gitignore file:
-
-**Common patterns to include:**
-
-- IDE files: `.idea/`, `*.iml`, `.vscode/`, `.project`, `.classpath`, `.settings/`
-- Build artifacts: `target/`, `build/`, `dist/`, `*.exe`, `*.dll`
-- Dependencies: `node_modules/`, `vendor/`, `__pycache__/`
-- OS files: `.DS_Store`, `Thumbs.db`
-- Language-specific:
-  - Java: `target/`, `.gradle/`, `*.class`
-  - Python: `*.pyc`, `*.pyo`, `__pycache__/`, `.pytest_cache/`, `venv/`
-  - Node.js: `node_modules/`, `npm-debug.log`, `package-lock.json`
-  - Go: `*.exe`, `*.test`, `*.out`, binary name
-  - PHP: `vendor/`, `composer.lock`, `.phpunit.result.cache`
+Create a language-specific .gitignore file.
 
 ### 8. README.md
 
@@ -204,9 +189,14 @@ Create appropriate dependency management file:
 
 Choose an available port:
 
+- 8080 - Go/HTTP (taken)
+- 8010 - Io/Yown (taken)
+- 8080 - Java/Micronaut (taken)
 - 4567 - Java/Spark (taken)
 - 8000 - PHP/Lumen (taken)
-- 8080 - Go/HTTP (taken)
+- 6000 - Python/FastAPI (taken)
+- 5000 - Python/Flask (taken)
+- 5010 - TS/Express (taken)
 - Suggested: 3000, 5000, 8081, 9000
 
 ## Simplicity Guidelines
@@ -254,12 +244,6 @@ Choose an available port:
 
    ```bash
    POST /hello -> 400 Bad Request
-   ```
-
-4. **Empty Parameter Test**:
-
-   ```bash
-   POST /hello?name= -> 400 Bad Request
    ```
 
 ## Common Pitfalls to Avoid
@@ -383,11 +367,3 @@ jobs:
         cat response.json
         cat response2.json
 ```
-
-### Version Matrix Examples
-
-- **Java**: `[8, 11, 17, 25]`
-- **Python**: `["3.8", "3.10", "3.12", "3.13"]`
-- **Go**: `['1.16', '1.18', '1.20', '1.22']`
-- **Node.js**: `[14, 18, 22, ...]`
-- **PHP**: `['7.4', '8.0', '8.2', '8.4']`
