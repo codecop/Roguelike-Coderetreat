@@ -1,0 +1,51 @@
+name: Test template-python-fastapi
+
+on:
+  push:
+    paths:
+      - 'template-python-fastapi/**'
+      - '.github/workflows/template-python-fastapi.yml'
+  pull_request:
+    paths:
+      - 'template-python-fastapi/**'
+      - '.github/workflows/template-python-fastapi.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.10", "3.12", "3.13"]
+
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Set up dependencies
+      working-directory: template-python-fastapi
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Test
+      working-directory: template-python-fastapi
+      run: python -m pytest
+
+    - name: Smoke test
+      working-directory: template-python-fastapi
+      run: |
+        python main.py &
+        sleep 2
+        wget -qO ./response.json http://localhost:6000/hello
+        wget -q --method POST http://localhost:6000/hello?name=Peter
+        wget -qO ./response2.json http://localhost:6000/hello
+        pkill -f "main.py"
+        sleep 1
+        cat response.json
+        cat response2.json

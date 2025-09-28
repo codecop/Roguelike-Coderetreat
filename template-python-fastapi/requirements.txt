@@ -1,0 +1,5 @@
+fastapi==0.117.1
+uvicorn==0.37.0
+# test dependencies
+httpx==0.28.1
+pytest==7.4.2

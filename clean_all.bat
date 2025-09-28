@@ -44,6 +44,11 @@ cd ..
 cd runtime
 del /s *.pyc
 cd ..
+cd template-python-fastapi
+rmdir /S /Q .pytest_cache
+del /s *.pyc
+cd ..
 cd template-python-flask
+rmdir /S /Q .pytest_cache
 del /s *.pyc
 cd ..
