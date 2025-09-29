@@ -1,6 +1,5 @@
 (ns template-clojure-compojure.main
   (:require [compojure.core :refer [defroutes GET POST]]
-            [compojure.route :as route]
             [compojure.handler :as handler]
             [ring.adapter.jetty :refer [run-jetty]]
             [ring.middleware.json :refer [wrap-json-response]]
@@ -19,12 +18,8 @@
     (if (and name (seq name))
       (do
         (hello/set-name hello-instance name)
-        (-> (response "")
-            (status 201)))
-      (-> (response "")
-          (status 400))))
-
-  (route/not-found "Not Found"))
+        (status 201))
+      (status 400))))
 
 (def app
   (-> app-routes
