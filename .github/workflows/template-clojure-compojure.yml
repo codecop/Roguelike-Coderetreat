@@ -1,0 +1,56 @@
+name: Test template-clojure-compojure
+
+on:
+  push:
+    paths:
+      - 'template-clojure-compojure/**'
+      - '.github/workflows/template-clojure-compojure.yml'
+  pull_request:
+    paths:
+      - 'template-clojure-compojure/**'
+      - '.github/workflows/template-clojure-compojure.yml'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the repo
+      uses: actions/checkout@v3
+
+    - name: Set up Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'adopt'
+        java-version: '11'
+
+    - name: Install Leiningen
+      run: |
+        curl -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein
+        chmod +x lein
+        sudo mv lein /usr/local/bin/
+        lein version
+
+    - name: Cache Leiningen dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-lein-${{ hashFiles('template-clojure-compojure/project.clj') }}
+        restore-keys: ${{ runner.os }}-lein
+
+    - name: Build and test
+      working-directory: template-clojure-compojure
+      run: lein test
+
+    - name: Smoke test
+      working-directory: template-clojure-compojure
+      run: |
+        lein run &
+        sleep 5
+        wget -qO ./response.json http://localhost:3000/hello
+        wget -q --method POST "http://localhost:3000/hello?name=Peter"
+        wget -qO ./response2.json http://localhost:3000/hello
+        pkill -f "java"
+        sleep 1
+        cat response.json
+        cat response2.json

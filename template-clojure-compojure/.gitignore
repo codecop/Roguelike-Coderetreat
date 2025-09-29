@@ -1,0 +1,32 @@
+# Leiningen
+/target
+/classes
+/checkouts
+pom.xml
+pom.xml.asc
+*.jar
+*.class
+/.lein-*
+/.nrepl-port
+.hgignore
+.hg/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.calva/
+.clj-kondo/
+.lsp/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Temp files
+*~
+*.swp
+*.swo
