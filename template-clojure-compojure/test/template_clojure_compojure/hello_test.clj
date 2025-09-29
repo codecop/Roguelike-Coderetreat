@@ -1,5 +1,5 @@
 (ns template-clojure-compojure.hello-test
-  (:require [clojure.test :refer :all]
+  (:require [clojure.test :refer [deftest is testing]]
             [template-clojure-compojure.hello :as hello]))
 
 (deftest get-name-test

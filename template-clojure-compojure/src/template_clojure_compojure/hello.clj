@@ -14,8 +14,3 @@
   "Sets a new name in Hello instance"
   [hello new-name]
   (swap! hello assoc :name new-name))
-
-(defn name-as-json
-  "Returns the name as a JSON-compatible map"
-  [hello]
-  {:name (get-name hello)})

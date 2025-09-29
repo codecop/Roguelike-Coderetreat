@@ -8,22 +8,22 @@
             [template-clojure-compojure.hello :as hello])
   (:gen-class))
 
-;; Create single shared Hello instance
+;; Single shared Hello instance
 (def hello-instance (hello/create-hello))
 
 (defroutes app-routes
   (GET "/hello" []
-    (response (hello/name-as-json hello-instance)))
-  
+    (response {:name (hello/get-name hello-instance)}))
+
   (POST "/hello" {{name :name} :params}
-    (if (and name (not (empty? name)))
+    (if (and name (seq name))
       (do
         (hello/set-name hello-instance name)
         (-> (response "")
             (status 201)))
       (-> (response "")
           (status 400))))
-  
+
   (route/not-found "Not Found"))
 
 (def app
@@ -34,5 +34,6 @@
 (defn -main
   "Start the HTTP server"
   [& args]
-  (println "Starting server on port 3000...")
-  (run-jetty app {:port 3000 :join? false}))
+  (let [port 3000]
+    (println (str "Hello started on " port ",\nOpen http://localhost:" port "/hello"))
+    (run-jetty app {:port port :join? false})))

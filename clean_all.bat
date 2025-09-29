@@ -52,3 +52,10 @@ cd template-python-flask
 rmdir /S /Q .pytest_cache
 del /s *.pyc
 cd ..
+
+@rem Clojure
+cd template-clojure-compojure
+rmdir /S /Q .calva
+rmdir /S /Q .clj-kondo
+rmdir /S /Q target
+cd ..
