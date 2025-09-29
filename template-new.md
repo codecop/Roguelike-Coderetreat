@@ -189,6 +189,7 @@ Create appropriate dependency management file:
 
 Choose an available port:
 
+- 3000 - Clojure/Compojure (taken)
 - 8080 - Go/HTTP (taken)
 - 8010 - Io/Yown (taken)
 - 8080 - Java/Micronaut (taken)
@@ -197,7 +198,7 @@ Choose an available port:
 - 6000 - Python/FastAPI (taken)
 - 5000 - Python/Flask (taken)
 - 5010 - TS/Express (taken)
-- Suggested: 3000, 5000, 8081, 9000
+- Suggested: 8081, 9000
 
 ## Simplicity Guidelines
 

@@ -6,6 +6,7 @@
                  [ring/ring-core "1.13.1"] ;; last version for Java 11
                  [ring/ring-jetty-adapter "1.13.1"]
                  [ring/ring-json "0.5.1"]
+                 [org.slf4j/slf4j-simple "2.0.13"] ;; Jetty transitive
                  ;;
                  ]
 
