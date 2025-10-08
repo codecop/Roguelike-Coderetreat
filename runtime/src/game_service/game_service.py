@@ -11,7 +11,7 @@ class GameService:
         return self._request(f"{self.endpoints.room_url}")
 
     def get_stats(self):
-        return self._request(f"{self.endpoints.stats_endpoint}/hp", "GET", None, False)
+        return self._request(f"{self.endpoints.stats_endpoint}/hp", "GET")
 
     def reset_stats(self):
         return self._request(f"{self.endpoints.stats_endpoint}/hp?action=reset", "POST")
@@ -20,7 +20,6 @@ class GameService:
         return self._request(
             f"{self.endpoints.room_url}/walk?column={column}&row={row}",
             "POST",
-            {"row": row, "column": column}
         )
 
     def act(self, item: Item):
@@ -28,16 +27,15 @@ class GameService:
         return self._request(
             f"{self.endpoints.room_url}/interact?{item_param}",
             "POST",
-            {"item": item.identifier}
         )
 
     def open(self):
         return self._request(f"{self.endpoints.room_url}/open")
 
-    def _request(self, to_endpoint, method="GET", payload=None, print_exception=False):
+    def _request(self, to_endpoint, method="GET", print_exception=False):
         try:
             request_method = requests.get if method == "GET" else requests.post
-            response = request_method(to_endpoint, data=payload)
+            response = request_method(to_endpoint)
             if "application/json" not in response.headers.get("Content-Type", ""):
                 return None
             return response.json()
