@@ -1,8 +1,6 @@
-import { describe, it } from 'mocha';
 import { Express } from 'express';
 import { createApp } from '../src/app';
 import request from 'supertest';
-import { expect } from 'chai';
 
 describe('Stats App', () => {
 
@@ -17,10 +15,10 @@ describe('Stats App', () => {
             get('/stats/hp').
             expect(200);
 
-        expect(response.header['content-type']).equal('application/json; charset=utf-8');
+        expect(response.header['content-type']).toBe('application/json; charset=utf-8');
         const body = response.body;
-        expect(body.hp).equal(10);
-        expect(body.alive).equal(true);
+        expect(body.hp).toBe(10);
+        expect(body.alive).toBe(true);
     });
 
     it('update HP', async () => {
@@ -30,7 +28,7 @@ describe('Stats App', () => {
             expect(201);
 
         const { body: bodyDecreased } = await request(app).get('/stats/hp');
-        expect(bodyDecreased.hp).equal(9);
+        expect(bodyDecreased.hp).toBe(9);
 
         await request(app).
             post('/stats/hp').
@@ -38,12 +36,12 @@ describe('Stats App', () => {
             expect(201);
 
         const { body: bodyIncreased } = await request(app).get('/stats/hp');
-        expect(bodyIncreased.hp).equal(10);
+        expect(bodyIncreased.hp).toBe(10);
     });
 
     it('dynamic attribute level', async () => {
         const { body } = await request(app).get('/stats/level');
-        expect(body.level).equal(0);
+        expect(body.level).toBe(0);
 
         await request(app).
             post('/stats/level').
@@ -51,14 +49,14 @@ describe('Stats App', () => {
             expect(201);
 
         const { body: bodyIncreased } = await request(app).get('/stats/level');
-        expect(bodyIncreased.level).equal(1);
+        expect(bodyIncreased.level).toBe(1);
 
         await request(app).
             del('/stats/level').
             expect(202);
 
         const { body: bodyReset } = await request(app).get('/stats/level');
-        expect(bodyReset.level).equal(0);
+        expect(bodyReset.level).toBe(0);
     });
 
 });
