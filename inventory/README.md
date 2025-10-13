@@ -18,7 +18,7 @@ To start the application:
 
 The application is published on [docker hub](https://hub.docker.com/r/codecop/rogue-inventory). Run it:
 
-    docker run -p8001:8001 "codecop/rogue-inventory"
+    podman run -p8001:8001 "codecop/rogue-inventory"
 
 ## Usage
 

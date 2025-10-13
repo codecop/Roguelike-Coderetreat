@@ -10,10 +10,14 @@ Make sure your room is running and all required dependencies run as well, e.g. i
 
 or
 
-    java -jar target/rogue-room-tester-1.0-SNAPSHOT-jar-with-dependencies.jar    
+    java -jar target/rogue-room-tester-1.0-SNAPSHOT-jar-with-dependencies.jar http://localhost:8004/my_room
 
 ## Docker Image
 
 The application is published on [docker hub](https://hub.docker.com/r/codecop/rogue-room-tester). Run it:
 
-    docker run --network=host "codecop/rogue-room-tester" <room URL like http://localhost:8004/my_room>
+    podman run --network=host "codecop/rogue-room-tester" <room URL like http://localhost:8004/my_room>
+
+For Mac replace the network with `host.containers.internal` IP address:
+
+    podman run codecop/rogue-room-tester "http://host.containers.internal:8004/my_room"

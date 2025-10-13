@@ -22,7 +22,7 @@ To start the application:
 
 The application is published on [docker hub](https://hub.docker.com/r/codecop/rogue-stats). Run it:
 
-    docker run -p8002:8002 "codecop/rogue-stats"
+    podman run -p8002:8002 "codecop/rogue-stats"
 
 ## Usage
 
