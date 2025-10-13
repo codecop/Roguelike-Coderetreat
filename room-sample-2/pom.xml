@@ -15,7 +15,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <jdk.version>18</jdk.version>
+        <jdk.version>1.8</jdk.version>
         <!-- If you are building with JDK 9 or higher, you can uncomment the lines below to set the release version -->
         <!-- <release.version>8</release.version> -->
         <project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
