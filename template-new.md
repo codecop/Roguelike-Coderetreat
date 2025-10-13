@@ -38,6 +38,7 @@ Create the following directory structure:
 template-{language}-{framework}/
 +-- README.md
 +-- start.bat
++-- start.sh
 +-- .gitignore             # Language-specific ignore patterns
 +-- {dependency-file}      # e.g., pom.xml, package.json, requirements.txt
 +-- src/                   # or app/ or similar
@@ -266,7 +267,7 @@ Before considering your template complete:
 - [ ] All responses have Content-Type: application/json
 - [ ] Unit test passes (Hello class test)
 - [ ] Integration tests pass (HTTP endpoint tests)
-- [ ] start.bat runs the application
+- [ ] start.bat and start.sh run the application
 - [ ] README.md includes setup, test, and run instructions
 - [ ] File structure matches the pattern
 - [ ] No unnecessary dependencies or complexity
@@ -278,7 +279,7 @@ Before considering your template complete:
 3. Write HelloTest unit test
 4. Implement HTTP server (Main/App)
 5. Write HelloAppTest integration tests
-6. Create start.bat
+6. Create start.bat and start.sh
 7. Write README.md
 8. Test everything end-to-end
 9. Simplify and remove any unnecessary code
