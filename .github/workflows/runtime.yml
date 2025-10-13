@@ -29,7 +29,6 @@ jobs:
     - name: Set up dependencies
       working-directory: runtime
       run: |
-        sudo apt install libjpeg-dev
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
