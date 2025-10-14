@@ -35,10 +35,13 @@ class GameService:
     def _request(self, to_endpoint, method="GET", print_exception=False):
         try:
             request_method = requests.get if method == "GET" else requests.post
+            # print(f"request: {to_endpoint}")
             response = request_method(to_endpoint)
+            # print(f"response: {response}")
             if "application/json" not in response.headers.get("Content-Type", ""):
                 return None
             return response.json()
         except Exception as e:
             if print_exception:
                 print(str(e))
+            return None
