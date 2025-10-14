@@ -7,7 +7,7 @@ public class MinimalRoom {
 
     private final char[] initialLayout = ("" + //
             "#####\n" + //
-            "#c  |\n" + //
+            "#   |\n" + //
             "#####\n").toCharArray();
     private final int columns = new String(initialLayout).replaceAll("\n.*", "").length();
 
