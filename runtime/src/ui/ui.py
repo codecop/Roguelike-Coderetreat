@@ -5,10 +5,12 @@ if TYPE_CHECKING:
     from src.game.game import Game
 
 from src.ui import log_ui, room_description_ui, room_ui, stats_ui
+from src.ui.room_ui import TILE_SIZE
 
+GRID_TILES_X = 20
+GRID_TILES_Y = 20
 
 class UI:
-    tile_size = 50
 
     def __init__(self, game: "Game"):
         self._game = game
@@ -96,7 +98,7 @@ class UI:
 
     def _initWindowGeometry(self, window: tk.Tk):
         window.geometry(
-            f"{25*UI.tile_size +  + UI.tile_size}x{25*UI.tile_size +  + UI.tile_size}"
+            f"{GRID_TILES_X*TILE_SIZE + TILE_SIZE}x{GRID_TILES_Y*TILE_SIZE + TILE_SIZE}"
         )
         self.window.grid_rowconfigure(0, weight=1, pad=0)
         self.window.grid_rowconfigure(1, weight=1, pad=0)

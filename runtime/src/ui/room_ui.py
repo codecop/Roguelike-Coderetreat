@@ -8,17 +8,19 @@ from src.room_parser.building_blocks.wall import Wall
 from src.room_parser.building_blocks.empty import Empty
 from src.room_parser.building_blocks.player import Player
 
+TILE_SIZE = 50
+ROOM_TILES_X = 15
+ROOM_TILES_Y = 15
 
 def tile_pos(col, row):
-    pos_y = col * RoomUI.tile_size
-    pos_x = row * RoomUI.tile_size
+    pos_y = col * TILE_SIZE
+    pos_x = row * TILE_SIZE
     return (pos_x, pos_y)
 
 
 class RoomUI:
-    tile_size = 50
-    width = 15 * 50
-    height = 15 * 50
+    width = ROOM_TILES_X * TILE_SIZE
+    height = ROOM_TILES_Y * TILE_SIZE
 
     def __init__(self, window: tk.Tk, move_player, do_action, exit_room):
         self.window = window
@@ -115,8 +117,8 @@ class RoomUI:
                     )
                 if isinstance(block, Item):
                     self.canvas.create_text(
-                        pos[0] + RoomUI.tile_size // 2,
-                        pos[1] + RoomUI.tile_size // 2,
+                        pos[0] + TILE_SIZE // 2,
+                        pos[1] + TILE_SIZE // 2,
                         anchor=tk.CENTER,
                         text=block.identifier,
                         font=("Purisa", 20),
@@ -127,7 +129,7 @@ class RoomUI:
         self.canvas.delete("all")
         self.canvas.create_image(0, 0, anchor=tk.NW, image=self.win_img_src)
 
-    def _createTkImage(self, path, width=50, height=50):
+    def _createTkImage(self, path, width=TILE_SIZE, height=TILE_SIZE):
         return ImageTk.PhotoImage(Image.open(path).resize((width, height)))
 
     def _left(self, e):

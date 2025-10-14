@@ -4,7 +4,6 @@ from turtle import st
 
 
 class StatsUI:
-    tile_size = 50
 
     def __init__(self, window: tk.Tk):
         self.window = window

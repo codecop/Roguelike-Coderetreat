@@ -2,7 +2,6 @@ import tkinter as tk
 
 
 class RoomDescriptionUI:
-    tile_size = 50
     default_text = "Waiting for room description..."
 
     def __init__(self, window: tk.Tk):
