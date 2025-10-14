@@ -45,7 +45,7 @@ class Game:
         response_json = self.game_service.move(col, row)
         message = self.extract_message(response_json)
         if response_json is not None:
-            self._log_to_ui(f"You moved. The room reponds with: '{message}'", "move")
+            self._log_to_ui(f"You moved. The room responds with: '{message}'", "move")
         else:
             self._log_to_ui(f"You moved. The room stays silent...", "move_silent")
 
@@ -77,15 +77,15 @@ class Game:
         won = self.endpoints.next_room()
         if won:
             self._is_running = False
-            self._log_to_ui(f"Congratulations! You've won the Coderetreat :-)", "win")
+            self._log_to_ui(f"Congratulations! You've won the Dungeon Crawler :-)", "win")
             self.ui.display_win_screen()
         else:
             self.ui.reset()
 
     def _log_to_ui(self, text: str, type=None):
         always_log = type in ["hp_change", "move", "interact"]
-        is_repetetive = type == self._last_log_type
-        should_not_log = is_repetetive and not always_log
+        is_repetitive = type == self._last_log_type
+        should_not_log = is_repetitive and not always_log
         if should_not_log:
             return
         self.ui.log(text)
