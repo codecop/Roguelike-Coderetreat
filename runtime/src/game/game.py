@@ -97,10 +97,10 @@ class Game:
             try:
                 room = RoomParser().parse(room_json.get("layout", ""))
                 self.ui.update_room(room)
-                self.ui.update_room_decription(room_json.get("description", ""))
+                self.ui.update_room_description(room_json.get("description", ""))
             except RoomParseException as e:
                 self.ui.update_room(None)
-                self.ui.update_room_decription(str(e))
+                self.ui.update_room_description(str(e))
 
     def _get_stats(self):
         stats_json = self.game_service.get_stats()

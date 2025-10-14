@@ -50,8 +50,8 @@ class UI:
     def update_stats(self, stats):
         self._stats_ui.update_stats(stats)
 
-    def update_room_decription(self, room_description: str):
-        self._room_decription_ui.update_room_decription(room_description)
+    def update_room_description(self, room_description: str):
+        self._room_decription_ui.update_room_description(room_description)
 
     def open_door(self):
         self._room_ui.open_door()

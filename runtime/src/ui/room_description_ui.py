@@ -38,9 +38,9 @@ class RoomDescriptionUI:
         self.text.config(text=str(self.room_description))
 
     def win(self):
-        self.update_room_decription(
+        self.update_room_description(
             "This room is for your big medal for being a winner."
         )
 
-    def update_room_decription(self, room_description: str):
+    def update_room_description(self, room_description: str):
         self.room_description = room_description
