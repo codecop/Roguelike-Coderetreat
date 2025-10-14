@@ -15,3 +15,7 @@ __pycache__
 
 # created by virtualenv automatically
 venv
+
+# Peter's virtualenv
+.virtual3
+env3.bat
