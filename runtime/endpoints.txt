@@ -1,7 +1,7 @@
 # put your room URLs here
 
 # sample rooms
-# http://localhost:8004/minimal/
+# http://localhost:8004/minimal
 # http://localhost:8004/empty/
 http://localhost:8004/key/
 # http://localhost:8004/monster/
