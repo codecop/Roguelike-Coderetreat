@@ -25,11 +25,11 @@ class UI:
             self._exit_room,
         )
         self._stats_ui = stats_ui.StatsUI(self.window)
-        self._room_decription_ui = room_description_ui.RoomDescriptionUI(self.window)
+        self._room_description_ui = room_description_ui.RoomDescriptionUI(self.window)
         self._log_ui = log_ui.LogUI(self.window)
 
         self._room_ui.grid(row=0, column=0, sticky="nsew", rowspan=2)
-        self._room_decription_ui.grid(row=0, column=1, sticky="new")
+        self._room_description_ui.grid(row=0, column=1, sticky="new")
         self._stats_ui.grid(row=1, column=1, sticky="new")
         self._log_ui.grid(row=2, column=0, sticky="nsew")
 
@@ -38,12 +38,12 @@ class UI:
 
     def reset(self):
         self._room_ui.reset()
-        self._room_decription_ui.reset()
+        self._room_description_ui.reset()
 
     def draw(self):
         self._room_ui.draw()
         self._stats_ui.draw()
-        self._room_decription_ui.draw()
+        self._room_description_ui.draw()
         self._log_ui.draw()
 
     def update_room(self, room):
@@ -53,7 +53,7 @@ class UI:
         self._stats_ui.update_stats(stats)
 
     def update_room_description(self, room_description: str):
-        self._room_decription_ui.update_room_description(room_description)
+        self._room_description_ui.update_room_description(room_description)
 
     def open_door(self):
         self._room_ui.open_door()
@@ -68,7 +68,7 @@ class UI:
         self._log_ui.add_line(text)
 
     def display_win_screen(self):
-        self._room_decription_ui.win()
+        self._room_description_ui.win()
         self._stats_ui.update_stats("You live to see the next day...")
         self._room_ui.display_win_screen()
 
