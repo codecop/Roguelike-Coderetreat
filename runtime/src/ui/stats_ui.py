@@ -1,4 +1,4 @@
-from re import T
+from re import *
 import tkinter as tk
 from turtle import st
 
