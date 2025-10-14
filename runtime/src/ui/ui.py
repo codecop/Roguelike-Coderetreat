@@ -69,7 +69,7 @@ class UI:
 
     def display_win_screen(self):
         self._room_description_ui.win()
-        self._stats_ui.update_stats("You live to see the next day...")
+        self._stats_ui.update_stats("You live\nto see\nthe next\nday...")
         self._room_ui.display_win_screen()
 
     def mainloop(self):
