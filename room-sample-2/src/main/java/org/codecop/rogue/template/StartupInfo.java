@@ -1,5 +1,6 @@
 package org.codecop.rogue.template;
 
+import java.util.Arrays;
 import io.micronaut.context.annotation.Value;
 import io.micronaut.context.event.ApplicationEventListener;
 import io.micronaut.context.event.StartupEvent;
@@ -13,7 +14,8 @@ public class StartupInfo implements ApplicationEventListener<StartupEvent> {
 
     @Override
     public void onApplicationEvent(StartupEvent startupEvent) {
-        System.out.println("Sample Room started on " + port + ",\n" + //
-                "Open http://localhost:" + port + "/empty/");
+        System.out.println("Sample Room started on " + port + ",");
+        Arrays.asList("empty", "key", "monster", "minimal", "large").stream(). //
+            forEach(name -> System.out.println("Open http://localhost:" + port + "/" + name + "/"));
     }
 }
