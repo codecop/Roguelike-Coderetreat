@@ -43,4 +43,17 @@ class RoomTest extends TestCase
         $expectedRoom = "###\n#|#\n###\n";
         $this->assertSame($expectedRoom, $serializedRoom);
     }
+
+    /** @test */
+    public function should_set_player_position_on_a_3x3_room()
+    {
+        $room = new Room(3, 3);
+        $playerPosition = new Position(1, 1);
+
+        $room->setNewPlayerPosition($playerPosition);
+
+        $serializedRoom = $room->serialize();
+        $expectedRoom = "###\n#@#\n###\n";
+        $this->assertSame($expectedRoom, $serializedRoom);
+    }
 }

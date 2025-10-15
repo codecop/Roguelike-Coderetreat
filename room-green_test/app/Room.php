@@ -53,4 +53,9 @@ class Room
     {
         $this->layout[$doorPosition->yPos][$doorPosition->xPos] = "|";
     }
+
+    public function setNewPlayerPosition(Position $playerPosition): void
+    {
+        $this->layout[$playerPosition->yPos][$playerPosition->xPos] = "@";
+    }
 }
