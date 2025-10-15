@@ -3,7 +3,7 @@ from src.ui.room_ui import RoomUI
 
 
 class LogUI(tk.Frame):
-    def __init__(self, parent, max_lines=5):
+    def __init__(self, parent, max_lines=4):
         super().__init__(parent, bg="black", width=RoomUI.width)
         self.max_lines = max_lines
         self.lines = []
@@ -12,7 +12,7 @@ class LogUI(tk.Frame):
         self.setup_ui()
 
     def setup_ui(self):
-        for _ in range(self.max_lines):
+        for _ in range(self.max_lines + 1):
             label = tk.Label(
                 self,
                 bg="black",
