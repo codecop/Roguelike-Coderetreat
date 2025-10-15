@@ -1,25 +1,35 @@
 package main
 
 import (
+	"encoding/json"
+	"net/http"
+	"roguelike-go/dungeon_api"
 	"roguelike-go/room"
+	"strconv"
 )
 
 func main() {
-	// http.HandleFunc("/get_name", hello.GetName)
-	// http.HandleFunc("/set_name", hello.SetName)
-
-	// fmt.Println("Server is listening on :8080")
-	// http.ListenAndServe(":8080", nil)
-
-	r := room.NewRoom(8, 6, []room.Coordinate{{X: 5, Y: 5}})
+	newRoom := room.NewRoom(8, 6, []room.Coordinate{{X: 5, Y: 5}})
 	player := room.NewPlayer(room.Coordinate{X: 2, Y: 3}, '@')
-	r.AddPlayer(&player)
-	room.Print(r)
+	newRoom.AddPlayer(&player)
 
-	r.SetNewPosition(3, 4)
-	room.Print(r)
+	http.HandleFunc("/room", func(w http.ResponseWriter, r *http.Request) {
+		res := dungeon_api.GetRoomMap(&newRoom)
+		w.Header().Set("Content-Type", "application/json")
+		if err := json.NewEncoder(w).Encode(res); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+	})
 
-	// fmt.Println(hello.Hello{name: "JJ"}.GetName())
-	// fmt.Println(hello.Hello{name: "JJ"}.SetName("Juanjo"))
-	// fmt.Println(hello.Hello{name: "JJ"}.GetName())
+	http.HandleFunc("/room/walk", func(w http.ResponseWriter, r *http.Request) {
+		rowStr := r.URL.Query().Get("row")
+		colStr := r.URL.Query().Get("column")
+
+		row, _ := strconv.ParseInt(rowStr, 10, 64)
+		col, _ := strconv.ParseInt(colStr, 10, 64)
+
+		newRoom.SetNewPosition(row, col)
+	})
+	http.ListenAndServe(":8080", nil)
+
 }

@@ -64,7 +64,7 @@ func TestNewRoom(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got := NewRoom(tt.sizeX, tt.sizeY, tt.doors)
-			gotStrings := roomMapToStrings(got.roomMap)
+			gotStrings := roomMapToStrings(got.RoomMap)
 
 			if len(gotStrings) != len(tt.want) {
 				t.Fatalf("wrong number of rows: got %d, want %d", len(gotStrings), len(tt.want))
@@ -80,6 +80,48 @@ func TestNewRoom(t *testing.T) {
 					)
 				}
 			}
+		})
+	}
+}
+
+func TestPlayersLogic(t *testing.T) {
+	room := NewRoom(8, 8, []Coordinate{
+		{X: 0, Y: 2}, // left wall
+	})
+
+	tests := []struct {
+		name           string
+		room           Room
+		playerPosition Coordinate
+		newPosition    Coordinate
+	}{
+		{
+			name:           "3x3 room no doors",
+			room:           room,
+			playerPosition: Coordinate{X: 2, Y: 3},
+			newPosition:    Coordinate{X: 1, Y: 1},
+		},
+		{
+			name:           "5x4 room with one door on right wall",
+			room:           room,
+			playerPosition: Coordinate{X: 4, Y: 5},
+			newPosition:    Coordinate{X: 3, Y: 6},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			player := NewPlayer(tt.playerPosition, '@')
+			tt.room.AddPlayer(&player)
+			if tt.room.RoomMap[tt.playerPosition.X][tt.playerPosition.Y] != '@' {
+				t.Fatal()
+			}
+
+			tt.room.SetNewPosition(tt.newPosition.X, tt.newPosition.Y)
+			if tt.room.RoomMap[tt.newPosition.X][tt.newPosition.Y] != '@' {
+				t.Fatal()
+			}
+
 		})
 	}
 }
