@@ -1,7 +1,7 @@
 import express from "express";
-import Hello from "./Hello";
+// import Hello from "./Room";
 
-const hello = new Hello();
+// const hello = new Hello();
 
 async function createApp() {
     const app = express();
@@ -9,18 +9,19 @@ async function createApp() {
 
     app.get("/hello", async (_req, res) => {
 
-        res.json({ "name": hello.getName() });
-
+        // res.json({ "name": hello.getName() });
+        res.json({})
     });
 
     app.post("/hello", async (req, res) => {
-        const name = req.query.name;
-        if (name != undefined) {
-            hello.setName(name.toString());
-            res.status(201).json();
-        } else {
-            res.status(400).json();
-        }
+        res.json({})
+        // const name = req.query.name;
+        // if (name != undefined) {
+        //     hello.setName(name.toString());
+        //     res.status(201).json();
+        // } else {
+        //     res.status(400).json();
+        // }
 
     });
 
