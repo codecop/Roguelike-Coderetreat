@@ -56,4 +56,39 @@ class Room
     {
         $this->layout[$playerPosition->yPos][$playerPosition->xPos] = "@";
     }
+
+
+    public function loadFromDisk(): void
+    {
+        if (file_exists("./room.txt")) {
+            $serializedRoom = json_decode(file_get_contents("./room.txt"), true);
+
+            if ($serializedRoom) {
+                $this->setLayoutFromSerializedRoom($serializedRoom);
+            } else {
+                $this->saveLayoutToDisk();
+            }
+        }
+    }
+
+    private function setLayoutFromSerializedRoom(string $serializedRoom): void
+    {
+        $roomRows = explode("\n", $serializedRoom);
+        while(end($roomRows) === ''){
+            array_pop($roomRows);
+        }
+
+        foreach ($roomRows as $rowIndex => $row)
+        {
+            $columns = str_split($row);
+            $this->layout[$rowIndex] = $columns;
+        }
+    }
+
+    private function saveLayoutToDisk(): void
+    {
+        $serializedRoom = $this->serialize();
+        $json = json_encode($serializedRoom, JSON_UNESCAPED_UNICODE);
+        file_put_contents("./room.txt", $json);
+    }
 }

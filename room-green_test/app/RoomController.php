@@ -7,13 +7,18 @@ use Laravel\Lumen\Routing\Controller;
 
 class RoomController extends Controller
 {
+    private Room $room;
+
+    public function __construct(Room $room)
+    {
+        $this->room = $room;
+        $this->room->loadFromDisk();
+    }
+
     public function get()
     {
-        $doorPosition = new Position(1, 1);
-        $room = new Room(3, 3, $doorPosition);
-
         $data = array(
-            "layout" => $room->serialize()
+            "layout" => $this->room->serialize()
         );
         $content = json_encode($data);
 

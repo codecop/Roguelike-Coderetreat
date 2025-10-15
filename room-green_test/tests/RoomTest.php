@@ -9,6 +9,36 @@ use PHPUnit\Framework\TestCase;
 
 class RoomTest extends TestCase
 {
+    private static string $originalLayout;
+
+    public static function setUpBeforeClass(): void
+    {
+        if (file_exists('./room.txt')) {
+            self::$originalLayout = file_get_contents('./room.txt');
+        } else {
+            self::$originalLayout = '';
+        }
+    }
+
+    public static function tearDownAfterClass(): void
+    {
+        if (self::$originalLayout !== '') {
+            file_put_contents('./room.txt', self::$originalLayout);
+        } else {
+            @unlink('./room.txt');
+        }
+    }
+
+    protected function setUp(): void
+    {
+        $file = './room.txt';
+
+        if (file_exists($file)) {
+            file_put_contents($file, '');
+        } else {
+            touch($file);
+        }
+    }
 
     /** @test */
     public function should_serialize_a_3x3_room_with_no_door()
@@ -56,4 +86,17 @@ class RoomTest extends TestCase
         $expectedRoom = "###\n#@#\n###\n";
         $this->assertSame($expectedRoom, $serializedRoom);
     }
+
+    /** @test */
+    public function should_load_layout_from_disk()
+    {
+        $room = new Room();
+
+        $room->loadFromDisk();
+        $serializedRoom = $room->serialize();
+
+        $expectedRoom = "###\n# #\n###\n";
+        $this->assertSame($expectedRoom, $serializedRoom);
+    }
+
 }
