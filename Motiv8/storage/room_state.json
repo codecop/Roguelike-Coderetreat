@@ -1,1 +1,62 @@
-{"playerRow":2,"playerCol":3,"prevPlayerRow":2,"prevPlayerCol":2}
+{
+    "rows": 17,
+    "cols": 23,
+    "players": [
+        {
+            "id": 1,
+            "health": 50,
+            "row": 1,
+            "col": 1,
+            "skin": "@",
+            "experience": 0,
+            "level": 1
+        }
+    ],
+    "monsters": [
+        {
+            "id": 1,
+            "type": "Goblin",
+            "health": 10,
+            "damage": 5,
+            "critRate": 0,
+            "skin": "M",
+            "aggressive": false,
+            "row": 3,
+            "col": 11
+        },
+        {
+            "id": 2,
+            "type": "skeleton",
+            "health": 10,
+            "damage": 5,
+            "critRate": 0,
+            "skin": "M",
+            "aggressive": false,
+            "row": 6,
+            "col": 1
+        },
+        {
+            "id": 3,
+            "type": "skeleton",
+            "health": 10,
+            "damage": 5,
+            "critRate": 0,
+            "skin": "M",
+            "aggressive": false,
+            "row": 12,
+            "col": 13
+        },
+        {
+            "id": 4,
+            "type": "Goblin",
+            "health": 10,
+            "damage": 5,
+            "critRate": 0,
+            "skin": "M",
+            "aggressive": false,
+            "row": 15,
+            "col": 17
+        }
+    ],
+    "difficulty": "medium"
+}
