@@ -1,0 +1,1 @@
+docker run -it -v .:/app -p 8123:80 dunglas/frankenphp bash
