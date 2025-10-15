@@ -1,3 +1,4 @@
+import StatsClient from "./statsClient";
 export default class Room {
   player = "@";
   layout = "######\n#@   #\n#    |\n#    #\n######";
@@ -7,6 +8,10 @@ export default class Room {
 
   private parseLayout(): string[][] {
     return this.layout.split("\n").map((line) => line.split(""));
+  }
+
+  async getHealth(): Promise<number> {
+    return await new StatsClient().getHealth();
   }
 
   private clearPlayer(grid: string[][]): void {
