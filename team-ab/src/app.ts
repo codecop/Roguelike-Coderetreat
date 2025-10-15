@@ -12,6 +12,7 @@ async function createApp() {
   app.get("/room-ab", async (_req, res) => {
     res.json({
       layout: room.layout,
+      description: "This is Room AB, created by Andrej and Ben in TS. Its a cool room full of mysteries. There is a door to the east.",
     });
   });
 
@@ -21,7 +22,7 @@ async function createApp() {
 
     if (row != undefined && column != undefined) {
       room.setNewPlayerPosition(Number(column), Number(row));
-      res.status(201).json();
+      res.status(201).json({ message: "Congratulations, you moved."});
     } else {
       res.status(400).json();
     }

@@ -17,10 +17,12 @@ describe("RoomEndpoints", () => {
       "application/json; charset=utf-8"
     );
     expect(response.body.layout).toContain("####");
+    expect(response.body.description).not.toBeFalsy();
   });
 
   it("updates the player position", async () => {
-    await request(app).post("/room-ab/walk?row=3&column=5").send().expect(201);
+    const response = await request(app).post("/room-ab/walk?row=3&column=5").send().expect(201)
+    expect(response.body.message).toEqual("Congratulations, you moved.");
 
     const { body } = await request(app).get("/room-ab");
     expect(body.layout).toContain("#    @  #");
