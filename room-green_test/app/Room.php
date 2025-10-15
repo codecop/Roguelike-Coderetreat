@@ -7,6 +7,7 @@ class Room
     private int $width;
     private int $height;
     private array $layout;
+    private Position $hiddenDoor;
 
     public function __construct(int $width = 3, int $height = 3, ?Position $doorPosition = null)
     {
@@ -16,9 +17,7 @@ class Room
         $this->layout = $this->setupRoomLayout();
         $this->loadFromDisk();
 
-        if ($doorPosition) {
-            $this->insertDoor($doorPosition);
-        }
+        $this->hiddenDoor = new Position(8, 6);
     }
 
     public function serialize(): string
@@ -58,11 +57,13 @@ class Room
     {
         $this->removePlayerPosition();
         $this->layout[$playerPosition->yPos][$playerPosition->xPos] = "@";
+        if ($playerPosition->yPos === $this->hiddenDoor->yPos &&
+            $playerPosition->xPos === $this->hiddenDoor->xPos - 1)
+        {
+            $this->insertDoor($this->hiddenDoor);
+        }
         $this->saveLayoutToDisk();
     }
-
-
-
 
     public function loadFromDisk(): void
     {
@@ -75,6 +76,12 @@ class Room
                 $this->saveLayoutToDisk();
             }
         }
+    }
+
+    public function hasDoor(): bool
+    {
+        $serializedRoom = $this->serialize();
+        return str_contains($serializedRoom, "|");
     }
 
     private function setLayoutFromSerializedRoom(string $serializedRoom): void
@@ -108,4 +115,6 @@ class Room
             }
         }
     }
+
+
 }

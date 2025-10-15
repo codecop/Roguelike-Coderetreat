@@ -17,7 +17,8 @@ class RoomController extends Controller
     public function get()
     {
         $data = array(
-            "layout" => $this->room->serialize()
+            "layout" => $this->room->serialize(),
+            "description" => "You entered a room full of infinite loops there is no exit in sight. Can you find the hidden backdoor?",
         );
         $content = json_encode($data);
 
@@ -31,7 +32,15 @@ class RoomController extends Controller
             $row = $request->input("row");
             $column = $request->input("column");
             $this->room->setNewPlayerPosition(new Position($column, $row));
-            return response('', 201);
+            $content = "";
+            if ($this->room->hasDoor())
+            {
+                $data = array(
+                    "message" => "Backdoor found run !!!!",
+                );
+                $content = json_encode($data);
+            }
+            return response($content, 201);
         }
         return response('', 400);
     }
