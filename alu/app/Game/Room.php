@@ -76,4 +76,9 @@ class Room
         $this->characterGrid[$x][$y] = null;
     }
 
+    public function getDescription()
+    {
+        return "You are in a room. There is a door to the north.";
+    }
+
 }

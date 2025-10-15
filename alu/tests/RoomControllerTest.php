@@ -17,12 +17,12 @@ class RoomControllerTest extends TestCase
     public function showRoom()
     {
         $response = $this->call('GET', '/');
-        $expectedLayout = (new RoomDatabase())->getRoom(RoomDatabase::ALU_ROOM_DEFAULT);
+        $expectedRoom = (new RoomDatabase())->getRoom(RoomDatabase::ALU_ROOM_DEFAULT);
 
         $response->assertOk();
         $response->assertHeader('Content-Type', 'application/json')
             ->assertJson([
-                'layout' => $expectedLayout
+                'layout' => $expectedRoom->render()
             ]);
     }
 
@@ -60,6 +60,16 @@ class RoomControllerTest extends TestCase
         $this->call('POST', '/walk?row=1&column=4');
 
         $this->call('GET', '/')->assertJson(['layout' => $expectedRoom]);
+    }
+
+    /** @test */
+    public function roomShouldHaveADescription()
+    {
+        $response = $this->call('GET', '/');
+
+        $response->assertOk();
+        $json = json_decode($response->getContent(), true);
+        self::assertNotEmpty($json['description']);
     }
 
     private function fakeRoom(string $layout): string

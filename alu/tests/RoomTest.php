@@ -1,5 +1,6 @@
 <?php
 
+use App\Database\RoomDatabase;
 use App\Game\Room;
 use App\Game\RoomParser;
 use App\Game\RoomTile;
@@ -90,7 +91,12 @@ class RoomTest extends PHPUnit\Framework\TestCase
         $room = (new Roomparser)->create($roomString);
 
         $output = $room->render();
-        $this->assertSame($roomString, $output);
+        $this->assertSame(str_replace("\r\n", "\n", $roomString), $output);
+    }
+
+    public function test_move_box_in_room()
+    {
+        $room = (new RoomDatabase())->getRoom('roomWithBox');
     }
 
 }
