@@ -16,7 +16,7 @@ class RoomControllerTest extends TestCase
     /** @test */
     public function showRoom()
     {
-        $response = $this->call('GET', '/');
+        $response = $this->call('GET', '/aluroom');
         $expectedRoom = (new RoomDatabase())->getRoom(RoomDatabase::ALU_ROOM_DEFAULT);
 
         $response->assertOk();
@@ -38,10 +38,10 @@ class RoomControllerTest extends TestCase
             EOL
         );
 
-        $response = $this->call('POST', '/walk?row=2&column=4');
+        $response = $this->call('POST', '/aluroom/walk?row=2&column=4');
         $response->assertCreated();
 
-        $this->call('GET', '/')
+        $this->call('GET', '/aluroom')
             ->assertJson(['layout' => $expectedRoom]);
     }
 
@@ -56,16 +56,16 @@ class RoomControllerTest extends TestCase
             EOL
         );
 
-        $this->call('POST', '/walk?row=3&column=2');
-        $this->call('POST', '/walk?row=1&column=4');
+        $this->call('POST', '/aluroom/walk?row=3&column=2');
+        $this->call('POST', '/aluroom/walk?row=1&column=4');
 
-        $this->call('GET', '/')->assertJson(['layout' => $expectedRoom]);
+        $this->call('GET', '/aluroom')->assertJson(['layout' => $expectedRoom]);
     }
 
     /** @test */
     public function roomShouldHaveADescription()
     {
-        $response = $this->call('GET', '/');
+        $response = $this->call('GET', '/aluroom');
 
         $response->assertOk();
         $json = json_decode($response->getContent(), true);

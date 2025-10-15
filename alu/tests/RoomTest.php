@@ -97,6 +97,15 @@ class RoomTest extends PHPUnit\Framework\TestCase
     public function test_move_box_in_room()
     {
         $room = (new RoomDatabase())->getRoom('roomWithBox');
+
+        // move player next to box
+        $room->setPlayerPosition(2,3);
+
+        // move player on top of box
+        $room->setPlayerPosition(2,2);
+
+        $this->assertEquals(RoomTile::PLAYER, $room->getTileAt(2, 2));
+        $this->assertEquals(RoomTile::BOX, $room->getTileAt(2, 1));
     }
 
 }

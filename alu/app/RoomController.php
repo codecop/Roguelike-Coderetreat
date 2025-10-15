@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Database\RoomDatabase;
-use App\Game\RoomParser;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller;
 
@@ -12,7 +11,8 @@ class RoomController extends Controller
 
     public function get(Request $request, RoomDatabase $roomDatabase)
     {
-        $room = $roomDatabase->getRoom(RoomDatabase::ALU_ROOM_DEFAULT);
+        $name = $request->route('name');
+        $room = $roomDatabase->getRoom($name);
 
         $content = json_encode([
             'layout' => $room->render(),
@@ -25,14 +25,15 @@ class RoomController extends Controller
 
     public function post(Request $request, RoomDatabase $roomDatabase)
     {
-        $room = $roomDatabase->getRoom(RoomDatabase::ALU_ROOM_DEFAULT);
+        $name = $request->route('name');
+        $room = $roomDatabase->getRoom($name);
 
         $playerX = (int)$request->input('row');
         $playerY = (int)$request->input('column');
 
         $room->setPlayerPosition($playerX, $playerY);
 
-        $roomDatabase->putRoom(RoomDatabase::ALU_ROOM_DEFAULT, $room);
+        $roomDatabase->putRoom($name, $room);
 
         $message = '';
         if (mt_rand(0, 10) > 8) {
@@ -41,6 +42,22 @@ class RoomController extends Controller
 
         return response([
             'message' => $message,
+        ], 201)
+            ->header('Content-Type', 'application/json');
+    }
+
+    public function interact(Request $request, RoomDatabase $roomDatabase)
+    {
+        $name = $request->route('name');
+        $room = $roomDatabase->getRoom($name);
+
+        $entity = (int)$request->input('item');
+
+        $room->interact($entity);
+
+        $roomDatabase->putRoom(RoomDatabase::ALU_ROOM_DEFAULT, $room);
+        return response([
+            'message' => 'you moved the box',
         ], 201)
             ->header('Content-Type', 'application/json');
     }
