@@ -69,7 +69,7 @@ export default class Room {
     if (item === this.PRESSURE_PLATE) {
       this.openDoor();
       message =
-        "You stepped on a pressure plate. The door is now open. Hurry, it will close in 3 seconds!";
+        "You stepped on a pressure plate. The door is now open. Hurry, it will close soon!";
     } else {
       message = "Nothing happens.";
     }
