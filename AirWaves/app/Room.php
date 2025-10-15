@@ -51,13 +51,15 @@ class Room {
     }
 
     public function save() {
-        dd(json_encode($this->getGrid()));
-        file_put_contents("./room.txt", json_encode($this->getGrid()));
+        file_put_contents(__DIR__ . "/room.txt", json_encode([
+            'grid' => $this->grid,
+            'playerPosition' => $this->playerPosition
+        ]));
     }
 
     public function load() {
-        if (file_exists("./room.txt")) {
-            $data = json_decode(file_get_contents("./room.txt"), true);
+        if (file_exists(__DIR__ . "/room.txt")) {
+            $data = json_decode(file_get_contents(__DIR__ . "/room.txt"), true);
             $this->grid = $data['grid'];
             $this->playerPosition = $data['playerPosition'];
         }
