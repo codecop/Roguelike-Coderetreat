@@ -9,7 +9,7 @@ async function createApp(statsClient) {
   app.use(express.json());
 
   app.get("/room", async (_req, res) => {
-    res.json({ layout: room.returnLayout() });
+    res.json({ layout: room.returnLayout(), description: "Beware! There is a fire in the room. Do not approach it, or you will be burned and lose 1 HP for every move you make within its area. The fire only affects squares that are directly above, below, left, or right of it—not those that touch it diagonally." });
   });
 
   app.get("/stats/hp", async (_req, res) => {
@@ -34,6 +34,7 @@ async function createApp(statsClient) {
     const column = req.query.column;
     if (row !== undefined && column !== undefined) {
       room.setNewPosition(Number(row), Number(column));
+      await room.hurtIfNearFire(Number(row), Number(column));
       res.status(201).json();
     } else {
       res.status(400).json();
