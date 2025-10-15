@@ -62,6 +62,6 @@
   },
   "include": [
     "./index.js",
-    "./src/**.ts",
+    "./src/**.ts", "test/generator.spec.ts",
   ]
 }

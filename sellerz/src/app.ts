@@ -1,30 +1,25 @@
-import express from "express";
-import Hello from "./Hello";
-
-const hello = new Hello();
+import express from 'express';
+import { Room } from './room';
 
 async function createApp() {
-    const app = express();
-    app.use(express.json());
+  const app = express();
+  app.use(express.json());
+  const room = new Room();
 
-    app.get("/hello", async (_req, res) => {
+  app.get('/sellerz', async (_req, res) => {
+    const layout = room.getMap();
 
-        res.json({ "name": hello.getName() });
+    res.json({ layout });
+  });
 
-    });
+  app.post('/sellerz/walk', async (req, res) => {
+    const { row, column } = req.query;
+    room.setNewPosition(Number(row), Number(column));
 
-    app.post("/hello", async (req, res) => {
-        const name = req.query.name;
-        if (name != undefined) {
-            hello.setName(name.toString());
-            res.status(201).json();
-        } else {
-            res.status(400).json();
-        }
+    res.status(201).json();
+  });
 
-    });
-
-    return app;
+  return app;
 }
 
 export { createApp };
