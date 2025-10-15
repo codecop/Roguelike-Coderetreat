@@ -1,9 +1,11 @@
 # put your room URLs here
+http://localhost:5012/room-ab/
 http://localhost:5013/sellerz
+http://localhost:5007/room
 
 # sample rooms
 # http://localhost:8004/minimal
 # http://localhost:8004/empty/
-http://localhost:8004/key/
+# http://localhost:8004/key/
 # http://localhost:8004/monster/
 # http://localhost:8004/large/
