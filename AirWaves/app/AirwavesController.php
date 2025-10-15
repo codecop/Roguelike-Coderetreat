@@ -15,7 +15,7 @@ class AirwavesController extends Controller {
 
     public function get(Request $request) {
         $data = array(
-            "layout" => $this->room->getGrid()
+            "layout" => $this->room->load()
         );
         $content = json_encode($data);
 
@@ -28,6 +28,6 @@ class AirwavesController extends Controller {
         $row = $request->input('row');
         $nextPosition = array('row' => (int)$row, 'col' => (int)$column);
         $this->room->setPlayerPosition($nextPosition);
-        return response('', 201);
+
     }
 }

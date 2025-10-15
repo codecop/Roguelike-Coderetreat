@@ -22,7 +22,8 @@ class Room {
         $this->fillWithEmptySpaces();
         $this->setRandomDoors($this->doors);
         $this->setPlayerPosition($this->playerPosition);
-        return $this->grid;
+        $this->save();
+        return $this->getGrid();
     }
 
     public function getGrid() {
@@ -45,7 +46,22 @@ class Room {
         $this->playerPosition['col'] = $nextPositionCol;
 
         $this->grid[$nextPositionRow][$nextPositionCol] = '@';
-        return $this->grid;
+        $this->save(); // Save the updated grid after moving the player
+        return $this->getGrid();
+    }
+
+    public function save() {
+        dd(json_encode($this->getGrid()));
+        file_put_contents("./room.txt", json_encode($this->getGrid()));
+    }
+
+    public function load() {
+        if (file_exists("./room.txt")) {
+            $data = json_decode(file_get_contents("./room.txt"), true);
+            $this->grid = $data['grid'];
+            $this->playerPosition = $data['playerPosition'];
+        }
+        return $this->getGrid();
     }
 
     private function fillWithEmptySpaces(){
