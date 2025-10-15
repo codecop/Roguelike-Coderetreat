@@ -4,6 +4,7 @@ namespace App;
 
 use App\Database\RoomDatabase;
 use App\Game\Room;
+use App\Game\RoomParser;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller;
 
@@ -13,7 +14,7 @@ class RoomController extends Controller
     public function get(Request $request, RoomDatabase $roomDatabase)
     {
         $roomLayout = $roomDatabase->getRoom(RoomDatabase::ALU_ROOM_DEFAULT);
-        $room = Room::create($roomLayout);
+        $room = (new Roomparser)->create($roomLayout);
 
         $content = json_encode([
             'layout' => $room->render()
@@ -26,7 +27,7 @@ class RoomController extends Controller
     public function post(Request $request, RoomDatabase $roomDatabase)
     {
         $roomLayout = $roomDatabase->getRoom(RoomDatabase::ALU_ROOM_DEFAULT);
-        $room = Room::create($roomLayout);
+        $room = (new Roomparser)->create($roomLayout);
 
         $playerX = (int)$request->input('row');
         $playerY = (int)$request->input('column');

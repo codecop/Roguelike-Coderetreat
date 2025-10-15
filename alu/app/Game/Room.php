@@ -14,35 +14,6 @@ class Room
         $this->characterGrid = $characterGrid;
     }
 
-    /**
-     * create a room from a string
-     */
-    public static function create(string $roomString): Room
-    {
-        $roomString = str_replace("\r\n", "\n", $roomString);
-        $floorGrid = [];
-        $characterGrid = [];
-        $rows = explode("\n", $roomString);
-        foreach ($rows as $x => $row) {
-            for ($y = 0; $y < strlen($row); $y++) {
-                $char = $row[$y];
-                $enum = RoomTile::tryFrom($char);
-                if ($enum === null) {
-                    throw new \InvalidArgumentException("was das für char hä $char");
-                }
-                if ($enum->isCharacter()) {
-                    $characterGrid[$x][$y] = $enum;
-                    $floorGrid[$x][$y] = RoomTile::FLOOR;
-                } else {
-                    $floorGrid[$x][$y] = $enum;
-                    $characterGrid[$x][$y] = null;
-                }
-            }
-        }
-
-        return new Room($floorGrid, $characterGrid);
-    }
-
     public function enterPlayer(): void
     {
         [$x, $y] = $this->findTile(RoomTile::DOOR);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Game\Room;
+use App\Game\RoomParser;
 use App\Game\RoomTile;
 
 class RoomTest extends PHPUnit\Framework\TestCase
@@ -15,7 +16,7 @@ class RoomTest extends PHPUnit\Framework\TestCase
 
     public function test_room_is_rendered_as_string()
     {
-        $room = Room::create(self::DEFAULT_ROOM);
+        $room = (new Roomparser)->create(self::DEFAULT_ROOM);
 
         $renderedRoom = $room->render();
 
@@ -24,7 +25,7 @@ class RoomTest extends PHPUnit\Framework\TestCase
 
     public function test_room_always_has_a_door()
     {
-        $room = Room::create(self::DEFAULT_ROOM);
+        $room = (new Roomparser)->create(self::DEFAULT_ROOM);
 
         $renderedRoom = $room->render();
 
@@ -34,7 +35,7 @@ class RoomTest extends PHPUnit\Framework\TestCase
 
     public function test_room_has_always_walls()
     {
-        $room = Room::create(self::DEFAULT_ROOM);
+        $room = (new Roomparser)->create(self::DEFAULT_ROOM);
 
         $renderedRoom = $room->render();
 
@@ -43,7 +44,7 @@ class RoomTest extends PHPUnit\Framework\TestCase
 
     public function test_room_cannot_be_larger_than_15x15()
     {
-        $room = Room::create(self::DEFAULT_ROOM);
+        $room = (new Roomparser)->create(self::DEFAULT_ROOM);
 
         $grid = $room->getTileGrid();
 
@@ -55,7 +56,7 @@ class RoomTest extends PHPUnit\Framework\TestCase
 
     public function test_player_enters_door()
     {
-        $room = Room::create(self::DEFAULT_ROOM);
+        $room = (new Roomparser)->create(self::DEFAULT_ROOM);
 
         $room->enterPlayer();
 
@@ -64,7 +65,7 @@ class RoomTest extends PHPUnit\Framework\TestCase
 
     public function test_set_the_player_to_a_position()
     {
-        $room = Room::create(<<<EOL
+        $room = (new Roomparser)->create(<<<EOL
         ##|#
         #  #
         #  #
@@ -86,7 +87,7 @@ class RoomTest extends PHPUnit\Framework\TestCase
         #  #
         ####
         EOL;
-        $room = Room::create($roomString);
+        $room = (new Roomparser)->create($roomString);
 
         $output = $room->render();
         $this->assertSame($roomString, $output);
