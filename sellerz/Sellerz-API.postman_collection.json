@@ -1,0 +1,266 @@
+{
+	"info": {
+		"_postman_id": "sellerz-api-collection",
+		"name": "Sellerz API",
+		"description": "API collection for the Sellerz roguelike game endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Room Layout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response has layout property\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('layout');",
+							"});",
+							"",
+							"pm.test(\"Layout is a string\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.layout).to.be.a('string');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/sellerz",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"sellerz"
+					]
+				},
+				"description": "Retrieves the current room layout with player position marked as 'P'"
+			},
+			"response": [
+				{
+					"name": "Successful Response",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/sellerz",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sellerz"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"layout\": \"##########\\n#        #\\n#  P     #\\n#        #\\n#        #\\n##########\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Move Player",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response is successful\", function () {",
+							"    pm.response.to.be.ok;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/sellerz/walk?row={{playerRow}}&column={{playerColumn}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"sellerz",
+						"walk"
+					],
+					"query": [
+						{
+							"key": "row",
+							"value": "{{playerRow}}",
+							"description": "Target row position (0-based index)"
+						},
+						{
+							"key": "column",
+							"value": "{{playerColumn}}",
+							"description": "Target column position (0-based index)"
+						}
+					]
+				},
+				"description": "Moves the player to a new position in the room. Position must be a valid empty space or walkable area."
+			},
+			"response": [
+				{
+					"name": "Successful Move",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/sellerz/walk?row=2&column=3",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sellerz",
+								"walk"
+							],
+							"query": [
+								{
+									"key": "row",
+									"value": "2"
+								},
+								{
+									"key": "column",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{}"
+				},
+				{
+					"name": "Invalid Position Error",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/sellerz/walk?row=0&column=0",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sellerz",
+								"walk"
+							],
+							"query": [
+								{
+									"key": "row",
+									"value": "0"
+								},
+								{
+									"key": "column",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"status": "Internal Server Error",
+					"code": 500,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						}
+					],
+					"cookie": [],
+					"body": "{\n  \"error\": \"Invalid position\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5013",
+			"type": "string"
+		},
+		{
+			"key": "playerRow",
+			"value": "2",
+			"type": "string"
+		},
+		{
+			"key": "playerColumn",
+			"value": "3",
+			"type": "string"
+		}
+	]
+}
