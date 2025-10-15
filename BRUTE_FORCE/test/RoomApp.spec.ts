@@ -2,7 +2,7 @@ import { Express } from 'express';
 import { createApp } from '../src/app';
 import request from 'supertest';
 
-describe('HelloApp', () => {
+describe('RoomApp', () => {
 
     let app: Express;
 
@@ -10,23 +10,22 @@ describe('HelloApp', () => {
         app = await createApp();
     });
 
-    it('first Hello', async () => {
+       it('should get room', async () => {
         const response = await request(app).
-            get('/hello').
+            get('/room').
             expect(200);
 
         expect(response.header['content-type']).toBe('application/json; charset=utf-8');
-        expect(response.body.name).toBe('World!');
+        expect(response.body.layout).toBe('######\n#@   #\n#    |\n#    #\n######');
     });
 
-    it('updates', async () => {
+    it('should update position', async () => {
         await request(app).
-            post('/hello?name=Peter').
+            post('/room/walk?row=2&column=2').
             send().
             expect(201);
 
-        const { body } = await request(app).get('/hello');
-        expect(body.name).toBe('Peter');
+        const { body } = await request(app).get('/room');
+        expect(body.layout).toBe('######\n#    #\n# @  |\n#    #\n######');
     });
-
 });

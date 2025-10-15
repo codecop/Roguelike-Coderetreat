@@ -10,6 +10,7 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
+/** @var \Laravel\Lumen\Routing\Router $router */
 
-$router->get("/hello", 'HelloController@get');
-$router->post("/hello", 'HelloController@post');
+$router->get("/aluroom", 'RoomController@get');
+$router->post("/aluroom/walk", 'RoomController@post');

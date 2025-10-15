@@ -5,7 +5,7 @@ describe('Room', () => {
     it('the room should return the hardcoded layout', () => {
         const room = new Room();
         room.returnLayout();
-        expect(room.returnLayout()).toEqual('######\n#    #\n#    |\n#    #\n######');
+        expect(room.returnLayout()).toEqual('######\n#@   #\n#    |\n#    #\n######');
     });
 
     it("should set the player's new position", () => {

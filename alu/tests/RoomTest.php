@@ -1,0 +1,100 @@
+<?php
+
+use App\Game\Room;
+use App\Game\RoomTile;
+
+class RoomTest extends PHPUnit\Framework\TestCase
+{
+
+    const DEFAULT_ROOM = [
+        [RoomTile::WALL, RoomTile::WALL, RoomTile::DOOR, RoomTile::WALL],
+        [RoomTile::WALL, RoomTile::FLOOR, RoomTile::FLOOR, RoomTile::WALL],
+        [RoomTile::WALL, RoomTile::FLOOR, RoomTile::FLOOR, RoomTile::WALL],
+        [RoomTile::WALL, RoomTile::WALL, RoomTile::WALL, RoomTile::WALL],
+    ];
+
+    public function test_room_is_rendered_as_string()
+    {
+        $room = new Room(self::DEFAULT_ROOM);
+
+        $renderedRoom = $room->render();
+
+        $this->assertIsString($renderedRoom);
+    }
+
+    public function test_room_always_has_a_door()
+    {
+        $room = new Room(self::DEFAULT_ROOM);
+
+        $renderedRoom = $room->render();
+
+        $this->assertStringContainsString(RoomTile::DOOR->value, $renderedRoom);
+    }
+
+
+    public function test_room_has_always_walls()
+    {
+        $room = new Room(self::DEFAULT_ROOM);
+
+        $renderedRoom = $room->render();
+
+        $this->assertStringContainsString(RoomTile::WALL->value, $renderedRoom);
+    }
+
+    public function test_room_cannot_be_larger_than_15x15()
+    {
+        $room = new Room(self::DEFAULT_ROOM);
+
+        $grid = $room->getGrid();
+
+        $this->assertlessThan(15, count($grid));
+        foreach ($grid as $row) {
+            $this->assertlessThan(15, count($row));
+        }
+    }
+
+    public function test_player_enters_door()
+    {
+        $roomString = <<<EOL
+        ##|#
+        #  #
+        #  #
+        ####
+        EOL;
+        $room = Room::create($roomString);
+        $room->enter();
+
+        $this->assertEquals(RoomTile::PLAYER, $room->getTileAt(0, 2));
+    }
+
+    public function test_set_the_player_to_a_position()
+    {
+        $room = Room::create(<<<EOL
+        ##|#
+        #  #
+        #  #
+        ####
+        EOL
+        );
+        $room->enter();
+
+        $room->setPlayerPosition(3, 3);
+
+        $this->assertEquals(RoomTile::PLAYER, $room->getTileAt(3, 3));
+    }
+
+    public function test_render_correct_string()
+    {
+        $roomString = <<<EOL
+        ##|#
+        #  #
+        #  #
+        ####
+        EOL;
+        $room = Room::create($roomString);
+
+        $output = $room->render();
+        $this->assertSame($roomString, $output);
+    }
+
+}

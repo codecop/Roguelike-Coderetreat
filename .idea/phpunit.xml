@@ -4,6 +4,9 @@
     <option name="directories">
       <list>
         <option value="$PROJECT_DIR$/template-php-lumen/tests" />
+        <option value="$PROJECT_DIR$/AirWaves/tests" />
+        <option value="$PROJECT_DIR$/Motiv8/tests" />
+        <option value="$PROJECT_DIR$/room-green_test/tests" />
       </list>
     </option>
   </component>

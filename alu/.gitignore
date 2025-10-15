@@ -3,6 +3,8 @@ composer.phar
 vendor/
 storage/logs/
 
+database/*.txt
+
 Homestead.json
 Homestead.yaml
 
@@ -25,3 +27,4 @@ coverage
 .phpunit.result.cache
 
 name.txt
+.credentails
