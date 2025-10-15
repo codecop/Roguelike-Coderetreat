@@ -15,4 +15,4 @@ $router->get("/hello", 'HelloController@get');
 $router->post("/hello", 'HelloController@post');
 
 $router->get("/airwaves", 'AirwavesController@get');
-$router->post("/airwaves", 'AirwavesController@post');
+$router->post("/airwaves/walk/{row}/{column}", 'AirwavesController@post');

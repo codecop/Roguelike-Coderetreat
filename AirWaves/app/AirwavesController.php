@@ -7,10 +7,15 @@ use Laravel\Lumen\Routing\Controller;
 
 class AirwavesController extends Controller {
 
+    private $room;
+
+    public function __construct(Room $room) {
+        $this->room = $room;
+    }
+
     public function get(Request $request) {
-        $room = new Room(15, 15,1);
         $data = array(
-            "layout" => $room->getGrid()
+            "layout" => $this->room->getGrid()
         );
         $content = json_encode($data);
 
@@ -18,4 +23,11 @@ class AirwavesController extends Controller {
             ->header('Content-Type', 'application/json');
     }
 
+    public function post(Request $request) {
+        $column = $request->input('column');
+        $row = $request->input('row');
+        $nextPosition = array('row' => (int)$row, 'col' => (int)$column);
+        $this->room->setPlayerPosition($nextPosition);
+        return response('', 201);
+    }
 }

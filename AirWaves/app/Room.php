@@ -8,6 +8,7 @@ class Room {
     private $height;
     private $doors;
     private $grid = [];
+    private $playerPosition = array('row' => 1, 'col' => 1);
 
     public function __construct($width, $height, $doors) {
         $this->width = $width;
@@ -20,7 +21,7 @@ class Room {
 
         $this->fillWithEmptySpaces();
         $this->setRandomDoors($this->doors);
-        $this->setPlayerPosition(1,1);
+        $this->setPlayerPosition($this->playerPosition);
         return $this->grid;
     }
 
@@ -32,8 +33,18 @@ class Room {
         return $formattedGrid;
     }
 
-    public function setPlayerPosition($row, $col){
-        $this->grid[$row][$col] = '@';
+    public function setPlayerPosition(array $playerPosition){
+        $currentPositionRow = $this->playerPosition['row'];
+        $currentPositionCol = $this->playerPosition['col'];
+        $this->grid[$currentPositionRow][$currentPositionCol] = ' ';
+
+        $nextPositionRow = $playerPosition['row'];
+        $nextPositionCol = $playerPosition['col'];
+
+        $this->playerPosition['row'] = $nextPositionRow;
+        $this->playerPosition['col'] = $nextPositionCol;
+
+        $this->grid[$nextPositionRow][$nextPositionCol] = '@';
         return $this->grid;
     }
 
