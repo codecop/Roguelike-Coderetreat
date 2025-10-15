@@ -5,11 +5,23 @@ require_once __DIR__ . '/../app/RoomLayout.php';
 final class RoomLayoutPlayerTest extends TestCase
 {
     private RoomLayout $room;
+    private string $stateFile;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->room = new RoomLayout(5, 5, 1, 1);
+        $this->stateFile = __DIR__ . '/../storage/test_room_player_state.json';
+        if (file_exists($this->stateFile)) {
+            unlink($this->stateFile);
+        }
+        $this->room = new RoomLayout(5, 5, 1, 1, $this->stateFile);
+    }
+
+    protected function tearDown(): void
+    {
+        if (file_exists($this->stateFile)) {
+            unlink($this->stateFile);
+        }
     }
 
     /** @test */
@@ -33,12 +45,12 @@ final class RoomLayoutPlayerTest extends TestCase
     /** @test */
     public function it_does_not_overwrite_walls_or_doors(): void
     {
-        $wallRoom = new RoomLayout(5, 5, 0, 0);
+        $wallRoom = new RoomLayout(5, 5, 0, 0, $this->stateFile);
         $layout = $wallRoom->serialize();
         $rows = explode("\n", trim($layout));
         $this->assertSame('#', $rows[0][0], 'Wall remains wall');
 
-        $doorRoom = new RoomLayout(5, 5, 1, 1);
+        $doorRoom = new RoomLayout(5, 5, 1, 1, $this->stateFile);
         $doorRoom->setNewPosition(3, 3);
         $layout = $doorRoom->serialize();
         $rows = explode("\n", trim($layout));
