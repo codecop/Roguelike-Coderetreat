@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Position;
 use App\Room;
 use PHPUnit\Framework\TestCase;
 
@@ -31,4 +32,15 @@ class RoomTest extends TestCase
         $this->assertSame($expectedRoom, $serializedRoom);
     }
 
+    /** @test */
+    public function should_serialize_a_3x3_room_with_a_door()
+    {
+        $doorPosition = new Position(1, 1);
+        $room = new Room(3, 3, $doorPosition);
+
+        $serializedRoom = $room->serialize();
+
+        $expectedRoom = "###\n#|#\n###\n";
+        $this->assertSame($expectedRoom, $serializedRoom);
+    }
 }

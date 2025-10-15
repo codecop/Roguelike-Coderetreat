@@ -6,14 +6,18 @@ class Room
 {
     private int $width;
     private int $height;
-    private array $layout = [];
+    private array $layout;
 
-    public function __construct($width, $height)
+    public function __construct(int $width, int $height, ?Position $doorPosition = null)
     {
         $this->width = $width;
         $this->height = $height;
 
         $this->layout = $this->setupRoomLayout();
+
+        if ($doorPosition) {
+            $this->insertDoor($doorPosition);
+        }
     }
 
     public function serialize(): string
@@ -43,5 +47,10 @@ class Room
             }
         }
         return $layout;
+    }
+
+    private function insertDoor(Position $doorPosition): void
+    {
+        $this->layout[$doorPosition->yPos][$doorPosition->xPos] = "|";
     }
 }
