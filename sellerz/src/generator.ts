@@ -47,7 +47,7 @@ export function generateRandomMap(amountOfMonsters: number = 0): string[] {
         isPositionCorrect(x, y, width, height) &&
         currentAmountOfButtons++ < 1
       ) {
-        row += 'B'; // Button
+        row += 'l'; // Button
       } else if (y === 0 || y === height - 1 || x === 0 || x === width - 1) {
         row += '#'; // Wall
       } else {
