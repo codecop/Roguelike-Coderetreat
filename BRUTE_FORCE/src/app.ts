@@ -4,7 +4,6 @@ import Room from "./Room";
 const room = new Room();
 
 async function createApp(statsClient) {
-    
   const app = express();
 
   app.use(express.json());
@@ -16,6 +15,18 @@ async function createApp(statsClient) {
   app.get("/stats/hp", async (_req, res) => {
     const hp = await statsClient.getHealth();
     res.json({ hp });
+  });
+  app.post("/stats/hp", async (req, res) => {
+    const action = req.query.action;
+    if (action === "hit") {
+      await statsClient.hit();
+      res.status(201).json();
+    } else if (action === "heal") {
+      await statsClient.heal();
+      res.status(201).json();
+    } else {
+      res.status(400).json();
+    }
   });
 
   app.post("/room/walk", async (req, res) => {

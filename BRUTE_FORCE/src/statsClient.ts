@@ -1,4 +1,4 @@
-import request from 'supertest';
+import request from "supertest";
 export default class StatsClient {
   constructor() {}
   async getHealth(): Promise<number> {
@@ -7,5 +7,16 @@ export default class StatsClient {
       .expect(200);
     const { body } = response;
     return body.hp;
+  }
+  async hit(): Promise<void> {
+    await request("http://localhost:8002")
+      .post("/stats/hp?action=hit")
+      .expect(201);
+
+  }
+  async heal(): Promise<void> {
+    await request("http://localhost:8002")
+      .post("/stats/hp?action=heal")
+      .expect(201);
   }
 }

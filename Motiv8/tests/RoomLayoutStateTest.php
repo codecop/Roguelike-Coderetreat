@@ -1,6 +1,9 @@
 <?php
 use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../app/RoomLayout.php';
+require_once __DIR__ . '/../app/Player.php';
+
+use App\Player;
 
 class RoomLayoutStateTest extends TestCase
 {
@@ -24,21 +27,23 @@ class RoomLayoutStateTest extends TestCase
     /** @test */
     public function it_saves_state_after_movement(): void
     {
-        $room = new RoomLayout(5, 5, 1, 1, $this->stateFile);
+        $player = new Player(1, 1, 1);
+        $room = new RoomLayout(5, 5, [$player], [], $this->stateFile);
         $room->setNewPosition(2, 2);
         $this->assertFileExists($this->stateFile);
         $state = json_decode(file_get_contents($this->stateFile), true);
-        $this->assertSame(2, $state['playerRow']);
-        $this->assertSame(2, $state['playerCol']);
+        $this->assertSame(2, $state['players'][0]['row']);
+        $this->assertSame(2, $state['players'][0]['col']);
     }
 
     /** @test */
     public function it_loads_state_from_file(): void
     {
-        $room = new RoomLayout(5, 5, 1, 1, $this->stateFile);
+        $player = new Player(1, 1, 1);
+        $room = new RoomLayout(5, 5, [$player], [], $this->stateFile);
         $room->setNewPosition(2, 2);
         // Create new instance, should load state from file
-        $room2 = new RoomLayout(5, 5, 1, 1, $this->stateFile);
+        $room2 = new RoomLayout(5, 5, [$player], [], $this->stateFile);
         $layout = $room2->serialize();
         $rows = explode("\n", trim($layout));
         $this->assertSame('@', $rows[2][2]);
