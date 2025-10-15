@@ -9,7 +9,7 @@ class RoomLayout
     private $prevPlayerCol;
     private $stateFile;
 
-    public function __construct($rows = 7, $cols = 7, $playerRow = 3, $playerCol = 3, $stateFile = null)
+    public function __construct($rows = 15, $cols = 15, $playerRow = 3, $playerCol = 3, $stateFile = null)
     {
         $this->rows = $rows;
         $this->cols = $cols;
