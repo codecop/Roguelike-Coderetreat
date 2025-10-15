@@ -1,6 +1,9 @@
 <?php
 use PHPUnit\Framework\TestCase;
 require_once __DIR__ . '/../app/RoomLayout.php';
+require_once __DIR__ . '/../app/Player.php';
+
+use App\Player;
 
 final class RoomLayoutPlayerTest extends TestCase
 {
@@ -14,7 +17,8 @@ final class RoomLayoutPlayerTest extends TestCase
         if (file_exists($this->stateFile)) {
             unlink($this->stateFile);
         }
-        $this->room = new RoomLayout(5, 5, 1, 1, $this->stateFile);
+        $player = new Player(1, 1, 1);
+        $this->room = new RoomLayout(5, 5, [$player], [], $this->stateFile);
     }
 
     protected function tearDown(): void
@@ -45,12 +49,14 @@ final class RoomLayoutPlayerTest extends TestCase
     /** @test */
     public function it_does_not_overwrite_walls_or_doors(): void
     {
-        $wallRoom = new RoomLayout(5, 5, 0, 0, $this->stateFile);
+        $player1 = new Player(1, 0, 0);
+        $wallRoom = new RoomLayout(5, 5, [$player1], [], $this->stateFile);
         $layout = $wallRoom->serialize();
         $rows = explode("\n", trim($layout));
         $this->assertSame('#', $rows[0][0], 'Wall remains wall');
 
-        $doorRoom = new RoomLayout(5, 5, 1, 1, $this->stateFile);
+        $player2 = new Player(1, 1, 1);
+        $doorRoom = new RoomLayout(5, 5, [$player2], [], $this->stateFile);
         $doorRoom->setNewPosition(3, 3);
         $layout = $doorRoom->serialize();
         $rows = explode("\n", trim($layout));

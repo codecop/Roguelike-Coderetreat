@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter.font import ROMAN
 from PIL import Image, ImageTk
+import os
 
 from src.room_parser.building_blocks.door import Door
 from src.room_parser.building_blocks.item import Item
@@ -44,6 +45,9 @@ class RoomUI:
         self.win_img_src = self._createTkImage(
             "gfx/medal.png", RoomUI.width, RoomUI.height
         )
+        
+        # Cache for item images (monsters, etc.)
+        self.item_images = {}
 
         self.canvas.grid(row=0, column=0, sticky="W")
 
@@ -116,14 +120,22 @@ class RoomUI:
                         else self.door_closed_img_src,
                     )
                 if isinstance(block, Item):
-                    self.canvas.create_text(
-                        pos[0] + TILE_SIZE // 2,
-                        pos[1] + TILE_SIZE // 2,
-                        anchor=tk.CENTER,
-                        text=block.identifier,
-                        font=("Purisa", 20),
-                        fill="black",
-                    )
+                    # Try to load PNG image for this item
+                    item_image = self._get_item_image(block.identifier)
+                    if item_image:
+                        self.canvas.create_image(
+                            pos[0], pos[1], anchor=tk.NW, image=item_image
+                        )
+                    else:
+                        # Fall back to ASCII text if no image exists
+                        self.canvas.create_text(
+                            pos[0] + TILE_SIZE // 2,
+                            pos[1] + TILE_SIZE // 2,
+                            anchor=tk.CENTER,
+                            text=block.identifier,
+                            font=("Purisa", 20),
+                            fill="black",
+                        )
 
     def display_win_screen(self):
         self._won = True
@@ -132,6 +144,22 @@ class RoomUI:
 
     def _createTkImage(self, path, width=TILE_SIZE, height=TILE_SIZE):
         return ImageTk.PhotoImage(Image.open(path).resize((width, height)))
+
+    def _get_item_image(self, identifier: str):
+        """Load and cache item image based on identifier. Returns None if file doesn't exist."""
+        if identifier in self.item_images:
+            return self.item_images[identifier]
+        
+        # Try to load the image file
+        image_path = f"gfx/{identifier}.png"
+        if os.path.exists(image_path):
+            try:
+                self.item_images[identifier] = self._createTkImage(image_path)
+                return self.item_images[identifier]
+            except Exception as e:
+                print(f"Error loading image for {identifier}: {e}")
+                return None
+        return None
 
     def _left(self, e):
         self._move(-1, 0)
