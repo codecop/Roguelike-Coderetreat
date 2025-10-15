@@ -1,9 +1,8 @@
 export default class Room {
   player = "@";
+  layout = "######\n#    #\n#    |\n#    #\n######";
   returnLayout(): string {
-    const layout = "######\n#    #\n#    |\n#    #\n######";
-    // console.log(layout);
-    return layout;
+    return this.layout;
   }
 
   setNewPosition(row: number, column: number): string {
@@ -12,6 +11,7 @@ export default class Room {
       .map((line) => line.split(""));
     layout[row][column] = this.player;
     const newLayout = layout.map((line) => line.join("")).join("\n");
+    this.layout = newLayout;
     return newLayout;
   }
 }
