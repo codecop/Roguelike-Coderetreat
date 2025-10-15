@@ -17,15 +17,15 @@ export default class Room {
     return rows[y];
   }
 
-  setNewPlayerPosition(x: number, y: number) {
-    if (x < 1 || x > this.innerWidth || y < 1 || y > this.innerHeight) {
+  setNewPlayerPosition(column: number, row: number) {
+    if (column < 1 || column > this.innerWidth || row < 1 || row > this.innerHeight) {
       throw new Error("Player position out of bounds");
     }
 
     this.layout = this.layout.replace(this.PLAYER, this.FREE);
 
     const rows = this.layout.split("\n");
-    rows[y] = rows[y].substring(0, x) + this.PLAYER + rows[y].substring(x + 1);
+    rows[row] = rows[row].substring(0, column) + this.PLAYER + rows[row].substring(column + 1);
     this.layout = rows.join("\n");
   }
 
