@@ -55,12 +55,12 @@ class RoomController extends Controller
         $entity = $request->input('item');
         $roomTile = RoomTile::tryFrom($entity);
 
-        $room->interact($roomTile);
+        $message = $room->interact($roomTile);
 
         $roomDatabase->putRoom($name, $room);
 
         return response([
-            'message' => 'you moved the box',
+            'message' => $message,
         ], 201)
             ->header('Content-Type', 'application/json');
     }
