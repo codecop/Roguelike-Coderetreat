@@ -76,35 +76,8 @@ class RoomController extends Controller {
 
     public function get(Request $request)
     {
-        $layout = $this->room->serialize();
-        
-        $playersData = [];
-        foreach ($this->room->getPlayers() as $player) {
-            $playersData[] = $player->toArray();
-        }
-        
-        $monstersData = [];
-        foreach ($this->room->getMonsters() as $monster) {
-            if ($monster->isAlive()) {
-                $monstersData[] = $monster->toArray();
-            }
-        }
-        
-        $data = [
-            "layout" => $layout,
-            "players" => $playersData,
-            "monsters" => $monstersData
-        ];
-        return response()->json($data);
-    }
-
-    public function walk(Request $request)
-    {
-        $row = (int) $request->input('row', 1);
-        $col = (int) $request->input('column', 1);
-        $playerId = (int) $request->input('playerId', 1);
-        
-        $moved = $this->room->setNewPosition($row, $col, $playerId);
+        // Automatically process combat when getting room state
+        $combatLog = $this->room->processCombat();
         
         $layout = $this->room->serialize();
         
@@ -124,8 +97,74 @@ class RoomController extends Controller {
             "layout" => $layout,
             "players" => $playersData,
             "monsters" => $monstersData,
-            "moved" => $moved
+            "combatLog" => $combatLog,
+            "combatOccurred" => !empty($combatLog)
         ];
+        return response()->json($data);
+    }
+
+    public function walk(Request $request)
+    {
+        $row = (int) $request->input('row', 1);
+        $col = (int) $request->input('column', 1);
+        $playerId = (int) $request->input('playerId', 1);
+        
+        $moved = $this->room->setNewPosition($row, $col, $playerId);
+        
+        // Automatically process combat after movement
+        $combatLog = $this->room->processCombat();
+        
+        $layout = $this->room->serialize();
+        
+        $playersData = [];
+        foreach ($this->room->getPlayers() as $player) {
+            $playersData[] = $player->toArray();
+        }
+        
+        $monstersData = [];
+        foreach ($this->room->getMonsters() as $monster) {
+            if ($monster->isAlive()) {
+                $monstersData[] = $monster->toArray();
+            }
+        }
+        
+        $data = [
+            "layout" => $layout,
+            "players" => $playersData,
+            "monsters" => $monstersData,
+            "moved" => $moved,
+            "combatLog" => $combatLog,
+            "combatOccurred" => !empty($combatLog)
+        ];
+        return response()->json($data);
+    }
+
+    public function combat(Request $request)
+    {
+        $combatLog = $this->room->processCombat();
+        
+        $layout = $this->room->serialize();
+        
+        $playersData = [];
+        foreach ($this->room->getPlayers() as $player) {
+            $playersData[] = $player->toArray();
+        }
+        
+        $monstersData = [];
+        foreach ($this->room->getMonsters() as $monster) {
+            if ($monster->isAlive()) {
+                $monstersData[] = $monster->toArray();
+            }
+        }
+        
+        $data = [
+            "layout" => $layout,
+            "players" => $playersData,
+            "monsters" => $monstersData,
+            "combatLog" => $combatLog,
+            "combatOccurred" => !empty($combatLog)
+        ];
+        
         return response()->json($data);
     }
 }

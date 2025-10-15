@@ -181,6 +181,114 @@ class RoomLayout
         return $this->cols;
     }
 
+    public function processCombat()
+    {
+        $currentTime = microtime(true);
+        $combatLog = [];
+
+        foreach ($this->players as $player) {
+            if (!$player->isAlive()) {
+                continue;
+            }
+
+            // Check for adjacent monsters
+            $adjacentMonsters = $this->getAdjacentMonsters($player);
+
+            foreach ($adjacentMonsters as $monster) {
+                if (!$monster->isAlive()) {
+                    continue;
+                }
+
+                // Check if both can attack (2 second cooldown)
+                $playerCanAttack = $player->canAttack($currentTime);
+                $monsterCanAttack = $monster->canAttack($currentTime);
+
+                if ($playerCanAttack || $monsterCanAttack) {
+                    // Player attacks monster
+                    if ($playerCanAttack) {
+                        $playerDamage = $player->attack();
+                        $monster->takeDamage($playerDamage);
+                        $player->setLastCombatTime($currentTime);
+
+                        $combatLog[] = [
+                            'attacker' => 'player',
+                            'attackerId' => $player->getId(),
+                            'target' => 'monster',
+                            'targetId' => $monster->getId(),
+                            'damage' => $playerDamage,
+                            'monsterHealth' => $monster->getHealth(),
+                            'monsterMaxHealth' => $monster->getMaxHealth(),
+                            'monsterAlive' => $monster->isAlive(),
+                        ];
+
+                        // Grant experience if monster died
+                        if (!$monster->isAlive()) {
+                            $xpGained = $this->getMonsterExperience($monster->getType());
+                            $player->addExperience($xpGained);
+                            $combatLog[count($combatLog) - 1]['experienceGained'] = $xpGained;
+                            $combatLog[count($combatLog) - 1]['playerLevel'] = $player->getLevel();
+                        }
+                    }
+
+                    // Monster attacks player (if still alive)
+                    if ($monsterCanAttack && $monster->isAlive()) {
+                        $monsterDamage = $monster->attack();
+                        $player->takeDamage($monsterDamage);
+                        $monster->setLastCombatTime($currentTime);
+
+                        $combatLog[] = [
+                            'attacker' => 'monster',
+                            'attackerId' => $monster->getId(),
+                            'target' => 'player',
+                            'targetId' => $player->getId(),
+                            'damage' => $monsterDamage,
+                            'playerHealth' => $player->getHealth(),
+                            'playerMaxHealth' => $player->getMaxHealth(),
+                            'playerAlive' => $player->isAlive(),
+                        ];
+                    }
+                }
+            }
+        }
+
+        if (!empty($combatLog)) {
+            $this->saveState();
+        }
+
+        return $combatLog;
+    }
+
+    private function getAdjacentMonsters($player)
+    {
+        $adjacentMonsters = [];
+        $playerRow = $player->getRow();
+        $playerCol = $player->getCol();
+
+        foreach ($this->monsters as $monster) {
+            if (!$monster->isAlive()) {
+                continue;
+            }
+
+            $monsterRow = $monster->getRow();
+            $monsterCol = $monster->getCol();
+
+            // Check if monster is adjacent (including diagonals)
+            $rowDiff = abs($playerRow - $monsterRow);
+            $colDiff = abs($playerCol - $monsterCol);
+
+            if ($rowDiff <= 1 && $colDiff <= 1 && !($rowDiff === 0 && $colDiff === 0)) {
+                $adjacentMonsters[] = $monster;
+            }
+        }
+
+        return $adjacentMonsters;
+    }
+
+    private function getMonsterExperience($monsterType)
+    {
+        return $this->monstersConfig[$monsterType]['experience'] ?? 1;
+    }
+
     private function isWallOrDoor($row, $col)
     {
         if ($row === 0 || $row === $this->rows - 1 || $col === 0 || $col === $this->cols - 1) {

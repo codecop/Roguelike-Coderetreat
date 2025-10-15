@@ -5,7 +5,7 @@
     "damage": 5,
     "critRate": 0.1,
     "skin": "R",
-    "aggressive": true,
+    "aggressive": false,
     "difficulties": ["easy"]
   },
   "Goblin": {
@@ -14,7 +14,7 @@
     "damage": 5,
     "critRate": 0.1,
     "skin": "G",
-    "aggressive": true,
+    "aggressive": false,
     "difficulties": ["easy", "medium"]
   },
   "skeleton": {
@@ -25,15 +25,6 @@
     "skin": "S",
     "aggressive": true,
     "difficulties": ["medium"]
-  },
-  "slime": {
-    "hp": 10,
-    "experience": 1,
-    "damage": 3,
-    "critRate": 0.05,
-    "skin": "S",
-    "aggressive": false,
-    "difficulties": ["easy", "medium"]
   },
   "orc": {
     "hp": 30,
@@ -50,7 +41,7 @@
     "damage": 4,
     "critRate": 0.25,
     "skin": "B",
-    "aggressive": true,
+    "aggressive": false,
     "difficulties": ["easy", "medium"]
   },
   "dragon": {

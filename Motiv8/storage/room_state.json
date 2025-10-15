@@ -4,58 +4,69 @@
     "players": [
         {
             "id": 1,
-            "health": 50,
-            "row": 1,
-            "col": 1,
+            "health": 55,
+            "maxHealth": 55,
+            "row": 12,
+            "col": 14,
             "skin": "@",
             "experience": 0,
-            "level": 1
+            "level": 2,
+            "damage": 6,
+            "lastCombatTime": 1760537208.108776
         }
     ],
     "monsters": [
         {
             "id": 1,
             "type": "Goblin",
-            "health": 10,
+            "health": 0,
+            "maxHealth": 20,
             "damage": 5,
-            "critRate": 0,
-            "skin": "M",
+            "critRate": 0.1,
+            "skin": "G",
             "aggressive": false,
             "row": 3,
-            "col": 11
+            "col": 11,
+            "lastCombatTime": 1760537182.743
         },
         {
             "id": 2,
             "type": "skeleton",
-            "health": 10,
-            "damage": 5,
-            "critRate": 0,
-            "skin": "M",
-            "aggressive": false,
+            "health": 0,
+            "maxHealth": 15,
+            "damage": 8,
+            "critRate": 0.15,
+            "skin": "S",
+            "aggressive": true,
             "row": 6,
-            "col": 1
+            "col": 1,
+            "lastCombatTime": 1760537124.209564
         },
         {
             "id": 3,
             "type": "skeleton",
-            "health": 10,
-            "damage": 5,
-            "critRate": 0,
-            "skin": "M",
-            "aggressive": false,
+            "health": 0,
+            "maxHealth": 15,
+            "damage": 8,
+            "critRate": 0.15,
+            "skin": "S",
+            "aggressive": true,
             "row": 12,
-            "col": 13
+            "col": 13,
+            "lastCombatTime": 1760537205.914472
         },
         {
             "id": 4,
             "type": "Goblin",
-            "health": 10,
+            "health": 0,
+            "maxHealth": 20,
             "damage": 5,
-            "critRate": 0,
-            "skin": "M",
+            "critRate": 0.1,
+            "skin": "G",
             "aggressive": false,
             "row": 15,
-            "col": 17
+            "col": 17,
+            "lastCombatTime": 1760537200.632545
         }
     ],
     "difficulty": "medium"

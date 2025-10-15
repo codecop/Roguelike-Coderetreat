@@ -6,12 +6,14 @@ class Monster
     private $id;
     private $type;
     private $health;
+    private $maxHealth;
     private $damage;
     private $critRate;
     private $skin;
     private $aggressive;
     private $row;
     private $col;
+    private $lastCombatTime;
 
     public function __construct($id, $type, $row, $col, $config)
     {
@@ -19,11 +21,17 @@ class Monster
         $this->type = $type;
         $this->row = $row;
         $this->col = $col;
-        $this->health = $config['hp'] ?? 10;
-        $this->damage = $config['damage'] ?? 5;
-        $this->critRate = $config['critRate'] ?? 0.0;
-        $this->skin = $config['skin'] ?? 'M';
-        $this->aggressive = $config['aggressive'] ?? false;
+        
+        // Config can be the full config array or the specific monster config
+        $monsterConfig = isset($config[$type]) ? $config[$type] : $config;
+        
+        $this->maxHealth = $monsterConfig['hp'] ?? 10;
+        $this->health = $this->maxHealth;
+        $this->damage = $monsterConfig['damage'] ?? 5;
+        $this->critRate = $monsterConfig['critRate'] ?? 0.0;
+        $this->skin = $monsterConfig['skin'] ?? 'M';
+        $this->aggressive = $monsterConfig['aggressive'] ?? false;
+        $this->lastCombatTime = null;
     }
 
     public function getId()
@@ -41,9 +49,14 @@ class Monster
         return $this->health;
     }
 
+    public function getMaxHealth()
+    {
+        return $this->maxHealth;
+    }
+
     public function setHealth($health)
     {
-        $this->health = max(0, $health);
+        $this->health = max(0, min($health, $this->maxHealth));
     }
 
     public function takeDamage($damage)
@@ -98,25 +111,45 @@ class Monster
         return $isCrit ? $this->damage * 2 : $this->damage;
     }
 
+    public function getLastCombatTime()
+    {
+        return $this->lastCombatTime;
+    }
+
+    public function setLastCombatTime($time)
+    {
+        $this->lastCombatTime = $time;
+    }
+
+    public function canAttack($currentTime)
+    {
+        if ($this->lastCombatTime === null) {
+            return true;
+        }
+        return ($currentTime - $this->lastCombatTime) >= 2;
+    }
+
     public function toArray()
     {
         return [
             'id' => $this->id,
             'type' => $this->type,
             'health' => $this->health,
+            'maxHealth' => $this->maxHealth,
             'damage' => $this->damage,
             'critRate' => $this->critRate,
             'skin' => $this->skin,
             'aggressive' => $this->aggressive,
             'row' => $this->row,
             'col' => $this->col,
+            'lastCombatTime' => $this->lastCombatTime,
         ];
     }
 
     public static function fromArray($data, $monstersConfig)
     {
         $type = $data['type'];
-        $config = $monstersConfig[$type] ?? [];
+        $config = $monstersConfig;
         
         $monster = new self(
             $data['id'],
@@ -127,6 +160,7 @@ class Monster
         );
         
         $monster->setHealth($data['health']);
+        $monster->setLastCombatTime($data['lastCombatTime'] ?? null);
         
         return $monster;
     }
