@@ -13,3 +13,7 @@
 
 $router->get("/hello", 'HelloController@get');
 $router->post("/hello", 'HelloController@post');
+
+$router->get("/room", 'RoomController@get');
+$router->get("/room/{name}", 'RoomController@get');
+$router->post("/room/walk", 'RoomController@walk');
