@@ -8,15 +8,20 @@ async function createApp() {
 
   app.get('/sellerz', async (_req, res) => {
     const layout = room.getMap();
+    const description = room.getDescription();
 
-    res.json({ layout });
+    res.json({ layout, description });
   });
 
   app.post('/sellerz/walk', async (req, res) => {
     const { row, column } = req.query;
-    room.setNewPosition(Number(row), Number(column));
+    const message = room.setNewPosition(Number(row), Number(column));
 
-    res.status(201).json();
+    res.status(201).json({ message });
+  });
+
+  app.get('/sellerz/open', async (_req, res) => {
+    res.json(room.getOpenDoors());
   });
 
   return app;
