@@ -122,6 +122,7 @@ class RoomUI:
                         anchor=tk.CENTER,
                         text=block.identifier,
                         font=("Purisa", 20),
+                        fill="black",
                     )
 
     def display_win_screen(self):
