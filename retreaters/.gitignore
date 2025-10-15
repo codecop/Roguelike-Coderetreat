@@ -23,3 +23,5 @@ composer.lock
 # PHPUnit
 coverage
 .phpunit.result.cache
+
+player.txt

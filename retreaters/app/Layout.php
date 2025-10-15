@@ -11,6 +11,13 @@ class Layout
     {
         $this->doorPosition = $doorPosition;
         $this->grid = $this->setupGrid();
+
+        if (file_exists("../player.txt")) {
+            $newPlayerPostion = json_decode(file_get_contents("../player.txt"), true);
+            $this->setNewPosition($newPlayerPostion[0], $newPlayerPostion[1]);
+        } else {
+            $this->setNewPosition(1, 1);
+        }
     }
 
     public function createLayout(): string
@@ -46,6 +53,7 @@ class Layout
     public function setNewPosition($x, $y)
     {
         $this->grid[$x][$y] = '@';
+        file_put_contents("../player.txt", json_encode([$x, $y]));
     }
 
     private function setupGrid()
