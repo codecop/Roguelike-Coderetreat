@@ -15,14 +15,20 @@ class Room {
         $this->height = $height;
         $this->doors = $doors;
 
-        for ($i = 0; $i < $this->height; $i++) {
-            $this->grid[] = array_fill(0, $this->width, '#');
+        $roomFile = __DIR__ . "/room.txt";
+        if (file_exists($roomFile)) {
+            $data = json_decode(file_get_contents($roomFile), true);
+            $this->grid = $data['grid'];
+            $this->playerPosition = $data['playerPosition'];
+        } else {
+            for ($i = 0; $i < $this->height; $i++) {
+                $this->grid[] = array_fill(0, $this->width, '#');
+            }
+            $this->fillWithEmptySpaces();
+            $this->setRandomDoors($this->doors);
+            $this->setPlayerPosition($this->playerPosition);
+            $this->save();
         }
-
-        $this->fillWithEmptySpaces();
-        $this->setRandomDoors($this->doors);
-        $this->setPlayerPosition($this->playerPosition);
-        $this->save();
         return $this->getGrid();
     }
 
@@ -42,8 +48,7 @@ class Room {
         $nextPositionRow = $playerPosition['row'];
         $nextPositionCol = $playerPosition['col'];
 
-        $this->playerPosition['row'] = $nextPositionRow;
-        $this->playerPosition['col'] = $nextPositionCol;
+        $this->playerPosition = $playerPosition;
 
         $this->grid[$nextPositionRow][$nextPositionCol] = '@';
         $this->save(); // Save the updated grid after moving the player
