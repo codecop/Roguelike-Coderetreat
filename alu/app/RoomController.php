@@ -31,10 +31,11 @@ class RoomController extends Controller
         $playerX = (int)$request->input('row');
         $playerY = (int)$request->input('column');
 
-       $room->setPlayerPosition($playerX, $playerY);
+        $room->setPlayerPosition($playerX, $playerY);
 
-       $roomDatabase->putRoom(RoomDatabase::ALU_ROOM_DEFAULT, $room->render());
+        $roomDatabase->putRoom(RoomDatabase::ALU_ROOM_DEFAULT, $room->render());
 
-       return response('', 201);
+        return response('', 201)
+            ->header('Content-Type', 'application/json');
     }
 }
