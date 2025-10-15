@@ -1,10 +1,11 @@
-import Hello from '../src/Hello';
+import Room from '../src/Room';
 
-describe('Hello', () => {
+describe('Room', () => {
 
-    it('get', () => {
-        const hello = new Hello();
-        expect(hello.getName()).toBe('World!');
+    it('the room should return the hardcoded layout', () => {
+        const room = new Room();
+        room.returnLayout();
+        expect(room.returnLayout()).toEqual('######\n#    #\n#    |\n#    #\n######');
     });
 
 });
