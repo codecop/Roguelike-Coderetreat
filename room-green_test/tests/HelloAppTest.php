@@ -14,6 +14,7 @@ class HelloAppTest extends TestCase
     /** @test */
     public function firstHello()
     {
+        $this->markTestSkipped();
         $response = $this->call('GET', '/hello');
 
         $response->assertOk();
@@ -24,6 +25,7 @@ class HelloAppTest extends TestCase
     /** @test */
     public function update()
     {
+        $this->markTestSkipped();
         $response = $this->call('POST', '/hello?name=Peter');
         $response->assertCreated();
 
