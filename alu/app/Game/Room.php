@@ -71,6 +71,47 @@ class Room
         $this->characterGrid[$x][$y] = RoomTile::PLAYER;
     }
 
+
+    public function interact(RoomTile $tile)
+    {
+        [$boxX, $boxY] = $this->findTile($tile);
+        [$playerX, $playerY] = $this->findTile(RoomTile::PLAYER);
+
+        if($boxX > $playerX ) {
+            $tileBehindBox = $this->getTileAt($boxY, $boxX + 1);
+            if($tileBehindBox === RoomTile::FLOOR) {
+                $this->setPlayerPosition($boxX, $boxY);
+                $this->characterGrid[$boxX + 1][$boxY] = RoomTile::BOX;
+            }
+            return;
+        }
+        if($boxX < $playerX ) {
+            $tileBehindBox = $this->getTileAt($boxY, $boxX - 1);
+            if($tileBehindBox === RoomTile::FLOOR) {
+                $this->setPlayerPosition($boxX, $boxY);
+                $this->characterGrid[$boxX - 1][$boxY] = RoomTile::BOX;
+            }
+            return;
+        }
+        if($boxY > $playerY ) {
+            $tileBehindBox = $this->getTileAt($boxY + 1, $boxX);
+            if ($tileBehindBox === RoomTile::FLOOR) {
+                $this->setPlayerPosition($boxX, $boxY);
+                $this->characterGrid[$boxX][$boxY + 1] = RoomTile::BOX;
+            }
+            return;
+        }
+
+        if($boxY < $playerY ) {
+            $tileBehindBox = $this->getTileAt($boxY - 1, $boxX);
+            if ($tileBehindBox === RoomTile::FLOOR) {
+                $this->setPlayerPosition($boxX, $boxY);
+                $this->characterGrid[$boxX][$boxY - 1] = RoomTile::BOX;
+            }
+        }
+
+    }
+
     private function removeCharacter(int $x, int $y): void
     {
         $this->characterGrid[$x][$y] = null;

@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Database\RoomDatabase;
+use App\Game\RoomTile;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller;
 
@@ -51,11 +52,13 @@ class RoomController extends Controller
         $name = $request->route('name');
         $room = $roomDatabase->getRoom($name);
 
-        $entity = (int)$request->input('item');
+        $entity = $request->input('item');
+        $roomTile = RoomTile::tryFrom($entity);
 
-        $room->interact($entity);
+        $room->interact($roomTile);
 
-        $roomDatabase->putRoom(RoomDatabase::ALU_ROOM_DEFAULT, $room);
+        $roomDatabase->putRoom($name, $room);
+
         return response([
             'message' => 'you moved the box',
         ], 201)

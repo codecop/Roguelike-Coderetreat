@@ -102,10 +102,10 @@ class RoomTest extends PHPUnit\Framework\TestCase
         $room->setPlayerPosition(2,3);
 
         // move player on top of box
-        $room->setPlayerPosition(2,2);
+        $room->interact(RoomTile::BOX);
 
         $this->assertEquals(RoomTile::PLAYER, $room->getTileAt(2, 2));
-        $this->assertEquals(RoomTile::BOX, $room->getTileAt(2, 1));
+        $this->assertEquals(RoomTile::BOX, $room->getTileAt(1, 2));
     }
 
 }

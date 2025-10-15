@@ -8,7 +8,7 @@ enum RoomTile: string
     case DOOR = '|';
     case FLOOR = ' ';
     case PLAYER = '@';
-    case BOX = 'B';
+    case BOX = 'G';
 
     public function isCharacter(): bool
     {
