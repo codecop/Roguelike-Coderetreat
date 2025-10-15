@@ -44,7 +44,7 @@ class Game:
     def move_player_to(self, col, row):
         response_json = self.game_service.move(col, row)
         message = self.extract_message(response_json)
-        if response_json is not None:
+        if message:
             self._log_to_ui(f"You moved. The room responds with: '{message}'", "move")
         else:
             self._log_to_ui(f"You moved. The room stays silent...", "move_silent")
