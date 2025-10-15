@@ -5,6 +5,8 @@ export default class Room {
   PLAYER = "@";
 
   public layout: string = "";
+  public doorIsOpen: boolean = false;
+  private pressurePlatePosition = { row: 6, column: 1 };
 
   constructor(private innerWidth: number, private innerHeight: number) {
     if (innerWidth > 13 || innerHeight > 13) {
@@ -17,9 +19,13 @@ export default class Room {
     return rows[y];
   }
 
-  setNewPlayerPosition(column: number, row: number) {
+  setNewPlayerPosition(column: number, row: number): { message: string } {
     if (column < 1 || column > this.innerWidth || row < 1 || row > this.innerHeight) {
       throw new Error("Player position out of bounds");
+    }
+
+    if (column === this.pressurePlatePosition.column && row === this.pressurePlatePosition.row) {
+      this.doorIsOpen = true;
     }
 
     this.layout = this.layout.replace(this.PLAYER, this.FREE);
@@ -27,6 +33,13 @@ export default class Room {
     const rows = this.layout.split("\n");
     rows[row] = rows[row].substring(0, column) + this.PLAYER + rows[row].substring(column + 1);
     this.layout = rows.join("\n");
+
+    let message = "Congratulations, you moved.";
+    if (column === this.pressurePlatePosition.column && row === this.pressurePlatePosition.row) {
+      message = "You stepped on a pressure plate. The door is now open.";
+    }
+
+    return { message }
   }
 
   generateLayout() {
