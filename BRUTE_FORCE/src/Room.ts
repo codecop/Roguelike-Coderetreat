@@ -72,6 +72,7 @@ export default class Room {
   async hurtIfNearFire(row: number, column: number): Promise<void> {
     const grid = this.parseLayout();
     if (this.isNearFire(row, column, grid)) {
+        console.log("Hurt by fire!");
       await new StatsClient().hit();
     }
   }
