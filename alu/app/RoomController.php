@@ -3,7 +3,7 @@
 namespace App;
 
 use App\Database\RoomDatabase;
-use App\Game\Room;
+use App\Game\RoomTile;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller;
 
@@ -12,11 +12,12 @@ class RoomController extends Controller
 
     public function get(Request $request, RoomDatabase $roomDatabase)
     {
-        $roomLayout = $roomDatabase->getRoom(RoomDatabase::ALU_ROOM_DEFAULT);
-        $room = Room::create($roomLayout);
+        $name = $request->route('name');
+        $room = $roomDatabase->getRoom($name);
 
         $content = json_encode([
-            'layout' => $room->render()
+            'layout' => $room->render(),
+            'description' => $room->getDescription()
         ]);
 
         return response($content, 200)
@@ -25,16 +26,42 @@ class RoomController extends Controller
 
     public function post(Request $request, RoomDatabase $roomDatabase)
     {
-        $roomLayout = $roomDatabase->getRoom(RoomDatabase::ALU_ROOM_DEFAULT);
-        $room = Room::create($roomLayout);
+        $name = $request->route('name');
+        $room = $roomDatabase->getRoom($name);
 
-        $playerX = (int)$request->input('row') - 1;
-        $playerY = (int)$request->input('column') - 1;
+        $playerX = (int)$request->input('row');
+        $playerY = (int)$request->input('column');
 
-       $room->setPlayerPosition($playerX, $playerY);
+        $room->setPlayerPosition($playerX, $playerY);
 
-       $roomDatabase->putRoom(RoomDatabase::ALU_ROOM_DEFAULT, $room->render());
+        $roomDatabase->putRoom($name, $room);
 
-       return response('', 201);
+        $message = '';
+        if (mt_rand(0, 10) > 8) {
+            $message = 'The floor creaks';
+        }
+
+        return response([
+            'message' => $message,
+        ], 201)
+            ->header('Content-Type', 'application/json');
+    }
+
+    public function interact(Request $request, RoomDatabase $roomDatabase)
+    {
+        $name = $request->route('name');
+        $room = $roomDatabase->getRoom($name);
+
+        $entity = $request->input('item');
+        $roomTile = RoomTile::tryFrom($entity);
+
+        $message = $room->interact($roomTile);
+
+        $roomDatabase->putRoom($name, $room);
+
+        return response([
+            'message' => $message,
+        ], 201)
+            ->header('Content-Type', 'application/json');
     }
 }

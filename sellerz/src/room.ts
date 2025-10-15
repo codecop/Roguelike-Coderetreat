@@ -9,7 +9,7 @@ const randomRoomDescriptions = [
 ];
 
 const generalRoomDescription =
-  'The monsters (M) are all around you, be careful! Press the button (B) to open the doors and escape.';
+  'The monsters are all around you, be careful! Switch the lever to open the doors and escape. For more fun you can also find portals that will teleport you to another location in the room.';
 
 const randomMovementMessages = [
   'You hear a faint rustling sound.',
@@ -48,7 +48,7 @@ export class Room {
   hasAllNeededElements(map: string[], amountOfMonsters: number): boolean {
     console.log(amountOfMonsters);
     const mapHasDoor = map.some((row) => row.includes('|'));
-    const mapHasButton = map.some((row) => row.includes('B'));
+    const mapHasButton = map.some((row) => row.includes('l'));
     const mapHasMonster = map.some((row) => row.includes('M'));
     const mapHasGoodNumberOfPortals = map.join('\n').split('P').length - 1 === 3;
 
@@ -133,7 +133,7 @@ export class Room {
       if (this.map[newY]?.[newX] === 'M') {
         this.monsterCollision();
       }
-      if (this.map[newY]?.[newX] === 'B') {
+      if (this.map[newY]?.[newX] === 'l') {
         this.buttonCollision();
       }
       if (this.map[newY]?.[newX] === 'P') {

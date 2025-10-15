@@ -5,52 +5,37 @@ namespace App\Game;
 class Room
 {
 
-    private ?array $grid;
+    private array $tileGrid;
+    private array $characterGrid;
 
-    private bool $playerIsOnDoor = false;
-
-
-    public function __construct(?array $grid = null)
+    public function __construct(array $grid, array $characterGrid = [])
     {
-        $this->grid = $grid ?? null;
+        $this->tileGrid = $grid;
+        $this->characterGrid = $characterGrid;
     }
 
-    public static function create(string $roomString): Room
-    {
-        $roomString = str_replace("\r\n", "\n", $roomString);
-        $grid = [];
-        $rows = explode("\n", $roomString);
-        foreach ($rows as $x => $row) {
-            for ($y = 0; $y < strlen($row); $y++) {
-                $char = $row[$y];
-                $enum = RoomTile::tryFrom($char);
-                if ($enum === null) {
-                    throw new \InvalidArgumentException("was das für char hä $char");
-                }
-                $grid[$x][$y] = $enum;
-            }
-        }
-        return new Room($grid);
-    }
-
-    public function enter(): void
+    public function enterPlayer(): void
     {
         [$x, $y] = $this->findTile(RoomTile::DOOR);
-        $this->grid[$x][$y] = RoomTile::PLAYER;
-        $this->playerIsOnDoor = true;
+        $this->characterGrid[$x][$y] = RoomTile::PLAYER;
     }
 
-    public function getTileAt(int $x, int $y): RoomTile
+    public function getTileAt(int $y, int $x): RoomTile
     {
-        return $this->grid[$x][$y];
+        $character = $this->characterGrid[$x][$y] ?? null;
+        if ($character) {
+            return $character;
+        }
+        return $this->tileGrid[$x][$y];
     }
 
     public function render(): string
     {
         $output = "";
-        foreach ($this->grid as $row) {
-            foreach ($row as $tile) {
-                $output .= $tile->value;
+        foreach ($this->tileGrid as $x => $row) {
+            foreach ($row as $y => $tile) {
+                $character = $this->characterGrid[$x][$y] ?? null;
+                $output .= $character ? $character->value : $tile->value;
             }
             $output .= "\n";
         }
@@ -60,18 +45,15 @@ class Room
     /**
      * @return RoomTile[][]
      */
-    public function getGrid(): array
+    public function getTileGrid(): array
     {
-        return [
-            [RoomTile::WALL, RoomTile::WALL, RoomTile::WALL],
-            [RoomTile::WALL, RoomTile::FLOOR, RoomTile::DOOR],
-            [RoomTile::WALL, RoomTile::WALL, RoomTile::WALL],
-        ];
+        return $this->tileGrid;
     }
 
     public function findTile(RoomTile $tileToSearch): ?array
     {
-        foreach ($this->grid as $x => $row) {
+        $grid = $tileToSearch->isCharacter() ? $this->characterGrid : $this->tileGrid;
+        foreach ($grid as $x => $row) {
             foreach ($row as $y => $tile) {
                 if ($tile === $tileToSearch) {
                     return [$x, $y];
@@ -81,9 +63,69 @@ class Room
         return null;
     }
 
-    public function setPlayerPosition(int $x, int $y)
+    public function setPlayerPosition(int $x, int $y): void
     {
-        $this->grid[$x][$y] = RoomTile::PLAYER;
+        if ($xy = $this->findTile(RoomTile::PLAYER)) {
+            $this->removeCharacter($xy[0], $xy[1]);
+        }
+        $this->characterGrid[$x][$y] = RoomTile::PLAYER;
+    }
+
+
+    public function interact(RoomTile $tile): string
+    {
+        [$boxX, $boxY] = $this->findTile($tile);
+        [$playerX, $playerY] = $this->findTile(RoomTile::PLAYER);
+
+        if ($boxX > $playerX) {
+            $tileBehindBox = $this->getTileAt($boxY, $boxX + 1);
+            if ($tileBehindBox === RoomTile::FLOOR || $tileBehindBox === RoomTile::BOX_GOAL) {
+                $this->setPlayerPosition($boxX, $boxY);
+                $this->characterGrid[$boxX + 1][$boxY] = RoomTile::BOX;
+            }
+            return $tileBehindBox === RoomTile::BOX_GOAL ? 'you won' : 'you moved the box';
+
+        }
+        if ($boxX < $playerX) {
+            $tileBehindBox = $this->getTileAt($boxY, $boxX - 1);
+            if ($tileBehindBox === RoomTile::FLOOR || $tileBehindBox === RoomTile::BOX_GOAL) {
+                $this->setPlayerPosition($boxX, $boxY);
+                $this->characterGrid[$boxX - 1][$boxY] = RoomTile::BOX;
+            }
+            return $tileBehindBox === RoomTile::BOX_GOAL ? 'you won' : 'you moved the box';
+        }
+        if ($boxY > $playerY) {
+            $tileBehindBox = $this->getTileAt($boxY + 1, $boxX);
+            if ($tileBehindBox === RoomTile::FLOOR || $tileBehindBox === RoomTile::BOX_GOAL) {
+                $this->setPlayerPosition($boxX, $boxY);
+                $this->characterGrid[$boxX][$boxY + 1] = RoomTile::BOX;
+            }
+            return $tileBehindBox === RoomTile::BOX_GOAL ? 'you won' : 'you moved the box';
+
+        }
+
+        if ($boxY < $playerY) {
+            $tileBehindBox = $this->getTileAt($boxY - 1, $boxX);
+            if ($tileBehindBox === RoomTile::FLOOR || $tileBehindBox === RoomTile::BOX_GOAL) {
+                $this->setPlayerPosition($boxX, $boxY);
+                $this->characterGrid[$boxX][$boxY - 1] = RoomTile::BOX;
+            }
+            return $tileBehindBox === RoomTile::BOX_GOAL ? 'you won' : 'you moved the box';
+
+        }
+
+        return 'nothing happened';
+
+    }
+
+    private function removeCharacter(int $x, int $y): void
+    {
+        $this->characterGrid[$x][$y] = null;
+    }
+
+    public function getDescription()
+    {
+        return "You are in a room. There is a door to the north.";
     }
 
 }
