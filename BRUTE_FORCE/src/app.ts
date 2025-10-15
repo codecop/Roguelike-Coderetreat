@@ -1,10 +1,9 @@
 import express from "express";
-
 import Room from "./Room";
 
 const room = new Room();
 
-async function createApp() {
+async function createApp(statsClient) {
     
   const app = express();
 
@@ -12,6 +11,11 @@ async function createApp() {
 
   app.get("/room", async (_req, res) => {
     res.json({ layout: room.returnLayout() });
+  });
+
+  app.get("/stats/hp", async (_req, res) => {
+    const hp = await statsClient.getHealth();
+    res.json({ hp });
   });
 
   app.post("/room/walk", async (req, res) => {
