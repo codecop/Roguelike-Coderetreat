@@ -17,6 +17,7 @@ class Room
 
     public static function create(string $roomString): Room
     {
+        $roomString = str_replace("\r\n", "\n", $roomString);
         $grid = [];
         $rows = explode("\n", $roomString);
         foreach ($rows as $x => $row) {

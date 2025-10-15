@@ -3,6 +3,8 @@ composer.phar
 vendor/
 storage/logs/
 
+database/*.txt
+
 Homestead.json
 Homestead.yaml
 

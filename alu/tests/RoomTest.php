@@ -74,7 +74,8 @@ class RoomTest extends PHPUnit\Framework\TestCase
         #  #
         #  #
         ####
-        EOL);
+        EOL
+        );
         $room->enter();
 
         $room->setPlayerPosition(3, 3);
@@ -95,6 +96,5 @@ class RoomTest extends PHPUnit\Framework\TestCase
         $output = $room->render();
         $this->assertSame($roomString, $output);
     }
-
 
 }
