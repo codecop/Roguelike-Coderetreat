@@ -10,7 +10,7 @@ describe("Room", () => {
     "#       #\n" +
     "#       |\n" +
     "#       #\n" +
-    "#       #\n" +
+    "#_      #\n" +
     "#########\n";
     room.generateLayout()
     expect(room.layout).toBe(layout);
@@ -43,4 +43,10 @@ describe("Room", () => {
     expect((room.layout.match(/@/g) || []).length).toBe(1);
   });
   
+  it("displays the pressure plate", () => {
+    const room = new Room(5, 7);
+    room.generateLayout();
+    expect(room.getRowAt(6)).toContain("#_    #");
+  });
+
 });

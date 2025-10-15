@@ -21,12 +21,14 @@ async function createApp() {
     const row = req.query.row;
     const column = req.query.column;
 
+    console.log("walk", row, column);
+
     if (row != undefined && column != undefined) {
-      const { message } = room.setNewPlayerPosition(
+      room.setNewPlayerPosition(
         Number(column),
         Number(row)
       );
-      res.status(201).json({ message });
+      res.status(201).json();
     } else {
       res.status(400).json();
     }
@@ -34,6 +36,16 @@ async function createApp() {
 
   app.get("/room-ab/open", async (_req, res) => {
     res.json(room.doorIsOpen);
+  });
+
+  app.post("/room-ab/interact", async (req, res) => {
+    const item = req.query.item;
+
+    console.log("interact", item);
+    const message = room.interactWith(item as string);
+    res.status(201).json({
+      message
+    });
   });
 
   return app;
