@@ -24,7 +24,7 @@ describe('HelloApp', () => {
             expect(200);
 
         expect(response.header['content-type']).toBe('application/json; charset=utf-8');
-        expect(response.body.layout).toBe('######\n#    #\n#    |\n#    #\n######');
+        expect(response.body.layout).toBe('######\n#@   #\n#    |\n#    #\n######');
     });
 
     it('should update position', async () => {
