@@ -7,6 +7,7 @@ export default class Room {
   public layout: string = "";
   public doorIsOpen: boolean = false;
   private pressurePlatePosition = { row: 6, column: 1 };
+  private doorCloseTimeout: NodeJS.Timeout | null = null;
 
   constructor(private innerWidth: number, private innerHeight: number) {
     if (innerWidth > 13 || innerHeight > 13) {
@@ -22,10 +23,6 @@ export default class Room {
   setNewPlayerPosition(column: number, row: number): void {
     if (column < 1 || column > this.innerWidth || row < 1 || row > this.innerHeight) {
       throw new Error("Player position out of bounds");
-    }
-
-    if (column === this.pressurePlatePosition.column && row === this.pressurePlatePosition.row) {
-      this.doorIsOpen = true;
     }
 
     this.layout = this.layout.replace(this.PLAYER, this.FREE);
@@ -66,11 +63,26 @@ export default class Room {
   public interactWith(item: string): string {
     let message = "";
     if (item === "_") {
-      this.doorIsOpen = true;
+      this.openDoor();
       message = "You stepped on a pressure plate. The door is now open.";
     } else {
       message = "Nothing happens.";
     }
     return message;
+  }
+
+  private openDoor() {
+    this.doorIsOpen = true;
+    // Reset any existing scheduled close
+    if (this.doorCloseTimeout) {
+      clearTimeout(this.doorCloseTimeout);
+    }
+    // Auto close after 3 seconds
+    this.doorCloseTimeout = setTimeout(() => {
+      this.doorIsOpen = false;
+      this.doorCloseTimeout = null;
+    }, 3000);
+    // Allow Node process (and Jest) to exit without waiting for this timeout
+    (this.doorCloseTimeout as any).unref?.();
   }
 }
