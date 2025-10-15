@@ -12,4 +12,4 @@
 */
 
 $router->get("/green_test", 'RoomController@get');
-$router->post("/green_test", 'RoomController@walk');
+$router->post("/green_test/walk", 'RoomController@walk');

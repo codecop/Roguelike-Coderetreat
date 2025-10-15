@@ -26,8 +26,14 @@ class RoomController extends Controller
             ->header('Content-Type', 'application/json');
     }
 
-    public function walk()
+    public function walk(Request $request)
     {
-
+        if ($request->exists('row') && $request->exists('column')) {
+            $row = $request->input("row");
+            $column = $request->input("column");
+            $this->room->setNewPlayerPosition(new Position($column, $row));
+            return response('', 201);
+        }
+        return response('', 400);
     }
 }

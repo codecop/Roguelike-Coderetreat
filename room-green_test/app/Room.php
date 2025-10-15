@@ -50,11 +50,13 @@ class Room
     private function insertDoor(Position $doorPosition): void
     {
         $this->layout[$doorPosition->yPos][$doorPosition->xPos] = "|";
+        $this->saveLayoutToDisk();
     }
 
     public function setNewPlayerPosition(Position $playerPosition): void
     {
         $this->layout[$playerPosition->yPos][$playerPosition->xPos] = "@";
+        $this->saveLayoutToDisk();
     }
 
 
