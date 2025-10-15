@@ -1,7 +1,12 @@
 # put your room URLs here
+<<<<<<< HEAD
 http://localhost:5007/room
 http://localhost:5015/roomWithBox
 http://localhost:5013/sellerz
+=======
+http://localhost:8080/jj-room
+
+>>>>>>> 62f03e7 (add logic)
 
 # sample rooms
 # http://localhost:8004/minimal

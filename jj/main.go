@@ -9,26 +9,43 @@ import (
 )
 
 func main() {
-	newRoom := room.NewRoom(8, 6, []room.Coordinate{{X: 5, Y: 5}})
-	player := room.NewPlayer(room.Coordinate{X: 2, Y: 3}, '@')
-	newRoom.AddPlayer(&player)
 
-	http.HandleFunc("/room", func(w http.ResponseWriter, r *http.Request) {
-		res := dungeon_api.GetRoomMap(&newRoom)
+	jjRoom := room.NewRoom("jj-room", "Our first room", 20, 20, room.Coordinate{X: 19, Y: 19})
+	player := room.NewPlayer(room.Coordinate{X: 1, Y: 1}, '@')
+	jjRoom.AddPlayer(&player)
+
+	key := room.NewKey(room.Coordinate{X: 15, Y: 15}, 'K')
+	jjRoom.AddKey(&key)
+
+	monster := room.NewMonster(room.Coordinate{X: 10, Y: 10}, 'M')
+	jjRoom.AddMonster(&monster)
+
+	http.HandleFunc("/jj-room", func(w http.ResponseWriter, r *http.Request) {
+
+		// jjRoom := room.RoomMap["jj-room"]
+		res := dungeon_api.GetRoomMap(&jjRoom)
+
 		w.Header().Set("Content-Type", "application/json")
 		if err := json.NewEncoder(w).Encode(res); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})
 
-	http.HandleFunc("/room/walk", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/jj-room/walk", func(w http.ResponseWriter, r *http.Request) {
 		rowStr := r.URL.Query().Get("row")
 		colStr := r.URL.Query().Get("column")
 
 		row, _ := strconv.ParseInt(rowStr, 10, 64)
 		col, _ := strconv.ParseInt(colStr, 10, 64)
 
-		newRoom.SetNewPosition(row, col)
+		// jjRoom := room.RoomMap["jj-room"]
+		res := dungeon_api.Walk(&jjRoom, row, col)
+
+		w.Header().Set("Content-Type", "application/json")
+		if err := json.NewEncoder(w).Encode(res); err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+		}
+
 	})
 	http.ListenAndServe(":8080", nil)
 
