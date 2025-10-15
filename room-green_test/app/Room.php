@@ -12,4 +12,9 @@ class Room
         $this->width = $width;
         $this->height = $height;
     }
+
+    public function serialize()
+    {
+        return "###\n# #\n###\n";
+    }
 }
