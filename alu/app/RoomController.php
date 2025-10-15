@@ -12,7 +12,7 @@ class RoomController extends Controller
 
     public function get(Request $request, RoomDatabase $roomDatabase)
     {
-        $roomLayout = $roomDatabase->getRoom(RoomDatabase::ALU_ROOM);
+        $roomLayout = $roomDatabase->getRoom(RoomDatabase::ALU_ROOM_DEFAULT);
         $room = Room::create($roomLayout);
 
         $content = json_encode([
@@ -25,7 +25,7 @@ class RoomController extends Controller
 
     public function post(Request $request, RoomDatabase $roomDatabase)
     {
-        $roomLayout = $roomDatabase->getRoom(RoomDatabase::ALU_ROOM);
+        $roomLayout = $roomDatabase->getRoom(RoomDatabase::ALU_ROOM_DEFAULT);
         $room = Room::create($roomLayout);
 
         $playerX = (int)$request->input('row') - 1;
@@ -33,7 +33,7 @@ class RoomController extends Controller
 
        $room->setPlayerPosition($playerX, $playerY);
 
-       $roomDatabase->putRoom(RoomDatabase::ALU_ROOM, $room->render());
+       $roomDatabase->putRoom(RoomDatabase::ALU_ROOM_DEFAULT, $room->render());
 
        return response('', 201);
     }

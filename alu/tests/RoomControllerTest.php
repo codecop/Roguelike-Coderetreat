@@ -10,14 +10,14 @@ class RoomControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        (new RoomDatabase)->deleteRoom(RoomDatabase::ALU_ROOM);
+        (new RoomDatabase)->deleteRoom(RoomDatabase::ALU_ROOM_DEFAULT);
     }
 
     /** @test */
     public function showRoom()
     {
         $response = $this->call('GET', '/aluroom');
-        $expectedLayout = (new RoomDatabase())->getRoom(RoomDatabase::ALU_ROOM);
+        $expectedLayout = (new RoomDatabase())->getRoom(RoomDatabase::ALU_ROOM_DEFAULT);
 
         $response->assertOk();
         $response->assertHeader('Content-Type', 'application/json')

@@ -4,7 +4,7 @@ namespace App\Database;
 
 class RoomDatabase
 {
-    const ALU_ROOM = 'aluroom';
+    const ALU_ROOM_DEFAULT = 'aluroom';
 
     public function getRoom(string $name): string
     {
