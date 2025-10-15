@@ -14,6 +14,7 @@ class Room
         $this->height = $height;
 
         $this->layout = $this->setupRoomLayout();
+        $this->loadFromDisk();
 
         if ($doorPosition) {
             $this->insertDoor($doorPosition);
@@ -55,15 +56,18 @@ class Room
 
     public function setNewPlayerPosition(Position $playerPosition): void
     {
+        $this->removePlayerPosition();
         $this->layout[$playerPosition->yPos][$playerPosition->xPos] = "@";
         $this->saveLayoutToDisk();
     }
 
 
+
+
     public function loadFromDisk(): void
     {
-        if (file_exists("./room.txt")) {
-            $serializedRoom = json_decode(file_get_contents("./room.txt"), true);
+        if (file_exists(base_path('room.txt'))) {
+            $serializedRoom = json_decode(file_get_contents(base_path('room.txt')), true);
 
             if ($serializedRoom) {
                 $this->setLayoutFromSerializedRoom($serializedRoom);
@@ -91,6 +95,17 @@ class Room
     {
         $serializedRoom = $this->serialize();
         $json = json_encode($serializedRoom, JSON_UNESCAPED_UNICODE);
-        file_put_contents("./room.txt", $json);
+        file_put_contents(base_path('room.txt'), $json);
+    }
+
+    private function removePlayerPosition(): void
+    {
+        foreach ($this->layout as $y => $row) {
+            $x = array_search('@', $row, true);
+            if ($x !== false) {
+                $this->layout[$y][$x] = ' ';
+                break;
+            }
+        }
     }
 }

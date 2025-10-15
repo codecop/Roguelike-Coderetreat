@@ -12,7 +12,6 @@ class RoomController extends Controller
     public function __construct(Room $room)
     {
         $this->room = $room;
-        $this->room->loadFromDisk();
     }
 
     public function get()
