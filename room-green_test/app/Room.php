@@ -8,7 +8,7 @@ class Room
     private int $height;
     private array $layout;
 
-    public function __construct(int $width, int $height, ?Position $doorPosition = null)
+    public function __construct(int $width = 3, int $height = 3, ?Position $doorPosition = null)
     {
         $this->width = $width;
         $this->height = $height;
