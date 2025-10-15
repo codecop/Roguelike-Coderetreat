@@ -25,7 +25,7 @@ describe("RoomEndpoints", () => {
       .post("/room-ab/walk?row=3&column=5")
       .send()
       .expect(201);
-    expect(response.body.message).toEqual("Congratulations, you moved.");
+    expect(response.body.message).toEqual("");
 
     const { body } = await request(app).get("/room-ab");
     expect(body.layout).toContain("#    @  #");

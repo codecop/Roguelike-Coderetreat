@@ -34,7 +34,7 @@ export default class Room {
     rows[row] = rows[row].substring(0, column) + this.PLAYER + rows[row].substring(column + 1);
     this.layout = rows.join("\n");
 
-    let message = "Congratulations, you moved.";
+    let message = "";
     if (column === this.pressurePlatePosition.column && row === this.pressurePlatePosition.row) {
       message = "You stepped on a pressure plate. The door is now open.";
     }
