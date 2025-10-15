@@ -58,18 +58,36 @@ describe("Room", () => {
     expect(room.getRowAt(6)).toContain("#_    #");
   });
 
-  it("closes the door automatically after 3 seconds", () => {
+  it("closes the door automatically after 1 seconds", () => {
     const room = new Room(5, 5);
     room.generateLayout();
 
     room.interactWith("_");
     expect(room.doorIsOpen).toBe(true);
-    jest.advanceTimersByTime(2999);
+    jest.advanceTimersByTime(999);
 
     expect(room.doorIsOpen).toBe(true);
 
     jest.advanceTimersByTime(1);
     expect(room.doorIsOpen).toBe(false);
+  });
+
+  it("closes the door automatically second time after 3 seconds", () => {
+    const room = new Room(5, 5);
+    room.generateLayout();
+
+    room.interactWith("_");
+    expect(room.doorIsOpen).toBe(true);
+    
+    jest.advanceTimersByTime(1000);
+    
+    expect(room.doorIsOpen).toBe(false);
+    room.interactWith("_");
+    expect(room.doorIsOpen).toBe(true);
+    
+    jest.advanceTimersByTime(2999);
+    
+    expect(room.doorIsOpen).toBe(true);
   });
 
   it("spawns walls when player opens the door", () => {
@@ -101,7 +119,7 @@ describe("Room", () => {
     expect(room.getRowAt(1)).toBe("#     # #");
     expect(room.getRowAt(2)).toBe("#     # #");
     expect(room.getRowAt(3)).toBe("#     # #");
-    expect(room.getRowAt(4)).toBe("#   #   |");
+    expect(room.getRowAt(4)).toBe("#   # # |");
     expect(room.getRowAt(5)).toBe("#   #   #");
     expect(room.getRowAt(6)).toBe("#_  #   #");
   });

@@ -80,14 +80,16 @@ export default class Room {
     if (this.doorIsOpen) {
       return;
     }
-    
+
     this.doorIsOpen = true;
     this.numberOfDoorsOpen += 1;
+    let timer: number = 1000;
 
     this.spawnObstacles();
 
     if (this.numberOfDoorsOpen > 1) {
       this.spawnMoreObstacles();
+      timer = 3000;
     }
 
     if (this.doorCloseTimeout) {
@@ -97,7 +99,7 @@ export default class Room {
     this.doorCloseTimeout = setTimeout(() => {
       this.doorIsOpen = false;
       this.doorCloseTimeout = null;
-    }, 3000);
+    }, timer);
     // Allow Node process (and Jest) to exit without waiting for this timeout
     (this.doorCloseTimeout as any).unref?.();
   }
@@ -106,6 +108,7 @@ export default class Room {
     this.placeObject(1, 6, "#");
     this.placeObject(2, 6, "#");
     this.placeObject(3, 6, "#");
+    this.placeObject(4, 6, "#");
   }
 
   private spawnObstacles() {
