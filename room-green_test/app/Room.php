@@ -37,11 +37,9 @@ class Room
             for ($column = 0; $column < $this->width; $column++) {
                 if ($row === 0 || $row === $this->height - 1) {
                     $layout[$row][$column] = '#';
-                }
-                elseif ($column === 0 || $column === $this->width - 1) {
+                } elseif ($column === 0 || $column === $this->width - 1) {
                     $layout[$row][$column] = '#';
-                }
-                else {
+                } else {
                     $layout[$row][$column] = ' ';
                 }
             }
