@@ -11,6 +11,6 @@ class RoomControllerTest extends TestCase
 
         $response->assertOk();
         $response->assertHeader('Content-Type', 'application/json')
-            ->assertJson([ 'layout' => "###\n#|#\n###\n" ]);
+            ->assertJson([ 'layout' => "###\n# #\n###\n" ]);
     }
 }
