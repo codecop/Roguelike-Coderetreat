@@ -14,5 +14,6 @@
 $router->get("/hello", 'HelloController@get');
 $router->post("/hello", 'HelloController@post');
 
+$router->post("/create-game", 'RoomController@createGame');
 $router->get("/room", 'RoomController@get');
 $router->post("/room/walk", 'RoomController@walk');

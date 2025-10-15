@@ -3,10 +3,13 @@ export default class Room {
   FREE = " ";
   DOOR = "|";
   PLAYER = "@";
+  PRESSURE_PLATE = "_";
 
   public layout: string = "";
   public doorIsOpen: boolean = false;
   private pressurePlatePosition = { row: 6, column: 1 };
+  private doorCloseTimeout: NodeJS.Timeout | null = null;
+  private numberOfDoorsOpen: number = 0;
 
   constructor(private innerWidth: number, private innerHeight: number) {
     if (innerWidth > 13 || innerHeight > 13) {
@@ -20,38 +23,36 @@ export default class Room {
   }
 
   setNewPlayerPosition(column: number, row: number): void {
-    if (column < 1 || column > this.innerWidth || row < 1 || row > this.innerHeight) {
+    if (
+      column < 1 ||
+      column > this.innerWidth ||
+      row < 1 ||
+      row > this.innerHeight
+    ) {
       throw new Error("Player position out of bounds");
-    }
-
-    if (column === this.pressurePlatePosition.column && row === this.pressurePlatePosition.row) {
-      this.doorIsOpen = true;
     }
 
     this.layout = this.layout.replace(this.PLAYER, this.FREE);
 
-    const rows = this.layout.split("\n");
-    rows[row] = rows[row].substring(0, column) + this.PLAYER + rows[row].substring(column + 1);
-    this.layout = rows.join("\n");
+    this.placeObject(row, column, this.PLAYER);
   }
 
   generateLayout() {
-    const doorPosition = Math.floor(this.innerHeight / 2) + 1;
+    this.generateEmptyLayout();
 
+    this.placeObject(
+      this.pressurePlatePosition.row,
+      this.pressurePlatePosition.column,
+      this.PRESSURE_PLATE
+    );
+    this.placeObject(4, 8, this.DOOR);
+  }
+
+  private generateEmptyLayout() {
     let layout = this.WALL.repeat(this.innerWidth + 2) + "\n";
-    layout += this.printRows(doorPosition - 1);
-    layout += this.WALL + this.FREE.repeat(this.innerWidth) + this.DOOR + "\n";
-    layout += this.printRows(this.innerHeight - doorPosition);
+    layout += this.printRows(this.innerHeight);
     layout += this.WALL.repeat(this.innerWidth + 2) + "\n";
     this.layout = layout;
-    this.placePressurePlate();
-  }
-  placePressurePlate() {
-    const rows = this.layout.split("\n");
-    const row = this.pressurePlatePosition.row;
-    const column = this.pressurePlatePosition.column;
-    rows[row] = rows[row].substring(0, column) + "_" + rows[row].substring(column + 1);
-    this.layout = rows.join("\n");
   }
 
   private printRows(numOfRows: number) {
@@ -65,12 +66,61 @@ export default class Room {
 
   public interactWith(item: string): string {
     let message = "";
-    if (item === "_") {
-      this.doorIsOpen = true;
-      message = "You stepped on a pressure plate. The door is now open.";
+    if (item === this.PRESSURE_PLATE) {
+      this.openDoor();
+      message =
+        "You stepped on a pressure plate. The door is now open. Hurry, it will close soon!";
     } else {
       message = "Nothing happens.";
     }
     return message;
+  }
+
+  private openDoor() {
+    if (this.doorIsOpen) {
+      return;
+    }
+
+    this.doorIsOpen = true;
+    this.numberOfDoorsOpen += 1;
+    let timer: number = 1000;
+
+    this.spawnObstacles();
+
+    if (this.numberOfDoorsOpen > 1) {
+      this.spawnMoreObstacles();
+      timer = 3000;
+    }
+
+    if (this.doorCloseTimeout) {
+      clearTimeout(this.doorCloseTimeout);
+    }
+
+    this.doorCloseTimeout = setTimeout(() => {
+      this.doorIsOpen = false;
+      this.doorCloseTimeout = null;
+    }, timer);
+    // Allow Node process (and Jest) to exit without waiting for this timeout
+    (this.doorCloseTimeout as any).unref?.();
+  }
+
+  spawnMoreObstacles() {
+    this.placeObject(1, 6, "#");
+    this.placeObject(2, 6, "#");
+    this.placeObject(3, 6, "#");
+    this.placeObject(4, 6, "#");
+  }
+
+  private spawnObstacles() {
+    this.placeObject(4, 4, "#");
+    this.placeObject(5, 4, "#");
+    this.placeObject(6, 4, "#");
+  }
+
+  private placeObject(row: number, column: number, symbol: string) {
+    const rows = this.layout.split("\n");
+    rows[row] =
+      rows[row].substring(0, column) + symbol + rows[row].substring(column + 1);
+    this.layout = rows.join("\n");
   }
 }

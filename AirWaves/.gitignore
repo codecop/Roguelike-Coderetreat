@@ -25,3 +25,4 @@ coverage
 .phpunit.result.cache
 
 name.txt
+app/room.txt
