@@ -10,7 +10,7 @@ describe("Room", () => {
     "#       #\n" +
     "#       |\n" +
     "#       #\n" +
-    "#       #\n" +
+    "#_      #\n" +
     "#########\n";
     room.generateLayout()
     expect(room.layout).toBe(layout);
@@ -43,4 +43,26 @@ describe("Room", () => {
     expect((room.layout.match(/@/g) || []).length).toBe(1);
   });
   
+  it("displays the pressure plate", () => {
+    const room = new Room(5, 7);
+    room.generateLayout();
+    expect(room.getRowAt(6)).toContain("#_    #");
+  });
+
+  it("closes the door automatically after 3 seconds", () => {
+    jest.useFakeTimers();
+    const room = new Room(5, 5);
+    room.generateLayout();
+    // Open the door via interaction
+    room.interactWith("_");
+    expect(room.doorIsOpen).toBe(true);
+    // Fast-forward less than 3 seconds
+    jest.advanceTimersByTime(2999);
+    expect(room.doorIsOpen).toBe(true);
+    // Reach 3 seconds
+    jest.advanceTimersByTime(1);
+    expect(room.doorIsOpen).toBe(false);
+    jest.useRealTimers();
+  });
+
 });
