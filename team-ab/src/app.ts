@@ -3,6 +3,7 @@ import Room from "./Room";
 
 const room = new Room(7, 6);
 room.generateLayout();
+room.setNewPlayerPosition(1, 1);
 
 async function createApp() {
   const app = express();
