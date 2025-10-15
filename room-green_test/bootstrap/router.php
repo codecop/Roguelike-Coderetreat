@@ -11,5 +11,5 @@
 |
 */
 
-$router->get("/hello", 'HelloController@get');
-$router->post("/hello", 'HelloController@post');
+$router->get("/green_test", 'RoomController@get');
+$router->post("/green_test/walk", 'RoomController@walk');

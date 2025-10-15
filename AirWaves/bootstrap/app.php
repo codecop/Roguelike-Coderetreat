@@ -50,6 +50,10 @@ $app->singleton(
     App\Hello::class
 );
 
+$app->singleton(App\Room::class, function ($app) {
+    return new App\Room(15, 15, 1);
+});
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
