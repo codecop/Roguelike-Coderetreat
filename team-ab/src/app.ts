@@ -13,7 +13,7 @@ async function createApp() {
     res.json({
       layout: room.layout,
       description:
-        "This is Room AB, created by Andrej and Ben in TS. Its a cool room full of mysteries. There is a door to the east.",
+        "This is Room AB, created by Andrej and Ben in TS. Its a cool room full of mysteries. There is a door to the east. In order to open it, you need to step on the pressure plate in the south west corner.",
     });
   });
 
