@@ -2,24 +2,31 @@
 
 namespace App\Database;
 
+use App\Game\Room;
+use App\Game\RoomParser;
+
 class RoomDatabase
 {
     const ALU_ROOM_DEFAULT = 'aluroom';
 
-    public function getRoom(string $name): string
+    public function getRoom(string $name): Room
     {
-        if (file_exists(__DIR__ . "/../../database/$name.txt")) {
-            $roomLayout = file_get_contents(__DIR__ . "/../../database/$name.txt");
-        } else {
-            $roomLayout = file_get_contents(__DIR__ . "/../aluroom.txt");
+        if (!file_exists(__DIR__ . "/../../database/$name.txt")) {
+            return $this->getRoomDefault($name);
         }
-
-        return str_replace("\r\n", "\n", $roomLayout);
+        $roomLayout = file_get_contents(__DIR__ . "/../../database/$name.txt");
+        return (new RoomParser)->create($roomLayout);
     }
 
-    public function putRoom(string $name, string $layout): void
+    public function getRoomDefault(string $name): Room
     {
-        file_put_contents(__DIR__ . "/../../database/$name.txt", $layout);
+        $roomLayout = file_get_contents(__DIR__ . "/../../rooms/$name.txt");
+        return (new RoomParser)->create($roomLayout);
+    }
+
+    public function putRoom(string $name, Room $room): void
+    {
+        file_put_contents(__DIR__ . "/../../database/$name.txt", $room->render());
     }
 
     public function deleteRoom(string $name): void

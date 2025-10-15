@@ -1,5 +1,6 @@
 # put your room URLs here
 http://localhost:5007/room
+http://localhost:5015/roomWithBox
 http://localhost:5013/sellerz
 
 # sample rooms
