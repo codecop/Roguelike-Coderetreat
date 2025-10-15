@@ -9,4 +9,14 @@ enum RoomTile: string
     case FLOOR = ' ';
 
     case PLAYER = '@';
+
+    public function isCharacter(): bool
+    {
+        return match ($this) {
+            RoomTile::WALL, RoomTile::DOOR, RoomTile::FLOOR => false,
+            RoomTile::PLAYER => true,
+        };
+    }
+
+
 }

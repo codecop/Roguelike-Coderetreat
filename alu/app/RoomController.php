@@ -28,8 +28,8 @@ class RoomController extends Controller
         $roomLayout = $roomDatabase->getRoom(RoomDatabase::ALU_ROOM_DEFAULT);
         $room = Room::create($roomLayout);
 
-        $playerX = (int)$request->input('row') - 1;
-        $playerY = (int)$request->input('column') - 1;
+        $playerX = (int)$request->input('row');
+        $playerY = (int)$request->input('column');
 
        $room->setPlayerPosition($playerX, $playerY);
 

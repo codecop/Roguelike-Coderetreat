@@ -16,7 +16,7 @@ class RoomControllerTest extends TestCase
     /** @test */
     public function showRoom()
     {
-        $response = $this->call('GET', '/aluroom');
+        $response = $this->call('GET', '/');
         $expectedLayout = (new RoomDatabase())->getRoom(RoomDatabase::ALU_ROOM_DEFAULT);
 
         $response->assertOk();
@@ -38,11 +38,28 @@ class RoomControllerTest extends TestCase
             EOL
         );
 
-        $response = $this->call('POST', '/aluroom/walk?row=3&column=5');
+        $response = $this->call('POST', '/walk?row=2&column=4');
         $response->assertCreated();
 
-        $this->call('GET', '/aluroom')
+        $this->call('GET', '/')
             ->assertJson(['layout' => $expectedRoom]);
+    }
+
+    public function testWalkFrom3x2to1x4()
+    {
+        $expectedRoom = $this->fakeRoom(<<<EOL
+            ##|###
+            #   @#
+            #    #
+            #    #
+            ######
+            EOL
+        );
+
+        $this->call('POST', '/walk?row=3&column=2');
+        $this->call('POST', '/walk?row=1&column=4');
+
+        $this->call('GET', '/')->assertJson(['layout' => $expectedRoom]);
     }
 
     private function fakeRoom(string $layout): string

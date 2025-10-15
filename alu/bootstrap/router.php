@@ -12,5 +12,5 @@
 */
 /** @var \Laravel\Lumen\Routing\Router $router */
 
-$router->get("/aluroom", 'RoomController@get');
-$router->post("/aluroom/walk", 'RoomController@post');
+$router->get("/", 'RoomController@get');
+$router->post("/walk", 'RoomController@post');

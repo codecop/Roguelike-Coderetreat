@@ -6,16 +6,16 @@ use App\Game\RoomTile;
 class RoomTest extends PHPUnit\Framework\TestCase
 {
 
-    const DEFAULT_ROOM = [
-        [RoomTile::WALL, RoomTile::WALL, RoomTile::DOOR, RoomTile::WALL],
-        [RoomTile::WALL, RoomTile::FLOOR, RoomTile::FLOOR, RoomTile::WALL],
-        [RoomTile::WALL, RoomTile::FLOOR, RoomTile::FLOOR, RoomTile::WALL],
-        [RoomTile::WALL, RoomTile::WALL, RoomTile::WALL, RoomTile::WALL],
-    ];
+    const DEFAULT_ROOM = <<<EOL
+        ##|#
+        #  #
+        #  #
+        ####
+        EOL;
 
     public function test_room_is_rendered_as_string()
     {
-        $room = new Room(self::DEFAULT_ROOM);
+        $room = Room::create(self::DEFAULT_ROOM);
 
         $renderedRoom = $room->render();
 
@@ -24,7 +24,7 @@ class RoomTest extends PHPUnit\Framework\TestCase
 
     public function test_room_always_has_a_door()
     {
-        $room = new Room(self::DEFAULT_ROOM);
+        $room = Room::create(self::DEFAULT_ROOM);
 
         $renderedRoom = $room->render();
 
@@ -34,7 +34,7 @@ class RoomTest extends PHPUnit\Framework\TestCase
 
     public function test_room_has_always_walls()
     {
-        $room = new Room(self::DEFAULT_ROOM);
+        $room = Room::create(self::DEFAULT_ROOM);
 
         $renderedRoom = $room->render();
 
@@ -43,9 +43,9 @@ class RoomTest extends PHPUnit\Framework\TestCase
 
     public function test_room_cannot_be_larger_than_15x15()
     {
-        $room = new Room(self::DEFAULT_ROOM);
+        $room = Room::create(self::DEFAULT_ROOM);
 
-        $grid = $room->getGrid();
+        $grid = $room->getTileGrid();
 
         $this->assertlessThan(15, count($grid));
         foreach ($grid as $row) {
@@ -55,16 +55,11 @@ class RoomTest extends PHPUnit\Framework\TestCase
 
     public function test_player_enters_door()
     {
-        $roomString = <<<EOL
-        ##|#
-        #  #
-        #  #
-        ####
-        EOL;
-        $room = Room::create($roomString);
-        $room->enter();
+        $room = Room::create(self::DEFAULT_ROOM);
 
-        $this->assertEquals(RoomTile::PLAYER, $room->getTileAt(0, 2));
+        $room->enterPlayer();
+
+        $this->assertEquals(RoomTile::PLAYER, $room->getTileAt(2, 0));
     }
 
     public function test_set_the_player_to_a_position()
@@ -76,7 +71,7 @@ class RoomTest extends PHPUnit\Framework\TestCase
         ####
         EOL
         );
-        $room->enter();
+        $room->enterPlayer();
 
         $room->setPlayerPosition(3, 3);
 
