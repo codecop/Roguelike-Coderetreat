@@ -1,4 +1,4 @@
 if exist node_modules goto start
-npm install
+call npm install
 :start
-npm start
+call npm start
