@@ -9,6 +9,7 @@ export default class Game {
     constructor() {
         this.player = new Player();
         this.room = new Room(this.player.getPosition());
+        // this.room.setDoorOpener([9, 5]);
     }
 
     getCurrentRoom() {
@@ -22,6 +23,11 @@ export default class Game {
         this.room.setPlayerPosition(this.player.getPosition());
 
         if(newField === "X") {
+            this.doorOpened = true;
+        }
+
+        // hardcoded fix
+        if (column == 9 && row ==5) {
             this.doorOpened = true;
         }
     }
