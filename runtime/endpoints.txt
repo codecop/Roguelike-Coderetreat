@@ -1,12 +1,14 @@
 # put your room URLs here
-<<<<<<< HEAD
-http://localhost:5007/room
-http://localhost:5015/roomWithBox
-http://localhost:5013/sellerz
-=======
-http://localhost:8080/jj-room
 
->>>>>>> 62f03e7 (add logic)
+http://localhost:5007/room
+http://localhost:5012/room-ab/
+http://localhost:5013/sellerz
+http://localhost:5016/airwaves
+http://localhost:8080/jj-room
+http://localhost:5011/room
+http://localhost:5015/room
+http://localhost:5015/roomWithBox
+http://localhost:5014/green_test
 
 # sample rooms
 # http://localhost:8004/minimal
