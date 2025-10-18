@@ -20,7 +20,7 @@ class Room
         $this->characterGrid[$x][$y] = RoomTile::PLAYER;
     }
 
-    public function getTileAt(int $y, int $x): RoomTile
+    public function getTileAt(int $x, int $y): RoomTile
     {
         $character = $this->characterGrid[$x][$y] ?? null;
         if ($character) {
@@ -78,7 +78,7 @@ class Room
         [$playerX, $playerY] = $this->findTile(RoomTile::PLAYER);
 
         if ($boxX > $playerX) {
-            $tileBehindBox = $this->getTileAt($boxY, $boxX + 1);
+            $tileBehindBox = $this->getTileAt($boxX + 1 , $boxY);
             if ($tileBehindBox === RoomTile::FLOOR || $tileBehindBox === RoomTile::BOX_GOAL) {
                 $this->setPlayerPosition($boxX, $boxY);
                 $this->characterGrid[$boxX + 1][$boxY] = RoomTile::BOX;
@@ -87,7 +87,7 @@ class Room
 
         }
         if ($boxX < $playerX) {
-            $tileBehindBox = $this->getTileAt($boxY, $boxX - 1);
+            $tileBehindBox = $this->getTileAt($boxX - 1, $boxY);
             if ($tileBehindBox === RoomTile::FLOOR || $tileBehindBox === RoomTile::BOX_GOAL) {
                 $this->setPlayerPosition($boxX, $boxY);
                 $this->characterGrid[$boxX - 1][$boxY] = RoomTile::BOX;
@@ -95,7 +95,7 @@ class Room
             return $tileBehindBox === RoomTile::BOX_GOAL ? 'you won' : 'you moved the box';
         }
         if ($boxY > $playerY) {
-            $tileBehindBox = $this->getTileAt($boxY + 1, $boxX);
+            $tileBehindBox = $this->getTileAt($boxX, $boxY + 1);
             if ($tileBehindBox === RoomTile::FLOOR || $tileBehindBox === RoomTile::BOX_GOAL) {
                 $this->setPlayerPosition($boxX, $boxY);
                 $this->characterGrid[$boxX][$boxY + 1] = RoomTile::BOX;
@@ -105,7 +105,7 @@ class Room
         }
 
         if ($boxY < $playerY) {
-            $tileBehindBox = $this->getTileAt($boxY - 1, $boxX);
+            $tileBehindBox = $this->getTileAt($boxX, $boxY - 1);
             if ($tileBehindBox === RoomTile::FLOOR || $tileBehindBox === RoomTile::BOX_GOAL) {
                 $this->setPlayerPosition($boxX, $boxY);
                 $this->characterGrid[$boxX][$boxY - 1] = RoomTile::BOX;
