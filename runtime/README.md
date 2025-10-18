@@ -1,11 +1,14 @@
 # Rogue-Runtime
 
-This is a Python project.
+This is a Python project. It needs TK. If you get an error that `TK` is not found, you need to add it to your standard libraries with
+
+```bash
+brew reinstall python-tk
+```
 
 ## Install virtualenv & dependencies
 
 ```bash
-brew reinstall python-tk
 pip3 install virtualenv
 virtualenv -p python3 venv
 source venv/bin/activate
