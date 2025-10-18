@@ -21,7 +21,12 @@ def run():
 
 if __name__ == "__main__":
     try:
-        loop = asyncio.get_event_loop()
+        # For Python 3.10+, use new asyncio policy
+        if hasattr(asyncio, 'get_running_loop'):
+            loop = asyncio.get_running_loop()
+        else:
+            # Fallback for older Python versions
+            loop = asyncio.get_event_loop()
     except RuntimeError:
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)

@@ -36,7 +36,7 @@ class GameService:
         try:
             request_method = requests.get if method == "GET" else requests.post
             # print(f"request: {to_endpoint}")
-            response = request_method(to_endpoint)
+            response = request_method(to_endpoint, verify=False, timeout=0.1)
             # print(f"response: {response}")
             if "application/json" not in response.headers.get("Content-Type", ""):
                 return None
