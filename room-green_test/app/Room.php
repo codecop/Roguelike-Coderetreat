@@ -25,7 +25,7 @@ class Room
         $serializedRoom = "";
 
         foreach ($this->layout as $row) {
-            $serializedRoom .= implode('', $row) . PHP_EOL;
+            $serializedRoom .= implode('', $row) . "\n";
         }
         return $serializedRoom;
     }
