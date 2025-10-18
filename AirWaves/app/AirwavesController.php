@@ -23,7 +23,9 @@ class AirwavesController extends Controller {
             ->header('Content-Type', 'application/json');
     }
 
-    public function post($row, $column) {
+    public function post(Request $request) {
+        $row = $request->input('row');
+        $column = $request->input('column');
         $nextPosition = array('row' => (int)$row, 'col' => (int)$column);
         $this->room->setPlayerPosition($nextPosition);
         return response('', 201);
