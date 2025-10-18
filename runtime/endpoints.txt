@@ -1,9 +1,27 @@
 # put your room URLs here
-http://localhost:5013/sellerz
 
 # sample rooms
-# http://localhost:8004/minimal
-# http://localhost:8004/empty/
+http://localhost:8004/minimal
+http://localhost:8004/empty/
 http://localhost:8004/key/
-# http://localhost:8004/monster/
+http://localhost:8004/monster/
 # http://localhost:8004/large/
+
+# 2025 rooms
+# http://localhost:5007/room
+# http://localhost:5012/room-ab/
+# http://localhost:5013/sellerz
+# http://localhost:5016/airwaves
+# http://localhost:8080/jj-room
+# http://localhost:5011/room
+# http://localhost:5015/room
+# http://localhost:5015/roomWithBox
+# http://localhost:5014/green_test
+
+# 2023 rooms
+# http://localhost:9001/ohgod
+# http://localhost:9002/DanAndBenRoom
+# http://localhost:8000/three
+# http://localhost:8001/retreaters
+# http://localhost:5010/nullpointer
+# http://localhost:9007/exception
