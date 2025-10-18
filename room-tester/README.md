@@ -18,6 +18,7 @@ The application is published on [docker hub](https://hub.docker.com/r/codecop/ro
 
     podman run --network=host "codecop/rogue-room-tester" <room URL like http://localhost:8004/my_room>
 
-For Mac replace the network with `host.containers.internal` IP address:
+For Mac replace the network with `host.containers.internal` or `host.docker.internal` IP address (depending on your installed software), e.g.
 
-    podman run codecop/rogue-room-tester "http://host.containers.internal:8004/my_room"
+    podman run codecop/rogue-room-tester http://host.containers.internal:8004/my_room
+    docker run codecop/rogue-room-tester http://host.docker.internal:8004/my_room
