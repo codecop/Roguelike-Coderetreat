@@ -103,6 +103,9 @@ func (r *Room) builMap() {
 	if r.player != nil {
 		roomMap[r.player.Position.X][r.player.Position.Y] = r.player.Symbol
 	}
+	if r.key != nil {
+		roomMap[r.key.Position.X][r.key.Position.Y] = r.key.Symbol
+	}
 	if r.monster != nil {
 		roomMap[r.monster.Position.X][r.monster.Position.Y] = r.monster.Symbol
 	}

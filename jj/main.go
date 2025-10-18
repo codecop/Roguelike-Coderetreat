@@ -10,15 +10,17 @@ import (
 
 func main() {
 
-	jjRoom := room.NewRoom("jj-room", "Our first room", 15, 15, room.Coordinate{X: 14, Y: 14})
+	jjRoom := room.NewRoom("jj-room", "Our first room", 15, 15, room.Coordinate{X: 14, Y: 13})
 	player := room.NewPlayer(room.Coordinate{X: 1, Y: 1}, '@')
 	jjRoom.AddPlayer(&player)
 
-	key := room.NewKey(room.Coordinate{X: 12, Y: 12}, 'c')
+	key := room.NewKey(room.Coordinate{X: 12, Y: 12}, 'k')
 	jjRoom.AddKey(&key)
 
 	monster := room.NewMonster(room.Coordinate{X: 10, Y: 10}, 'M')
 	jjRoom.AddMonster(&monster)
+
+	jjRoom.Messages = []string{"You are in a dark room. You can see a door in front of you."}
 
 	http.HandleFunc("/jj-room", func(w http.ResponseWriter, r *http.Request) {
 
