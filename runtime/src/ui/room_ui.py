@@ -84,7 +84,7 @@ class RoomUI:
             return
 
         self.canvas.delete("all")
-        self.canvas.update_idletasks()
+        # self.canvas.update_idletasks()
 
         if self._room is None:
             self.canvas.create_text(
