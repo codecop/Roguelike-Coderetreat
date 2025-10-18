@@ -29,5 +29,5 @@ class RoomParser:
                 "Invalid Room: @ (player) character is present more than once."
             )
 
-        if "|" not in raw_string:
-            raise RoomParseException("Invalid Room: | (door) character is missing.")
+        # if "|" not in raw_string:
+        #     raise RoomParseException("Invalid Room: | (door) character is missing.")
