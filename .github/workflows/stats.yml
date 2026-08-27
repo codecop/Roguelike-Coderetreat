@@ -22,7 +22,7 @@ jobs:
       with:
         node-version: 14
     - name: Cache Node packages
-      uses: actions/cache@v3
+      uses: actions/cache@v6
       with:
         path: ~/.npm
         key: ${{ runner.os }}-npm-${{ hashFiles('stats/package.json') }}

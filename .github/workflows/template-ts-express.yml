@@ -27,7 +27,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Cache Node packages
-      uses: actions/cache@v3
+      uses: actions/cache@v6
       with:
         path: ~/.npm
         key: ${{ runner.os }}-npm-${{ hashFiles('template-ts-express/package.json') }}
